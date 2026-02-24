@@ -4,15 +4,14 @@ import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
-import { FooterComponent } from '@shared/components/footer/footer';
-import { ToastComponent } from '@shared/components/toast/toast';
-import { ConfettiComponent } from '@shared/components/confetti/confetti';
-
-import { Poll } from '@models/poll.model';
-import { PollService } from '@services/poll';
+import { Poll, PollService } from '@services/poll';
 import { AuthService } from '@services/auth';
 import { ToastService } from '@services/toast';
 import { ConfettiService } from '@services/confetti';
+
+import { FooterComponent } from '@components/footer/footer';
+import { ToastComponent } from '@components/toast/toast';
+import { ConfettiComponent } from '@components/confetti/confetti';
 
 @Component({
   selector: 'app-home',
@@ -22,8 +21,8 @@ import { ConfettiService } from '@services/confetti';
     ToastComponent,
     ConfettiComponent,
     TranslatePipe,
-    DecimalPipe,        
-    FormsModule        
+    DecimalPipe,
+    FormsModule
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
@@ -66,8 +65,8 @@ export class HomeComponent {
   }
 
   getLetter(index: number): string {
-  return String.fromCharCode(65 + index);
-}
+    return String.fromCharCode(65 + index);
+  }
 
   timeAgo(ts: number): string {
     const diff = Date.now() - ts;
@@ -89,10 +88,6 @@ export class HomeComponent {
     return map[cat] || cat;
   }
 
-  getOptionLetter(index: number): string {
-    return String.fromCharCode(65 + index);
-  }
-
   // ========== SCROLL ==========
   scrollToPolls() {
     if (isPlatformBrowser(this.platformId)) {
@@ -105,11 +100,11 @@ export class HomeComponent {
 
   // ========== VOTAÇÃO ==========
   vote(poll: Poll, optionIndex: number, event: MouseEvent) {
-    if (!this.authService.isAuthenticated()) {
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
       return;
     }
-    if (poll.voted) return;
+    if (poll.voted !== null) return;
 
     this.createRipple(event);
     this.pollService.vote(poll.id, optionIndex);
@@ -144,7 +139,7 @@ export class HomeComponent {
 
   // ========== MODAL ==========
   openModal() {
-    if (!this.authService.isAuthenticated()) {
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
       return;
     }
@@ -199,20 +194,13 @@ export class HomeComponent {
       question,
       category: this.newPollCategory,
       options: options.map(text => ({ text, votes: 0 })),
-      voted: false,
-      votedIndex: null,
+      voted: 0,                       
       createdAt: Date.now(),
-      isNew: true
     };
 
     this.pollService.addPoll(newPoll);
     this.closeModal();
     this.toastService.show('success', '🚀', 'Enquete publicada!', 'Sua enquete está ao vivo no mural.');
-
-    setTimeout(() => {
-      const p = this.pollService.polls().find(p => p.id === newPoll.id);
-      if (p) p.isNew = false;
-    }, 1000);
 
     setTimeout(() => {
       if (isPlatformBrowser(this.platformId)) {

@@ -12,8 +12,8 @@
       "@models/*": [
         "src/app/core/models/*"
       ],
-      "@shared/*": [
-        "src/app/shared/*"
+      "@components/*": [
+        "src/app/components/*"
       ],
       "@features/*": [
         "src/app/features/*"

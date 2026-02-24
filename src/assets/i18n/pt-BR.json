@@ -2,7 +2,8 @@
   "NAV": {
     "VIEW_POLLS": "Ver Enquetes",
     "CREATE_POLL": "Criar Enquete",
-    "LOGIN": "Entrar"
+    "LOGIN": "Entrar",
+    "MY_POLLS": "Minhas Enquetes"
   },
   "HERO": {
     "BADGE": "✦ Plataforma de Votação em Tempo Real",
@@ -34,7 +35,11 @@
     "VOTES": "votos",
     "BE_FIRST": "Seja o 1°",
     "YOU_VOTED": "Você votou",
-    "VOTED": "Votou"
+    "VOTED": "Votou",
+    "LIVE": "Ao Vivo",
+    "CLOSED": "Encerrada",
+    "SHARE": "Compartilhar",
+    "BOOKMARK": "Salvar"
   },
   "CREATE_MODAL": {
     "TITLE": "Criar Enquete",

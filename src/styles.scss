@@ -1,36 +1,35 @@
+:root {
+  --bg: #07080F;
+  --bg1: #0C0E1A;
+  --bg2: #11142B;
+  --bg3: #182036;
+  --surface: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-2: rgba(255, 255, 255, 0.12);
+  --border-hi: rgba(255, 255, 255, 0.14);
+  --primary: #7C6FF7;
+  --primary-2: #A78BFA;
+  --glow: rgba(124, 111, 247, 0.35);
+  --glow-dim: rgba(124, 111, 247, 0.15);
+  --amber: #F59E0B;
+  --amber-glow: rgba(245, 158, 11, 0.3);
+  --green: #22D3A0;
+  --green-glow: rgba(34, 211, 160, 0.25);
+  --pink: #F06292;
+  --txt: #F1F4FF;
+  --txt2: #8891B0;
+  --txt3: #4B5275;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-:root {
-  --bg: #07080F;
-  --bg1: #0C0E1A;
-  --bg2: #11142B;
-  --surface: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.07);
-  --border-hi: rgba(255, 255, 255, 0.14);
-
-  --primary: #7C6FF7;
-  --primary-2: #A78BFA;
-  --glow: rgba(124, 111, 247, 0.35);
-
-  --amber: #F59E0B;
-  --amber-glow: rgba(245, 158, 11, 0.3);
-
-  --green: #22D3A0;
-  --green-glow: rgba(34, 211, 160, 0.25);
-
-  --txt: #F1F4FF;
-  --txt2: #8891B0;
-  --txt3: #4B5275;
-
-  --radius: 18px;
-  --radius-sm: 10px;
-  --transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -44,9 +43,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   cursor: default;
+  position: relative;
 }
 
-/* NOISE TEXTURE OVERLAY */
 body::before {
   content: '';
   position: fixed;
@@ -55,6 +54,31 @@ body::before {
   opacity: 0.025;
   pointer-events: none;
   z-index: 1000;
+}
+
+.ambient {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+
+.ambient-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--primary);
+  top: -120px;
+  left: -100px;
+}
+
+.ambient-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--primary-2);
+  bottom: -100px;
+  right: -80px;
 }
 
 .btn-ghost {
@@ -71,16 +95,16 @@ body::before {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-}
 
-.btn-ghost:hover {
-  border-color: var(--border-hi);
-  color: var(--txt);
-  background: rgba(255, 255, 255, 0.05);
+  &:hover {
+    border-color: var(--border-hi);
+    color: var(--txt);
+    background: rgba(255, 255, 255, 0.05);
+  }
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), #9B5CF6);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   border: none;
   color: #fff;
   padding: 9px 20px;
@@ -92,70 +116,43 @@ body::before {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 0 rgba(124,111,247,0);
-}
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.btn-primary:hover { 
-  transform: translateY(-1px);
-  box-shadow: 0 8px 25px var(--glow);
-}
-.btn-primary:hover::before { opacity: 1; }
-.btn-primary:active { transform: translateY(0); }
+  box-shadow: 0 4px 16px var(--glow);
 
-/* AMBIENT BG ORBS */
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: 0;
-  animation: orb-float 14s ease-in-out infinite alternate;
-}
-
-.orb-1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(124, 111, 247, 0.18), transparent 70%);
-  top: -200px;
-  left: -150px;
-}
-
-.orb-2 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.1), transparent 70%);
-  bottom: -100px;
-  right: -100px;
-  animation-delay: -7s;
-}
-
-.orb-3 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(34, 211, 160, 0.1), transparent 70%);
-  top: 50%;
-  right: 20%;
-  animation-delay: -3s;
-}
-
-@keyframes orb-float {
-  0% {
-    transform: translate(0, 0) scale(1);
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
   }
 
-  100% {
-    transform: translate(30px, -40px) scale(1.05);
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px var(--glow);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
-/* Utilitários */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -184,93 +181,20 @@ body::before {
   }
 }
 
-@keyframes card-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-@keyframes option-row-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateX(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1) translateX(0);
-  }
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateX(30px) scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--bg3);
+  border-radius: 99px;
 }
 
-@keyframes toast-out {
-  from {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: translateX(30px) scale(0.9);
-  }
-}
-
-@keyframes confetti-fall {
-  0% {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(200px) rotate(720deg) scale(0.3);
-  }
-}
-
-@keyframes ripple-anim {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-@keyframes shake {
-
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  20% {
-    transform: translateX(-6px);
-  }
-
-  40% {
-    transform: translateX(6px);
-  }
-
-  60% {
-    transform: translateX(-4px);
-  }
-
-  80% {
-    transform: translateX(4px);
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-2);
 }

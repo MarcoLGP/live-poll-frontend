@@ -1,0 +1,16 @@
+<div class="feed">
+  <div class="feed-header">
+    <h1 class="feed-title">Mural <span>Público</span></h1>
+    <div class="filter-tabs">
+      <button class="filter-tab" [class.active]="activeFilter === 'recent'" (click)="setFilter('recent')">Mais recente</button>
+      <button class="filter-tab" [class.active]="activeFilter === 'top'" (click)="setFilter('top')">Mais votos</button>
+    </div>
+  </div>
+
+  <!-- POLLS GRID -->
+  <div class="polls-grid">
+    @for (poll of filteredPolls; track poll.id) {
+      <app-poll-card [poll]="poll" (vote)="onVote(poll.id, $event)"></app-poll-card>
+    }
+  </div>
+</div>

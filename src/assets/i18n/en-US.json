@@ -2,7 +2,8 @@
   "NAV": {
     "VIEW_POLLS": "View Polls",
     "CREATE_POLL": "Create Poll",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "MY_POLLS": "My Polls"
   },
   "HERO": {
     "BADGE": "✦ Real-time Voting Platform",
@@ -34,7 +35,11 @@
     "VOTES": "votes",
     "BE_FIRST": "Be the 1st",
     "YOU_VOTED": "You voted",
-    "VOTED": "Voted"
+    "VOTED": "Voted",
+    "LIVE": "Live",
+    "CLOSED": "Closed",
+    "SHARE": "Share",
+    "BOOKMARK": "Bookmark"
   },
   "CREATE_MODAL": {
     "TITLE": "Create Poll",

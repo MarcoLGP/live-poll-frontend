@@ -1,0 +1,137 @@
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="private-layout">
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <app-logo link="/dashboard"></app-logo>
+        <nav class="topbar-nav">
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">{{ 'NAV.VIEW_POLLS' | translate
+                }}</a>
+            <a class="nav-link" routerLink="/my-polls" routerLinkActive="active">{{ 'NAV.MY_POLLS' | translate
+                }}</a>
+        </nav>
+        <div class="topbar-right">
+            <button class="create-btn" (click)="openCreateModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                {{ 'NAV.CREATE_POLL' | translate }}
+            </button>
+            <div class="notif-btn search-btn" (click)="openSearch()" title="Buscar enquetes">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8892B0" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+            </div>
+            <div class="notif-btn">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8892B0" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+                <span class="dot"></span>
+            </div>
+            <div class="user-menu-container">
+                <div class="user-avatar" (click)="toggle()">
+                    {{ auth.user().initials || 'JD' }}
+                </div>
+                @if (isOpen) {
+                <div class="dropdown-menu">
+                    <button (click)="goToSettings()">Configurações</button>
+                    <button (click)="logout()">Sair</button>
+                </div>
+                }
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-body">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-avatar-lg">{{ auth.user().initials || 'JD' }}</div>
+                    <div>
+                        <div class="user-name">{{ auth.user().name || 'João Demo' }}</div>
+                        <div class="user-handle">@{{ auth.user().handle || 'joaodemo' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">Navegação</div>
+                <a class="sidebar-link" routerLink="/dashboard" routerLinkActive="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                    Mural Público
+                    <span class="sidebar-badge">{{ 10 }}</span>
+                </a>
+                <a class="sidebar-link" routerLink="/my-votes" routerLinkActive="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 11 12 14 22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                    Meus Votos
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">Explorar</div>
+                <a class="sidebar-link" routerLink="/trending" routerLinkActive="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    Em Alta
+                </a>
+                <div (click)="openSearch()" class="sidebar-link" >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    Buscar
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <router-outlet></router-outlet>
+        </main>
+
+        <aside class="right-panel">
+            <div class="panel-card">
+                <div class="panel-title">🔥 Em Alta</div>
+                @for (item of trending; track item.rank) {
+                <div class="trend-item">
+                    <span class="trend-rank">{{ item.rank }}</span>
+                    <div>
+                        <div class="trend-text">{{ item.question }}</div>
+                        <div class="trend-votes">{{ item.votes }} votos</div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="panel-card">
+                <div class="panel-title">⚡ Atividade recente</div>
+                @for (act of activities; track act.name + act.time) {
+                <div class="activity-item">
+                    <div class="mini-avatar" [style.background]="act.color">{{ act.initials }}</div>
+                    <div>
+                        <div class="activity-text"><strong>{{ act.name }}</strong> {{ act.text }}</div>
+                        <div class="activity-time">{{ act.time }} atrás</div>
+                    </div>
+                </div>
+                }
+            </div>
+        </aside>
+    </div>
+</div>
+
+<app-create-poll-modal #createModal (create)="onCreatePoll($event)"></app-create-poll-modal>
+<app-settings-modal #settingsModal (close)="onSettingsClosed()"></app-settings-modal>
+<app-search-modal #searchModal></app-search-modal>

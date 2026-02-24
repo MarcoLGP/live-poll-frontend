@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { TokenService } from '@services/token-service';
 import { AuthService } from '@services/auth';
 
@@ -13,6 +13,12 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Não adiciona token para a requisição de refresh (evita loops)
+    if (req.url.includes('/auth/refresh')) {
+      console.log('Requisição de refresh detectada, não adicionando token');
+      return next.handle(req);
+    }
+
     let authReq = req;
     const token = this.tokenService.getToken();
     if (token) {
@@ -39,24 +45,36 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.authService.refreshToken().pipe(
         switchMap((response: any) => {
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(response.accessToken);
-          return next.handle(req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${response.accessToken}`)
-          }));
+          if (response?.accessToken) {
+            this.refreshTokenSubject.next(response.accessToken);
+            // Reexecuta a requisição original com o novo token
+            const newReq = req.clone({
+              headers: req.headers.set('Authorization', `Bearer ${response.accessToken}`)
+            });
+            return next.handle(newReq);
+          } else {
+            // Se não veio token, faz logout
+            this.authService.logout();
+            return throwError(() => new Error('Refresh token failed'));
+          }
         }),
         catchError((err) => {
           this.isRefreshing = false;
-          this.authService.logout();
+          this.authService.logout(); // Logout local e redireciona
           return throwError(() => err);
         })
       );
     } else {
+      // Aguarda o novo token
       return this.refreshTokenSubject.pipe(
         filter(token => token !== null),
         take(1),
-        switchMap(token => next.handle(req.clone({
-          headers: req.headers.set('Authorization', `Bearer ${token}`)
-        })))
+        switchMap(token => {
+          const newReq = req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${token}`)
+          });
+          return next.handle(newReq);
+        })
       );
     }
   }

@@ -1,0 +1,53 @@
+<div class="my-votes-view">
+  <div class="feed-header">
+    <h1 class="feed-title">Meus <span>Votos</span></h1>
+    <span class="vote-count">{{ votedPolls.length }} participaç{{ votedPolls.length === 1 ? 'ão' : 'ões' }}</span>
+  </div>
+
+  @if (votedPolls.length === 0) {
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+      </div>
+      <div class="empty-state-title">Nenhum voto ainda</div>
+      <div class="empty-state-sub">
+        Você ainda não votou em nenhuma enquete.<br>Explore o mural público e participe!
+      </div>
+    </div>
+  } @else {
+    <div class="votes-grid">
+      @for (poll of votedPolls; track poll.id) {
+        @let total = getTotalVotes(poll);
+        @let chosenOption = poll.options[poll.voted];
+        @let pct = calculatePercentage(chosenOption.votes, total);
+        @let catStyle = getCategoryStyle(poll.category);
+
+        <div class="vote-record-card">
+          <div class="vr-left">
+            <div class="vr-question">{{ poll.question }}</div>
+            <div class="vr-meta">
+              <div class="vr-author">
+                <div class="mini-avatar" [style.background]="poll.color">{{ poll.initials }}</div>
+                {{ poll.author }}
+              </div>
+              <span class="sri-cat" [style.background]="catStyle.bg" [style.color]="catStyle.c">
+                {{ poll.category }}
+              </span>
+              <span class="vr-time">{{ poll.time }}</span>
+            </div>
+          </div>
+          <div class="vr-chosen">
+            <div>
+              <div class="vr-chosen-label">Sua escolha</div>
+              <div class="vr-chosen-text">{{ chosenOption.text }}</div>
+            </div>
+            <div class="vr-chosen-pct">{{ pct }}%</div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

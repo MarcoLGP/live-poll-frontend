@@ -1,0 +1,82 @@
+<div class="my-polls-view">
+  <div class="feed-header">
+    <h1 class="feed-title">Minhas <span>Enquetes</span></h1>
+  </div>
+
+  @if (hasNoPolls) {
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+      </div>
+      <div class="empty-state-title">Nenhuma enquete criada</div>
+      <div class="empty-state-sub">Crie sua primeira enquete e compartilhe<br>com a comunidade!</div>
+    </div>
+  } @else {
+    <div class="my-polls-grid">
+      @for (poll of myPolls; track poll.id) {
+        @let total = getTotalVotes(poll);
+        @let catStyle = getCategoryStyle(poll.category);
+        <div class="my-poll-card">
+          <div class="mpc-header">
+            <div class="mpc-question">{{ poll.question }}</div>
+            <div class="mpc-status">
+              <span class="card-badge" [class.badge-live]="poll.live" [class.badge-closed]="!poll.live">
+                @if (poll.live) { <span class="badge-dot"></span> Ao Vivo } @else { ✓ Encerrada }
+              </span>
+              <span class="sri-cat" [style.background]="catStyle.bg" [style.color]="catStyle.c">{{ poll.category }}</span>
+            </div>
+          </div>
+          <div class="mpc-stats">
+            <div class="mpc-stat">
+              <div class="mpc-stat-val" style="color:var(--blue)">{{ total | number }}</div>
+              <div class="mpc-stat-key">Votos totais</div>
+            </div>
+            <div class="mpc-stat">
+              <div class="mpc-stat-val" style="color:var(--violet)">{{ poll.options.length }}</div>
+              <div class="mpc-stat-key">Opções</div>
+            </div>
+            <div class="mpc-stat">
+              <div class="mpc-stat-val" style="color:var(--green)">{{ poll.voted !== null ? '✓' : '—' }}</div>
+              <div class="mpc-stat-key">Votei?</div>
+            </div>
+          </div>
+          <div class="mpc-bar-list">
+            @for (opt of poll.options; track $index) {
+              @let pct = calculatePercentage(opt.votes, total);
+              <div class="mpc-bar-item">
+                <span class="mpc-bar-label">{{ opt.text }}</span>
+                <div class="mpc-bar-track">
+                  <div class="mpc-bar-fill" [style.width]="pct + '%'"></div>
+                </div>
+                <span class="mpc-bar-pct">{{ pct }}%</span>
+              </div>
+            }
+          </div>
+          <div class="mpc-footer">
+            <span class="mpc-footer-meta">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              {{ poll.time }}
+            </span>
+            <div class="mpc-actions">
+              <button class="btn-mpc" (click)="copyLink(poll.id)">Copiar link</button>
+              @if (poll.live) {
+                <button class="btn-mpc" (click)="togglePollStatus(poll)">Encerrar</button>
+              } @else {
+                <button class="btn-mpc" (click)="togglePollStatus(poll)">Reabrir</button>
+              }
+              <button class="btn-mpc danger" (click)="deletePoll(poll.id)">Excluir</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

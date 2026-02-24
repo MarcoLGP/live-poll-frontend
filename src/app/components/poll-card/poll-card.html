@@ -1,0 +1,85 @@
+<div class="poll-card">
+  <div class="card-meta">
+    <div class="card-author">
+      <div class="mini-avatar" [style.background]="poll().color">{{ poll().initials }}</div>
+      <div>
+        <div class="author-name">{{ poll().author }}</div>
+        <div class="post-time">{{ poll().time }}</div>
+      </div>
+    </div>
+    <span class="card-badge" [class.badge-live]="poll().live" [class.badge-closed]="!poll().live">
+      @if (poll().live) {
+        <span class="badge-dot"></span> Ao Vivo
+      } @else {
+        ✓ Encerrada
+      }
+    </span>
+  </div>
+
+  <span class="category-tag"
+        [style.background]="getCategoryStyle(poll().category).bg"
+        [style.color]="getCategoryStyle(poll().category).c">
+    {{ poll().category }}
+  </span>
+
+  <p class="poll-question">{{ poll().question }}</p>
+
+  <div class="poll-options">
+    @for (option of poll().options; track $index; let i = $index) {
+      @let pct = calculatePercentage(option.votes);
+      @let isSelected = poll().voted === i;
+      <div class="poll-option"
+           [class.selected]="isSelected"
+           [class.voted]="poll().voted !== null"
+           (click)="vote.emit(i)"
+           [style.--pct]="pct + '%'">
+        <div class="option-bar"
+             [style.width]="poll().voted !== null ? pct + '%' : '0%'"
+             [style.background]="isSelected ? 'rgba(91,141,247,.18)' : 'rgba(255,255,255,.04)'"></div>
+        <div class="option-inner">
+          <div style="display:flex; align-items:center; gap:0">
+            <div class="option-check">
+              @if (isSelected) {
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              }
+            </div>
+            <span class="option-text">{{ option.text }}</span>
+          </div>
+          @if (poll().voted !== null) {
+            <span class="option-pct">{{ pct }}%</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="card-footer">
+    <span class="vote-count">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      {{ getTotalVotes() | number }} {{ 'POLL_CARD.VOTES' | translate }}
+    </span>
+    <div class="card-actions">
+      <div class="icon-btn" title="Compartilhar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+      </div>
+      <div class="icon-btn" title="Bookmark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

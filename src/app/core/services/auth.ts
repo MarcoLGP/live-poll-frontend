@@ -20,6 +20,14 @@ export interface AccessTokenResponse {
   tokenType: string;
 }
 
+export interface User {
+  name: string;
+  handle: string;
+  initials: string;
+  pollsCreated: number;
+  votesReceived: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private api = inject(ApiService);
@@ -29,12 +37,14 @@ export class AuthService {
   private _isLoggedInSignal = signal<boolean>(false);
   readonly isLoggedIn = this._isLoggedInSignal.asReadonly();
 
-  constructor() {
-    this.refreshToken().subscribe({
-      next: () => console.log('Sessão restaurada'),
-      error: () => console.log('Nenhuma sessão ativa')
-    });
-  }
+  private userSignal = signal<User>({
+    name: 'João Demo',
+    handle: 'joaodemo',
+    initials: 'JD',
+    pollsCreated: 3,
+    votesReceived: 127
+  });
+  readonly user = this.userSignal.asReadonly();
 
   register(dto: RegisterDTO): Observable<AccessTokenResponse> {
     return this.api.post<AccessTokenResponse>('auth/register', dto).pipe(
@@ -54,17 +64,13 @@ export class AuthService {
     );
   }
 
-  public isAuthenticated(): boolean {
-    return this.tokenService.getToken() !== null;
-  }
-
   logout(): void {
+    this.tokenService.clearToken();
+    this._isLoggedInSignal.set(false);
+    this.router.navigate(['/login']);
+
     this.api.post('auth/logout', {}).subscribe({
-      complete: () => {
-        this.tokenService.clearToken();
-        this._isLoggedInSignal.set(false);
-        this.router.navigate(['/login']);
-      }
+      error: (err) => console.error('Erro ao fazer logout no backend', err)
     });
   }
 

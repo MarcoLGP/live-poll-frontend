@@ -1,25 +1,28 @@
 import { Injectable, signal } from '@angular/core';
-import { Poll } from '../models/poll.model';
+
+export interface PollOption {
+  text: string;
+  votes: number;
+}
+
+export interface Poll {
+  id: number;
+  author?: string;
+  initials?: string;
+  color?: string;
+  question: string;
+  category: string;
+  options: { text: string; votes: number }[];
+  live?: boolean;
+  time?: string;
+  mine?: boolean;
+  voted: number;        
+  createdAt?: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class PollService {
-  private pollsSignal = signal<Poll[]>([
-    {
-      id: 1,
-      question: 'Qual é o melhor framework frontend em 2025?',
-      category: 'tech',
-      options: [
-        { text: 'React', votes: 412 },
-        { text: 'Vue.js', votes: 258 },
-        { text: 'Angular', votes: 141 },
-        { text: 'Svelte', votes: 109 }
-      ],
-      voted: false,
-      votedIndex: null,
-      createdAt: Date.now() - 7200000
-    },
-  ]);
-
+  private pollsSignal = signal<Poll[]>(MOCK_POLLS);
   readonly polls = this.pollsSignal.asReadonly();
 
   addPoll(poll: Poll) {
@@ -28,18 +31,98 @@ export class PollService {
 
   vote(pollId: number, optionIndex: number) {
     this.pollsSignal.update(polls =>
-      polls.map(poll =>
-        poll.id === pollId && !poll.voted
-          ? {
-              ...poll,
-              options: poll.options.map((opt, idx) =>
-                idx === optionIndex ? { ...opt, votes: opt.votes + 1 } : opt
-              ),
-              voted: true,
-              votedIndex: optionIndex
-            }
-          : poll
-      )
+      polls.map(p => {
+        if (p.id === pollId && p.voted === null) {
+          const newOptions = [...p.options];
+          newOptions[optionIndex] = {
+            ...newOptions[optionIndex],
+            votes: newOptions[optionIndex].votes + 1
+          };
+          return { ...p, options: newOptions, voted: optionIndex };
+        }
+        return p;
+      })
     );
   }
 }
+
+const COLORS = [
+  'linear-gradient(135deg,#5B8DF7,#9B79F5)',
+  'linear-gradient(135deg,#F06292,#FF8A65)',
+  'linear-gradient(135deg,#52D9A0,#5B8DF7)',
+  'linear-gradient(135deg,#F5B342,#F06292)',
+  'linear-gradient(135deg,#9B79F5,#52D9A0)',
+  'linear-gradient(135deg,#5B8DF7,#52D9A0)',
+];
+
+const MOCK_POLLS: Poll[] = [
+  {
+    id: 1,
+    author: 'Ana Lima',
+    initials: 'AL',
+    color: COLORS[1],
+    question: 'Qual framework frontend você usa no dia a dia?',
+    category: '💻 Tecnologia',
+    options: [
+      { text: 'React', votes: 48 },
+      { text: 'Vue.js', votes: 22 },
+      { text: 'Angular', votes: 14 },
+      { text: 'Svelte', votes: 9 },
+    ],
+    live: true,
+    time: '3min atrás',
+    mine: false,
+    voted: 0,
+  },
+  {
+    id: 2,
+    author: 'Carlos M.',
+    initials: 'CM',
+    color: COLORS[2],
+    question: 'Melhor jogo lançado em 2024?',
+    category: '🎮 Games',
+    options: [
+      { text: 'Elden Ring DLC', votes: 35 },
+      { text: 'Metaphor: ReFantazio', votes: 41 },
+      { text: 'Black Myth: Wukong', votes: 28 },
+    ],
+    live: true,
+    time: '12min atrás',
+    mine: true,
+    voted: 1,
+  },
+  {
+    id: 3,
+    author: 'Beatriz S.',
+    initials: 'BS',
+    color: COLORS[3],
+    question: 'Café ou energético para trabalhar à noite?',
+    category: '🍕 Comida',
+    options: [
+      { text: '☕ Café sempre', votes: 72 },
+      { text: '⚡ Red Bull na veia', votes: 31 },
+      { text: 'Água mineral', votes: 8 },
+    ],
+    live: true,
+    time: '28min atrás',
+    mine: false,
+    voted: 2,
+  },
+  {
+    id: 4,
+    author: 'Rafael O.',
+    initials: 'RO',
+    color: COLORS[4],
+    question: 'Linux, macOS ou Windows para desenvolvimento?',
+    category: '💻 Tecnologia',
+    options: [
+      { text: 'Linux 🐧', votes: 55 },
+      { text: 'macOS 🍎', votes: 60 },
+      { text: 'Windows 🪟', votes: 18 },
+    ],
+    live: false,
+    time: '2h atrás',
+    mine: false,
+    voted: 2,
+  },
+];

@@ -80,7 +80,7 @@
 
   <div class="polls-grid">
     @for (poll of polls(); track poll.id) {
-      <div class="poll-card" [class.new-card]="poll.isNew" [class.has-voted]="poll.voted" id="poll-{{poll.id}}">
+      <div class="poll-card" [class.has-voted]="poll.voted !== null" id="poll-{{poll.id}}">
         <div class="card-header">
           <span class="card-category {{catClass(poll.category)}}">{{catLabel(poll.category)}}</span>
           <span class="card-votes-badge">
@@ -91,23 +91,23 @@
         <div class="poll-options">
           @for (option of poll.options; track $index; let i = $index) {
             <div class="option-item"
-                 [class.voted]="poll.voted"
-                 [class.winner]="poll.voted && i === getWinnerIndex(poll)"
-                 [class.selected]="poll.voted && i === poll.votedIndex"
+                 [class.voted]="poll.voted !== null"
+                 [class.winner]="poll.voted !== null && i === getWinnerIndex(poll)"
+                 [class.selected]="poll.voted !== null && i === poll.voted"
                  (click)="vote(poll, i, $event)">
-              <div class="option-bar" [style.width]="poll.voted ? getPct(option.votes, getTotalVotes(poll)) + '%' : '0%'"
-                   [attr.data-target]="poll.voted ? getPct(option.votes, getTotalVotes(poll)) : 0"></div>
+              <div class="option-bar" [style.width]="poll.voted !== null ? getPct(option.votes, getTotalVotes(poll)) + '%' : '0%'"
+                   [attr.data-target]="poll.voted !== null ? getPct(option.votes, getTotalVotes(poll)) : 0"></div>
               <div class="option-content">
                 <div class="option-left">
                   <div class="option-check"></div>
                   <span class="option-text">{{ option.text }}</span>
                 </div>
-                <span class="option-pct">{{ poll.voted ? getPct(option.votes, getTotalVotes(poll)) + '%' : '' }}</span>
+                <span class="option-pct">{{ poll.voted !== null ? getPct(option.votes, getTotalVotes(poll)) + '%' : '' }}</span>
               </div>
             </div>
           }
         </div>
-        @if (poll.voted) {
+        @if (poll.voted !== null) {
           <div class="card-voted-overlay">
             <div class="voted-check">✓</div>
             {{ 'POLL_CARD.YOU_VOTED' | translate }} · {{ getTotalVotes(poll) }} {{ 'POLL_CARD.VOTES' | translate }}
