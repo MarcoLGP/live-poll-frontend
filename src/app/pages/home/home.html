@@ -1,0 +1,184 @@
+<!-- AMBIENT ORBS -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    {{ 'HERO.BADGE' | translate }}
+  </div>
+
+  <h1 class="hero-title" [innerHTML]="'HERO.TITLE' | translate"></h1>
+
+  <p class="hero-sub" [innerHTML]="'HERO.SUBTITLE' | translate"></p>
+
+  <div class="hero-actions">
+    <button class="btn-amber" (click)="openModal()">
+      {{ 'HERO.CREATE' | translate }}
+    </button>
+    <button class="btn-ghost" (click)="scrollToPolls()">
+      {{ 'HERO.EXPLORE' | translate }}
+    </button>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    {{ 'HERO.SCROLL_HINT' | translate }}
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section-divider"></div>
+
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-label">{{ 'HOW_IT_WORKS.LABEL' | translate }}</div>
+      <h2 class="section-title">{{ 'HOW_IT_WORKS.TITLE' | translate }}</h2>
+    </div>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon" style="background:rgba(124,111,247,0.12);">📝</div>
+      <div class="step-title">{{ 'HOW_IT_WORKS.STEP1_TITLE' | translate }}</div>
+      <div class="step-desc">{{ 'HOW_IT_WORKS.STEP1_DESC' | translate }}</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon" style="background:rgba(245,158,11,0.12);">🌐</div>
+      <div class="step-title">{{ 'HOW_IT_WORKS.STEP2_TITLE' | translate }}</div>
+      <div class="step-desc">{{ 'HOW_IT_WORKS.STEP2_DESC' | translate }}</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon" style="background:rgba(34,211,160,0.12);">⚡</div>
+      <div class="step-title">{{ 'HOW_IT_WORKS.STEP3_TITLE' | translate }}</div>
+      <div class="step-desc">{{ 'HOW_IT_WORKS.STEP3_DESC' | translate }}</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon" style="background:rgba(239,68,68,0.1);">🏆</div>
+      <div class="step-title">{{ 'HOW_IT_WORKS.STEP4_TITLE' | translate }}</div>
+      <div class="step-desc">{{ 'HOW_IT_WORKS.STEP4_DESC' | translate }}</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- POLLS SECTION -->
+<section id="polls-section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">{{ 'POLLS_SECTION.LABEL' | translate }}</div>
+      <h2 class="section-title">{{ 'POLLS_SECTION.TITLE' | translate }}</h2>
+    </div>
+  </div>
+
+  <div class="polls-grid">
+    @for (poll of polls(); track poll.id) {
+      <div class="poll-card" [class.new-card]="poll.isNew" [class.has-voted]="poll.voted" id="poll-{{poll.id}}">
+        <div class="card-header">
+          <span class="card-category {{catClass(poll.category)}}">{{catLabel(poll.category)}}</span>
+          <span class="card-votes-badge">
+            👥 {{ getTotalVotes(poll) > 0 ? (getTotalVotes(poll) | number) : ('POLL_CARD.BE_FIRST' | translate) }}
+          </span>
+        </div>
+        <div class="card-question">{{ poll.question }}</div>
+        <div class="poll-options">
+          @for (option of poll.options; track $index; let i = $index) {
+            <div class="option-item"
+                 [class.voted]="poll.voted"
+                 [class.winner]="poll.voted && i === getWinnerIndex(poll)"
+                 [class.selected]="poll.voted && i === poll.votedIndex"
+                 (click)="vote(poll, i, $event)">
+              <div class="option-bar" [style.width]="poll.voted ? getPct(option.votes, getTotalVotes(poll)) + '%' : '0%'"
+                   [attr.data-target]="poll.voted ? getPct(option.votes, getTotalVotes(poll)) : 0"></div>
+              <div class="option-content">
+                <div class="option-left">
+                  <div class="option-check"></div>
+                  <span class="option-text">{{ option.text }}</span>
+                </div>
+                <span class="option-pct">{{ poll.voted ? getPct(option.votes, getTotalVotes(poll)) + '%' : '' }}</span>
+              </div>
+            </div>
+          }
+        </div>
+        @if (poll.voted) {
+          <div class="card-voted-overlay">
+            <div class="voted-check">✓</div>
+            {{ 'POLL_CARD.YOU_VOTED' | translate }} · {{ getTotalVotes(poll) }} {{ 'POLL_CARD.VOTES' | translate }}
+          </div>
+        }
+      </div>
+    } @empty {
+      <div class="empty-polls" style="grid-column:1/-1">
+        <div class="empty-icon">🗳️</div>
+        <p>{{ 'POLLS_SECTION.NO_POLLS' | translate }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FOOTER -->
+<app-footer></app-footer>
+
+<!-- CREATE POLL MODAL -->
+@if (isModalOpen) {
+  <div class="modal-backdrop open" (click)="closeModalOnBackdrop($event)">
+    <div class="modal">
+      <button class="modal-close" (click)="closeModal()">✕</button>
+      <h2 class="modal-title">{{ 'CREATE_MODAL.TITLE' | translate }}</h2>
+      <p class="modal-sub">{{ 'CREATE_MODAL.SUBTITLE' | translate }}</p>
+
+      <div class="form-group">
+        <label class="form-label">{{ 'CREATE_MODAL.QUESTION_LABEL' | translate }}</label>
+        <input type="text" class="form-input" [(ngModel)]="newPollQuestion" [placeholder]="'CREATE_MODAL.QUESTION_PLACEHOLDER' | translate" maxlength="120">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">{{ 'CREATE_MODAL.CATEGORY_LABEL' | translate }}</label>
+        <select class="form-input form-select" [(ngModel)]="newPollCategory">
+          <option value="general">{{ 'CREATE_MODAL.CATEGORY_GENERAL' | translate }}</option>
+          <option value="tech">{{ 'CREATE_MODAL.CATEGORY_TECH' | translate }}</option>
+          <option value="life">{{ 'CREATE_MODAL.CATEGORY_LIFE' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">{{ 'CREATE_MODAL.OPTIONS_LABEL' | translate }}</label>
+        <div class="options-list" id="optionsList">
+          @for (opt of newPollOptions; track $index; let i = $index) {
+            <div class="option-input-row">
+              <div class="option-num">{{ getLetter(i) }}</div>
+              <input type="text" class="form-input" style="flex:1"
+                     [(ngModel)]="newPollOptions[i]"
+                     [placeholder]="('CREATE_MODAL.OPTION_PLACEHOLDER' | translate).replace('{letter}', getLetter(i))"
+                     maxlength="60">
+              <button class="btn-remove" (click)="removeOption(i)" [style.opacity]="newPollOptions.length <= 2 ? 0 : 1" [style.pointerEvents]="newPollOptions.length <= 2 ? 'none' : 'auto'">✕</button>
+            </div>
+          }
+        </div>
+        <button class="btn-add-option" (click)="addOption()">
+          + {{ 'CREATE_MODAL.ADD_OPTION' | translate }}
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="closeModal()">{{ 'CREATE_MODAL.CANCEL' | translate }}</button>
+        <button class="btn-primary" style="padding:12px 28px; font-size:15px;" (click)="createPoll()">
+          {{ 'CREATE_MODAL.PUBLISH' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- TOAST & CONFETTI -->
+<app-toast></app-toast>
+<app-confetti></app-confetti>

@@ -1,0 +1,57 @@
+<div class="login-container"> 
+  <div class="login-card">
+    <h1 class="login-heading">{{ 'AUTH.REGISTER_HEADING' | translate }}</h1>
+    <p class="login-sub">{{ 'AUTH.REGISTER_SUBTITLE' | translate }}</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="doRegister()">
+      <div class="field">
+        <label>{{ 'AUTH.USERNAME_LABEL' | translate }}</label>
+        <input type="text" formControlName="username" placeholder="johndoe">
+        <div class="error" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+          <span *ngIf="registerForm.get('username')?.errors?.['required']">Username obrigatório</span>
+          <span *ngIf="registerForm.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>{{ 'AUTH.EMAIL_LABEL' | translate }}</label>
+        <input type="email" formControlName="email" placeholder="email@email.com">
+        <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">Email obrigatório</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">Email inválido</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>{{ 'AUTH.PASSWORD_LABEL' | translate }}</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+        <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">Senha obrigatória</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>{{ 'AUTH.CONFIRM_PASSWORD_LABEL' | translate }}</label>
+        <input type="password" formControlName="confirmPassword" placeholder="••••••••">
+        <div class="error" *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
+          As senhas não coincidem
+        </div>
+      </div>
+
+      <button class="btn-primary" type="submit" [disabled]="registerForm.invalid">{{ 'AUTH.REGISTER_BUTTON' | translate }}</button>
+    </form>
+
+    <div class="login-divider">{{ 'COMMON.OR' | translate }}</div>
+
+    <div class="social-buttons">
+      <button class="btn-social btn-google">
+        <ng-icon name="simpleGoogle" size="18"></ng-icon>
+        {{ 'AUTH.LOGIN_WITH_GOOGLE' | translate }}
+      </button>
+      <button class="btn-social btn-github">
+        <ng-icon name="simpleGithub" size="18"></ng-icon>
+        {{ 'AUTH.LOGIN_WITH_GITHUB' | translate }}
+      </button>
+    </div>
+
+    <p class="demo-hint" routerLink="/login" [innerHTML]="'AUTH.ALREADY_ACCOUNT' | translate"></p>
+  </div>
+</div>

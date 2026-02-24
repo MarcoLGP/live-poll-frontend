@@ -1,0 +1,47 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-heading">{{ 'AUTH.WELCOME_BACK' | translate }}</h1>
+    <p class="login-sub">{{ 'AUTH.LOGIN_SUBTITLE' | translate }}</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+      <div class="field">
+        <label>{{ 'AUTH.EMAIL_LABEL' | translate }}</label>
+        <input type="text" formControlName="usernameOrEmail" placeholder="email@email.com ou usuário">
+        <div class="error" *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched">
+          <span>{{ 'AUTH.USERNAME_OR_EMAIL_REQUIRED' | translate }}</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>{{ 'AUTH.PASSWORD_LABEL' | translate }}</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+        <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">{{ 'AUTH.PASSWORD_REQUIRED' | translate }}</span>
+          <span *ngIf="loginForm.get('password')?.errors?.['minlength']">{{ 'AUTH.PASSWORD_MINLENGTH' | translate }}</span>
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="loginError">
+        {{ loginError }}
+      </div>
+
+      <button class="btn-primary" type="submit" [disabled]="loginForm.invalid">
+        {{ 'AUTH.LOGIN_BUTTON' | translate }}
+      </button>
+    </form>
+
+    <div class="login-divider">{{ 'COMMON.OR' | translate }}</div>
+
+    <div class="social-buttons">
+      <button class="btn-social btn-google" (click)="demoLogin()">
+        <ng-icon name="simpleGoogle" size="18"></ng-icon>
+        {{ 'AUTH.LOGIN_WITH_GOOGLE' | translate }}
+      </button>
+      <button class="btn-social btn-github">
+        <ng-icon name="simpleGithub" size="18"></ng-icon>
+        {{ 'AUTH.LOGIN_WITH_GITHUB' | translate }}
+      </button>
+    </div>
+
+    <p class="demo-hint" routerLink="/register" [innerHTML]="'AUTH.DEMO_HINT' | translate"></p>
+  </div>
+</div>

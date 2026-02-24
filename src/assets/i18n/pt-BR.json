@@ -1,0 +1,91 @@
+{
+  "NAV": {
+    "VIEW_POLLS": "Ver Enquetes",
+    "CREATE_POLL": "Criar Enquete",
+    "LOGIN": "Entrar"
+  },
+  "HERO": {
+    "BADGE": "✦ Plataforma de Votação em Tempo Real",
+    "TITLE": "Crie enquetes.<br>Colete <span class=\"grad\">votos</span> agora.",
+    "SUBTITLE": "Enquetes instantâneas, resultados ao vivo e experiência visual que engaja.<br>Sem cadastro, sem complicação.",
+    "CREATE": "✦ Criar Minha Enquete",
+    "SCROLL_HINT": "Rolar",
+    "EXPLORE": "Explorar Enquetes →"
+  },
+  "HOW_IT_WORKS": {
+    "LABEL": "Como funciona",
+    "TITLE": "Simples do início ao fim",
+    "STEP1_TITLE": "Crie",
+    "STEP1_DESC": "Monte sua enquete em segundos com até 6 opções de resposta.",
+    "STEP2_TITLE": "Compartilhe",
+    "STEP2_DESC": "Sua enquete aparece instantaneamente no mural público.",
+    "STEP3_TITLE": "Colete Votos",
+    "STEP3_DESC": "Veja os resultados em tempo real com visualizações elegantes.",
+    "STEP4_TITLE": "Analise",
+    "STEP4_DESC": "Após o encerramento, analise os resultados e descubra quem venceu."
+  },
+  "POLLS_SECTION": {
+    "LABEL": "Mural Público",
+    "TITLE": "Enquetes em Destaque",
+    "NEW_POLL": "+ Nova Enquete",
+    "NO_POLLS": "Nenhuma enquete ainda. Seja o primeiro a criar!"
+  },
+  "POLL_CARD": {
+    "VOTES": "votos",
+    "BE_FIRST": "Seja o 1°",
+    "YOU_VOTED": "Você votou",
+    "VOTED": "Votou"
+  },
+  "CREATE_MODAL": {
+    "TITLE": "Criar Enquete",
+    "SUBTITLE": "Sua enquete vai aparecer no mural público em tempo real.",
+    "QUESTION_LABEL": "Pergunta",
+    "QUESTION_PLACEHOLDER": "O que você quer perguntar?",
+    "CATEGORY_LABEL": "Categoria",
+    "CATEGORY_GENERAL": "Geral",
+    "CATEGORY_TECH": "Tecnologia",
+    "CATEGORY_LIFE": "Estilo de Vida",
+    "OPTIONS_LABEL": "Opções",
+    "OPTION_PLACEHOLDER": "Opção {letter}",
+    "ADD_OPTION": "+ Adicionar Opção",
+    "CANCEL": "Cancelar",
+    "PUBLISH": "Publicar Enquete ✦"
+  },
+  "TOAST": {
+    "VOTE_SUCCESS": "Voto registrado!",
+    "VOTE_SUCCESS_DESC": "Seu voto foi contabilizado.",
+    "POLL_CREATED": "Enquete publicada!",
+    "POLL_CREATED_DESC": "Sua enquete está ao vivo no mural.",
+    "ERROR": "Erro",
+    "MAX_OPTIONS": "Máximo atingido",
+    "MAX_OPTIONS_DESC": "Você pode ter no máximo 6 opções.",
+    "QUESTION_EMPTY": "Pergunta vazia",
+    "QUESTION_EMPTY_DESC": "Escreva uma pergunta para sua enquete.",
+    "FEW_OPTIONS": "Poucas opções",
+    "FEW_OPTIONS_DESC": "Adicione pelo menos 2 opções de resposta."
+  },
+  "FOOTER": {
+    "MADE_WITH": "Feito com ♥ — Plataforma de votação em tempo real"
+  },
+  "AUTH": {
+    "LOGIN_TITLE": "Entrar",
+    "REGISTER_TITLE": "Criar conta",
+    "WELCOME_BACK": "Bem-vindo de volta",
+    "LOGIN_SUBTITLE": "Faça login para criar e votar em enquetes em tempo real.",
+    "EMAIL_LABEL": "E-mail",
+    "PASSWORD_LABEL": "Senha",
+    "LOGIN_BUTTON": "Entrar na plataforma",
+    "DEMO_HINT": "Não tem conta? <span>Criar conta grátis</span>",
+    "LOGIN_WITH_GOOGLE": "Continuar com Google",
+    "LOGIN_WITH_GITHUB": "Continuar com GitHub",
+    "REGISTER_HEADING": "Criar conta",
+    "REGISTER_SUBTITLE": "Cadastre-se para começar a criar e votar em enquetes.",
+    "USERNAME_LABEL": "Nome de usuário",
+    "CONFIRM_PASSWORD_LABEL": "Confirmar senha",
+    "REGISTER_BUTTON": "Cadastrar",
+    "ALREADY_ACCOUNT": "Já tem uma conta? <span>Entrar</span>"
+  },
+  "COMMON": {
+    "OR": "ou"
+  }
+}

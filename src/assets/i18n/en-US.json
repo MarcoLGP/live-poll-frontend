@@ -1,0 +1,91 @@
+{
+  "NAV": {
+    "VIEW_POLLS": "View Polls",
+    "CREATE_POLL": "Create Poll",
+    "LOGIN": "Login"
+  },
+  "HERO": {
+    "BADGE": "✦ Real-time Voting Platform",
+    "TITLE": "Create polls.<br>Collect <span class=\"grad\">votes</span> now.",
+    "SUBTITLE": "Instant polls, live results, and engaging visuals.<br>No signup, no hassle.",
+    "CREATE": "✦ Create My Poll",
+    "SCROLL_HINT": "Scroll",
+    "EXPLORE": "Explore Polls →"
+  },
+  "HOW_IT_WORKS": {
+    "LABEL": "How it works",
+    "TITLE": "Simple from start to finish",
+    "STEP1_TITLE": "Create",
+    "STEP1_DESC": "Build your poll in seconds with up to 6 options.",
+    "STEP2_TITLE": "Share",
+    "STEP2_DESC": "Your poll instantly appears on the public board.",
+    "STEP3_TITLE": "Collect Votes",
+    "STEP3_DESC": "See real-time results with elegant visualizations.",
+    "STEP4_TITLE": "Analyze",
+    "STEP4_DESC": "After closing, analyze results and find out who won."
+  },
+  "POLLS_SECTION": {
+    "LABEL": "Public Board",
+    "TITLE": "Featured Polls",
+    "NEW_POLL": "+ New Poll",
+    "NO_POLLS": "No polls yet. Be the first to create one!"
+  },
+  "POLL_CARD": {
+    "VOTES": "votes",
+    "BE_FIRST": "Be the 1st",
+    "YOU_VOTED": "You voted",
+    "VOTED": "Voted"
+  },
+  "CREATE_MODAL": {
+    "TITLE": "Create Poll",
+    "SUBTITLE": "Your poll will appear on the public board in real time.",
+    "QUESTION_LABEL": "Question",
+    "QUESTION_PLACEHOLDER": "What do you want to ask?",
+    "CATEGORY_LABEL": "Category",
+    "CATEGORY_GENERAL": "General",
+    "CATEGORY_TECH": "Tech",
+    "CATEGORY_LIFE": "Lifestyle",
+    "OPTIONS_LABEL": "Options",
+    "OPTION_PLACEHOLDER": "Option {letter}",
+    "ADD_OPTION": "+ Add Option",
+    "CANCEL": "Cancel",
+    "PUBLISH": "Publish Poll ✦"
+  },
+  "TOAST": {
+    "VOTE_SUCCESS": "Vote registered!",
+    "VOTE_SUCCESS_DESC": "Your vote has been counted.",
+    "POLL_CREATED": "Poll published!",
+    "POLL_CREATED_DESC": "Your poll is now live on the board.",
+    "ERROR": "Error",
+    "MAX_OPTIONS": "Maximum reached",
+    "MAX_OPTIONS_DESC": "You can have at most 6 options.",
+    "QUESTION_EMPTY": "Empty question",
+    "QUESTION_EMPTY_DESC": "Write a question for your poll.",
+    "FEW_OPTIONS": "Not enough options",
+    "FEW_OPTIONS_DESC": "Add at least 2 options."
+  },
+  "FOOTER": {
+    "MADE_WITH": "Made with ♥ — Real-time voting platform"
+  },
+  "AUTH": {
+    "LOGIN_TITLE": "Login",
+    "REGISTER_TITLE": "Create account",
+    "WELCOME_BACK": "Welcome back",
+    "LOGIN_SUBTITLE": "Log in to create and vote on real-time polls.",
+    "EMAIL_LABEL": "E-mail",
+    "PASSWORD_LABEL": "Password",
+    "LOGIN_BUTTON": "Sign in to platform",
+    "DEMO_HINT": "Don't have an account? <span>Create free account</span>",
+    "LOGIN_WITH_GOOGLE": "Continue with Google",
+    "LOGIN_WITH_GITHUB": "Continue with GitHub",
+    "REGISTER_HEADING": "Create account",
+    "REGISTER_SUBTITLE": "Sign up to start creating and voting on polls.",
+    "USERNAME_LABEL": "Username",
+    "CONFIRM_PASSWORD_LABEL": "Confirm password",
+    "REGISTER_BUTTON": "Sign up",
+    "ALREADY_ACCOUNT": "Already have an account? <span>Sign in</span>"
+  },
+  "COMMON": {
+    "OR": "or"
+  }
+}
