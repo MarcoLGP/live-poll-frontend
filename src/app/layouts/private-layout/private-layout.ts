@@ -1,30 +1,39 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '@services/auth';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CreatePollModalComponent } from '@components/create-poll-modal/create-poll-modal';
 import { Poll, PollService } from '@services/poll';
 import { LogoComponent } from '@components/logo/logo';
 import { SettingsModalComponent } from '@components/settings-modal/settings-modal';
 import { SearchModalComponent } from '@components/search-modal/search-modal';
+import { NotificationsModalComponent } from "@components/notifications-modal/notifications-modal";
+import { NotificationService } from '@services/notification';
 
 @Component({
   selector: 'app-private-layout',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, TranslatePipe, LogoComponent, RouterOutlet, CreatePollModalComponent, SettingsModalComponent, SearchModalComponent],
+  imports: [RouterLink, RouterLinkActive, LogoComponent, RouterOutlet, TranslatePipe, CreatePollModalComponent, SettingsModalComponent, SearchModalComponent, NotificationsModalComponent],
   templateUrl: './private-layout.html',
   styleUrls: ['./private-layout.scss']
 })
 export class PrivateLayoutComponent {
   pollService = inject(PollService);
   auth = inject(AuthService);
-  user = this.auth.user;
-
   router = inject(Router);
+  user = this.auth.user;
+  notificationService = inject(NotificationService);
 
   @ViewChild('createModal') createModal!: CreatePollModalComponent;
   @ViewChild('settingsModal') settingsModal!: SettingsModalComponent;
   @ViewChild('searchModal') searchModal!: SearchModalComponent;
+  @ViewChild('notificationsModal') notificationsModal!: NotificationsModalComponent;
+
+  currentLang: string;
+
+  constructor(private translate: TranslateService) {
+    this.currentLang = this.translate.currentLang || 'pt-BR';
+  }
 
   trending = [
     { rank: 1, question: 'Qual framework frontend você usa?', votes: 93 },
@@ -42,6 +51,15 @@ export class PrivateLayoutComponent {
 
   openSearch() {
     this.searchModal.open();
+  }
+
+  openNotifications() {
+    this.notificationsModal.open();
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
+    this.currentLang = lang;
   }
 
   onCreatePoll(event: { question: string; options: string[]; category: string }): void {

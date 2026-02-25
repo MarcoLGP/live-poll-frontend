@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Orbes de fundo */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: orb-float 14s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124, 111, 247, 0.18), transparent 70%);
+  top: -200px;
+  left: -150px;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.1), transparent 70%);
+  bottom: -100px;
+  right: -100px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(34, 211, 160, 0.1), transparent 70%);
+  top: 50%;
+  right: 20%;
+  animation-delay: -3s;
+}
+
+@keyframes orb-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -40px) scale(1.05); }
+}
+
+/* Navbar */
+.public-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(7, 9, 15, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Seletor de idioma */
+.language-switcher {
+  display: flex;
+  gap: 4px;
+  margin-right: 8px;
+
+  .lang-btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      display: block;
+      border-radius: 3px;
+      object-fit: contain;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+    }
+
+    &.active {
+      background: rgba(124, 111, 247, 0.15);
+      border-color: var(--primary);
+    }
+  }
+}
+
+/* Área principal */
+main {
+  position: relative;
+  z-index: 1;
+}

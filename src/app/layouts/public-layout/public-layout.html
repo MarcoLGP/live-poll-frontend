@@ -1,1 +1,25 @@
-<p>public-layout works!</p>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<header class="public-navbar">
+  <div class="nav-container">
+    <app-logo></app-logo>
+    <div class="nav-right">
+      <a routerLink="/login" class="btn-ghost">{{ 'NAV.LOGIN' | translate }}</a>
+      <a routerLink="/register" class="btn-primary">{{ 'NAV.REGISTER' | translate }}</a>
+            <div class="language-switcher">
+        <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')">
+          <img src="assets/flags/br.png" alt="Português" width="24" height="16">
+        </button>
+        <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')">
+          <img src="assets/flags/us.png" alt="English" width="24" height="16">
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
