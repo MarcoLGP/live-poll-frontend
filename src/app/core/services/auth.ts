@@ -38,7 +38,6 @@ export class AuthService {
   }
 
   refreshToken(): Observable<AccessTokenResponse> {
-    console.log('[AuthService] refreshToken chamado');
     return this.api.post<AccessTokenResponse>('auth/refresh', {}).pipe(
       tap({
         next: (response) => {
