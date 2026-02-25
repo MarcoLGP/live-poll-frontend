@@ -2,11 +2,10 @@
   <div class="settings-overlay" (click)="onBackdropClick($event)">
     <div class="settings-modal">
 
-      <!-- Header -->
       <div class="settings-header">
         <div class="settings-header-left">
-          <h2>Configurações</h2>
-          <p>Gerencie sua conta, privacidade e preferências</p>
+          <h2>{{ 'SETTINGS.TITLE' | translate }}</h2>
+          <p>{{ 'SETTINGS.SUBTITLE' | translate }}</p>
         </div>
         <button class="settings-close" (click)="closeModal()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -15,30 +14,27 @@
         </button>
       </div>
 
-      <!-- Tabs -->
       <div class="settings-tabs">
         <button class="settings-tab" [class.active]="activeTab === 'perfil'" (click)="setActiveTab('perfil')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Perfil
+          {{ 'SETTINGS.TABS.PROFILE' | translate }}
         </button>
         <button class="settings-tab" [class.active]="activeTab === 'privacidade'" (click)="setActiveTab('privacidade')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Privacidade
+          {{ 'SETTINGS.TABS.PRIVACY' | translate }}
         </button>
         <button class="settings-tab" [class.active]="activeTab === 'conta'" (click)="setActiveTab('conta')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          Conta
+          {{ 'SETTINGS.TABS.ACCOUNT' | translate }}
         </button>
       </div>
 
-      <!-- Body -->
       <div class="settings-body">
 
-        <!-- PERFIL -->
         @if (activeTab === 'perfil') {
           <div class="settings-panel active">
             <div class="settings-section">
-              <div class="section-title">Foto de Perfil</div>
+              <div class="section-title">{{ 'SETTINGS.PROFILE.AVATAR_SECTION' | translate }}</div>
               <div class="settings-card">
                 <div class="settings-row" style="flex-wrap:wrap; gap:20px;">
                   <div class="avatar-picker">
@@ -49,7 +45,7 @@
                           <div class="swatch" [class.active]="user.avatarGradientIndex === grad" [style.background]="gradients[grad]" (click)="pickGradient(grad)"></div>
                         }
                       </div>
-                      <div class="avatar-hint">Escolha uma cor para seu avatar</div>
+                      <div class="avatar-hint">{{ 'SETTINGS.PROFILE.AVATAR_HINT' | translate }}</div>
                     </div>
                   </div>
                 </div>
@@ -57,103 +53,84 @@
             </div>
 
             <div class="settings-section">
-              <div class="section-title">Informações Pessoais</div>
+              <div class="section-title">{{ 'SETTINGS.PROFILE.PERSONAL_INFO' | translate }}</div>
               <div class="settings-card">
-                <!-- Nome de usuário -->
                 <div class="settings-row">
                   <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">Nome de usuário</div>
-                    <div class="row-desc">Seu nome público nas enquetes</div>
+                    <div class="row-label">{{ 'SETTINGS.PROFILE.USERNAME.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.PROFILE.USERNAME.DESC' | translate }}</div>
                   </div>
                   <span class="row-value">{{ user.username }}</span>
-                  <button class="btn-revoke" (click)="openEditUsername()">Editar</button>
+                  <button class="btn-revoke" (click)="openEditUsername()">{{ 'SETTINGS.PROFILE.USERNAME.EDIT' | translate }}</button>
                 </div>
-                <!-- E-mail -->
+                
                 <div class="settings-row">
                   <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">E-mail</div>
-                    <div class="row-desc">Usado para login e notificações</div>
+                    <div class="row-label">{{ 'SETTINGS.PROFILE.EMAIL.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.PROFILE.EMAIL.DESC' | translate }}</div>
                   </div>
                   <span class="row-value">{{ user.email }}</span>
-                  <button class="btn-revoke" (click)="openEditEmail()">Editar</button>
+                  <button class="btn-revoke" (click)="openEditEmail()">{{ 'SETTINGS.PROFILE.EMAIL.EDIT' | translate }}</button>
                 </div>
               </div>
             </div>
           </div>
         }
 
-        <!-- PRIVACIDADE -->
         @if (activeTab === 'privacidade') {
           <div class="settings-panel active">
             <div class="settings-section">
-              <div class="section-title">Privacidade de Dados</div>
+              <div class="section-title">{{ 'SETTINGS.PRIVACY.TITLE' | translate }}</div>
               <div class="settings-card">
                 <div class="settings-row">
                   <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">Armazenamento de Cookies</div>
-                    <div class="row-desc">Necessário para restaurar sua seção</div>
+                    <div class="row-label">{{ 'SETTINGS.PRIVACY.COOKIES.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.PRIVACY.COOKIES.DESC' | translate }}</div>
                   </div>
                   <label class="toggle"><input type="checkbox" checked (change)="markDirty()"><div class="toggle-track"></div></label>
                 </div>
                 <div class="settings-row">
                   <div class="row-icon" style="color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">Status de conformidade</div>
-                    <div class="row-desc">LGPD / GDPR</div>
+                    <div class="row-label">{{ 'SETTINGS.PRIVACY.COMPLIANCE.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.PRIVACY.COMPLIANCE.DESC' | translate }}</div>
                   </div>
-                  <span class="row-badge">Conforme</span>
-                </div>
-                <div class="settings-row">
-                  <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                  <div class="row-info">
-                    <div class="row-label">Exportar meus dados</div>
-                    <div class="row-desc">Receba um arquivo com todos os seus dados</div>
-                  </div>
-                  <button class="btn-revoke" (click)="exportData()">Solicitar</button>
+                  <span class="row-badge">{{ 'SETTINGS.PRIVACY.COMPLIANCE.BADGE' | translate }}</span>
                 </div>
               </div>
             </div>
           </div>
         }
 
-        <!-- CONTA -->
         @if (activeTab === 'conta') {
           <div class="settings-panel active">
             <div class="settings-section">
-              <div class="section-title">Segurança</div>
+              <div class="section-title">{{ 'SETTINGS.ACCOUNT.SECURITY_TITLE' | translate }}</div>
               <div class="settings-card">
                 <div class="settings-row">
                   <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">Senha</div>
-                    <div class="row-desc">Última troca há 32 dias</div>
+                    <div class="row-label">{{ 'SETTINGS.ACCOUNT.PASSWORD.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.ACCOUNT.PASSWORD.DESC' | translate }}</div>
                   </div>
-                  <button class="btn-revoke" (click)="openEditPassword()">Alterar</button>
-                </div>
-                <div class="settings-row">
-                  <div class="row-icon" style="color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                  <div class="row-info">
-                    <div class="row-label">Autenticação em dois fatores</div>
-                    <div class="row-desc">Proteja sua conta com 2FA via app autenticador</div>
-                  </div>
-                  <span class="row-badge amber">Inativo</span>
+                  <button class="btn-revoke" (click)="openEditPassword()">{{ 'SETTINGS.ACCOUNT.PASSWORD.EDIT' | translate }}</button>
                 </div>
               </div>
             </div>
 
             <div class="settings-section">
-              <div class="section-title">Zona de Risco</div>
+              <div class="section-title">{{ 'SETTINGS.ACCOUNT.DANGER_ZONE' | translate }}</div>
               <div class="settings-card danger">
                 <div class="settings-row">
                   <div class="row-icon" style="color:var(--pink); border-color:rgba(240,98,146,.2); background:rgba(240,98,146,.07)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div>
                   <div class="row-info">
-                    <div class="row-label">Excluir conta</div>
-                    <div class="row-desc">Remove permanentemente todos os seus dados e enquetes. Ação irreversível.</div>
+                    <div class="row-label">{{ 'SETTINGS.ACCOUNT.DELETE_ACCOUNT.LABEL' | translate }}</div>
+                    <div class="row-desc">{{ 'SETTINGS.ACCOUNT.DELETE_ACCOUNT.DESC' | translate }}</div>
                   </div>
-                  <button class="btn-danger" (click)="openDeleteConfirm()">Excluir conta</button>
+                  <button class="btn-danger" (click)="openDeleteConfirm()">{{ 'SETTINGS.ACCOUNT.DELETE_ACCOUNT.BUTTON' | translate }}</button>
                 </div>
               </div>
             </div>
@@ -162,14 +139,13 @@
 
       </div>
 
-      <!-- Save bar (só aparece se houver alterações) -->
       @if (dirty()) {
         <div class="settings-save-bar">
           <div class="save-hint" [class.dirty]="dirty()">
             <div class="dot-unsaved"></div>
-            <span>Alterações não salvas serão descartadas ao fechar</span>
+            <span>{{ 'SETTINGS.UNSAVED_CHANGES' | translate }}</span>
           </div>
-          <button class="btn-save" (click)="save()">Salvar alterações</button>
+          <button class="btn-save" (click)="save()">{{ 'SETTINGS.SAVE_BUTTON' | translate }}</button>
         </div>
       }
 
@@ -177,59 +153,55 @@
   </div>
 }
 
-<!-- Submodal para editar nome de usuário -->
 @if (showEditUsername()) {
   <div class="submodal-overlay" (click)="$event.target === $event.currentTarget && cancelSubModal()">
     <div class="submodal">
-      <h3>Editar nome de usuário</h3>
-      <input type="text" class="submodal-input" [(ngModel)]="editUsernameValue" placeholder="Novo nome">
+      <h3>{{ 'SETTINGS.SUBMODALS.EDIT_USERNAME.TITLE' | translate }}</h3>
+      <input type="text" class="submodal-input" [(ngModel)]="editUsernameValue" [placeholder]="'SETTINGS.SUBMODALS.EDIT_USERNAME.PLACEHOLDER' | translate">
       <div class="submodal-actions">
-        <button class="btn-revoke" (click)="cancelSubModal()">Cancelar</button>
-        <button class="btn-primary" (click)="saveUsername()">Salvar</button>
+        <button class="btn-revoke" (click)="cancelSubModal()">{{ 'SETTINGS.SUBMODALS.EDIT_USERNAME.CANCEL' | translate }}</button>
+        <button class="btn-primary" (click)="saveUsername()">{{ 'SETTINGS.SUBMODALS.EDIT_USERNAME.SAVE' | translate }}</button>
       </div>
     </div>
   </div>
 }
 
-<!-- Submodal para editar e-mail -->
 @if (showEditEmail()) {
   <div class="submodal-overlay" (click)="$event.target === $event.currentTarget && cancelSubModal()">
     <div class="submodal">
-      <h3>Editar e-mail</h3>
-      <input type="email" class="submodal-input" [(ngModel)]="editEmailValue" placeholder="Novo e-mail">
+      <h3>{{ 'SETTINGS.SUBMODALS.EDIT_EMAIL.TITLE' | translate }}</h3>
+      <input type="email" class="submodal-input" [(ngModel)]="editEmailValue" [placeholder]="'SETTINGS.SUBMODALS.EDIT_EMAIL.PLACEHOLDER' | translate">
       <div class="submodal-actions">
-        <button class="btn-revoke" (click)="cancelSubModal()">Cancelar</button>
-        <button class="btn-primary" (click)="saveEmail()">Salvar</button>
+        <button class="btn-revoke" (click)="cancelSubModal()">{{ 'SETTINGS.SUBMODALS.EDIT_EMAIL.CANCEL' | translate }}</button>
+        <button class="btn-primary" (click)="saveEmail()">{{ 'SETTINGS.SUBMODALS.EDIT_EMAIL.SAVE' | translate }}</button>
       </div>
     </div>
   </div>
 }
 
-<!-- Submodal para alterar senha -->
 @if (showEditPassword()) {
   <div class="submodal-overlay" (click)="$event.target === $event.currentTarget && cancelSubModal()">
     <div class="submodal">
-      <h3>Alterar senha</h3>
-      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.current" placeholder="Senha atual">
-      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.new" placeholder="Nova senha">
-      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.confirm" placeholder="Confirmar nova senha">
+      <h3>{{ 'SETTINGS.SUBMODALS.EDIT_PASSWORD.TITLE' | translate }}</h3>
+      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.current" [placeholder]="'SETTINGS.SUBMODALS.EDIT_PASSWORD.CURRENT' | translate">
+      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.new" [placeholder]="'SETTINGS.SUBMODALS.EDIT_PASSWORD.NEW' | translate">
+      <input type="password" class="submodal-input" [(ngModel)]="editPasswordData.confirm" [placeholder]="'SETTINGS.SUBMODALS.EDIT_PASSWORD.CONFIRM' | translate">
       <div class="submodal-actions">
-        <button class="btn-revoke" (click)="cancelSubModal()">Cancelar</button>
-        <button class="btn-primary" (click)="savePassword()">Salvar</button>
+        <button class="btn-revoke" (click)="cancelSubModal()">{{ 'SETTINGS.SUBMODALS.EDIT_PASSWORD.CANCEL' | translate }}</button>
+        <button class="btn-primary" (click)="savePassword()">{{ 'SETTINGS.SUBMODALS.EDIT_PASSWORD.SAVE' | translate }}</button>
       </div>
     </div>
   </div>
 }
 
-<!-- Submodal para confirmar exclusão -->
 @if (showDeleteConfirm()) {
   <div class="submodal-overlay" (click)="$event.target === $event.currentTarget && cancelSubModal()">
     <div class="submodal">
-      <h3>Excluir conta</h3>
-      <p>Tem certeza? Esta ação é irreversível e todos os seus dados serão removidos.</p>
+      <h3>{{ 'SETTINGS.SUBMODALS.DELETE_CONFIRM.TITLE' | translate }}</h3>
+      <p>{{ 'SETTINGS.SUBMODALS.DELETE_CONFIRM.MESSAGE' | translate }}</p>
       <div class="submodal-actions">
-        <button class="btn-revoke" (click)="cancelSubModal()">Cancelar</button>
-        <button class="btn-danger" (click)="confirmDelete()">Excluir permanentemente</button>
+        <button class="btn-revoke" (click)="cancelSubModal()">{{ 'SETTINGS.SUBMODALS.DELETE_CONFIRM.CANCEL' | translate }}</button>
+        <button class="btn-danger" (click)="confirmDelete()">{{ 'SETTINGS.SUBMODALS.DELETE_CONFIRM.CONFIRM' | translate }}</button>
       </div>
     </div>
   </div>

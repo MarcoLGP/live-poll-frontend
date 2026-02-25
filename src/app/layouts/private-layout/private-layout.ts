@@ -72,7 +72,7 @@ export class PrivateLayoutComponent {
       category: event.category,
       options: event.options.map(text => ({ text, votes: 0 })),
       live: true,
-      time: 'agora mesmo',
+      createdAt: new Date().toISOString(),
       mine: true,
       voted: 0,
     };

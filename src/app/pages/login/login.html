@@ -6,7 +6,8 @@
     <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
       <div class="field">
         <label>{{ 'AUTH.EMAIL_LABEL' | translate }}</label>
-        <input type="text" formControlName="usernameOrEmail" placeholder="email@email.com ou usuário">
+        <input type="text" formControlName="usernameOrEmail" 
+               [placeholder]="'AUTH.USERNAME_PLACEHOLDER' | translate">
         <div class="error" *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched">
           <span>{{ 'AUTH.USERNAME_OR_EMAIL_REQUIRED' | translate }}</span>
         </div>

@@ -7,17 +7,16 @@ export interface PollOption {
 
 export interface Poll {
   id: number;
-  author?: string;
-  initials?: string;
-  color?: string;
+  author: string;
+  initials: string;
+  color: string;
   question: string;
-  category: string;
-  options: { text: string; votes: number }[];
-  live?: boolean;
-  time?: string;
-  mine?: boolean;
-  voted: number;        
-  createdAt?: number;
+  category: string;         
+  options: PollOption[];
+  live: boolean;
+  createdAt: string;      
+  mine: boolean;
+  voted: number | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -55,6 +54,19 @@ const COLORS = [
   'linear-gradient(135deg,#5B8DF7,#52D9A0)',
 ];
 
+// Função auxiliar para gerar timestamps relativos realistas
+const minutesAgo = (minutes: number): string => {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - minutes);
+  return date.toISOString();
+};
+
+const hoursAgo = (hours: number): string => {
+  const date = new Date();
+  date.setHours(date.getHours() - hours);
+  return date.toISOString();
+};
+
 const MOCK_POLLS: Poll[] = [
   {
     id: 1,
@@ -62,7 +74,7 @@ const MOCK_POLLS: Poll[] = [
     initials: 'AL',
     color: COLORS[1],
     question: 'Qual framework frontend você usa no dia a dia?',
-    category: '💻 Tecnologia',
+    category: 'CATEGORIES.TECH',
     options: [
       { text: 'React', votes: 48 },
       { text: 'Vue.js', votes: 22 },
@@ -70,7 +82,7 @@ const MOCK_POLLS: Poll[] = [
       { text: 'Svelte', votes: 9 },
     ],
     live: true,
-    time: '3min atrás',
+    createdAt: minutesAgo(3),
     mine: false,
     voted: 0,
   },
@@ -80,14 +92,14 @@ const MOCK_POLLS: Poll[] = [
     initials: 'CM',
     color: COLORS[2],
     question: 'Melhor jogo lançado em 2024?',
-    category: '🎮 Games',
+    category: 'CATEGORIES.GAMES',
     options: [
       { text: 'Elden Ring DLC', votes: 35 },
       { text: 'Metaphor: ReFantazio', votes: 41 },
       { text: 'Black Myth: Wukong', votes: 28 },
     ],
     live: true,
-    time: '12min atrás',
+    createdAt: minutesAgo(12),
     mine: true,
     voted: 1,
   },
@@ -97,14 +109,14 @@ const MOCK_POLLS: Poll[] = [
     initials: 'BS',
     color: COLORS[3],
     question: 'Café ou energético para trabalhar à noite?',
-    category: '🍕 Comida',
+    category: 'CATEGORIES.FOOD',
     options: [
       { text: '☕ Café sempre', votes: 72 },
       { text: '⚡ Red Bull na veia', votes: 31 },
       { text: 'Água mineral', votes: 8 },
     ],
     live: true,
-    time: '28min atrás',
+    createdAt: minutesAgo(28),
     mine: false,
     voted: 2,
   },
@@ -114,14 +126,14 @@ const MOCK_POLLS: Poll[] = [
     initials: 'RO',
     color: COLORS[4],
     question: 'Linux, macOS ou Windows para desenvolvimento?',
-    category: '💻 Tecnologia',
+    category: 'CATEGORIES.TECH',
     options: [
       { text: 'Linux 🐧', votes: 55 },
       { text: 'macOS 🍎', votes: 60 },
       { text: 'Windows 🪟', votes: 18 },
     ],
     live: false,
-    time: '2h atrás',
+    createdAt: hoursAgo(2),
     mine: false,
     voted: 2,
   },

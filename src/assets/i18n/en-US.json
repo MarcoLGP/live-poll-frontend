@@ -3,15 +3,33 @@
     "VIEW_POLLS": "View Polls",
     "CREATE_POLL": "Create Poll",
     "LOGIN": "Login",
-    "MY_POLLS": "My Polls"
+    "MY_POLLS": "My Polls",
+    "SEARCH_TITLE": "Search polls",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout",
+    "TRENDING": "🔥 Trending",
+    "REGISTER": "Register"
   },
   "HERO": {
     "BADGE": "✦ Real-time Voting Platform",
     "TITLE": "Create polls.<br>Collect <span class=\"grad\">votes</span> now.",
-    "SUBTITLE": "Instant polls, live results, and engaging visuals.<br>No signup, no hassle.",
+    "SUBTITLE": "Instant polls, live results, and experience visuals.",
     "CREATE": "✦ Create My Poll",
     "SCROLL_HINT": "Scroll",
     "EXPLORE": "Explore Polls →"
+  },
+  "DASHBOARD": {
+    "TITLE": "Public",
+    "TITLE_SPAN": "Board",
+    "FILTER_RECENT": "Most recent",
+    "FILTER_TOP": "Top votes"
+  },
+  "SIDEBAR": {
+    "NAVIGATION": "Navigation",
+    "PUBLIC_BOARD": "Public Board",
+    "MY_VOTES": "My Votes",
+    "EXPLORE": "Explore",
+    "SEARCH": "Search"
   },
   "HOW_IT_WORKS": {
     "LABEL": "How it works",
@@ -41,15 +59,158 @@
     "SHARE": "Share",
     "BOOKMARK": "Bookmark"
   },
+  "CATEGORIES": {
+    "TECH": "Technology",
+    "GAMES": "Games",
+    "MUSIC": "Music",
+    "SPORTS": "Sports",
+    "FOOD": "Food",
+    "GENERAL": "General"
+  },
+  "MY_POLLS": {
+    "TITLE": "My",
+    "TITLE_SPAN": "Polls",
+    "EMPTY_TITLE": "No polls created",
+    "EMPTY_SUB": "Create your first poll and share it with the community!",
+    "STATS_TOTAL_VOTES": "Total votes",
+    "STATS_OPTIONS": "Options",
+    "STATS_VOTED": "Voted?",
+    "ACTION_CLOSE": "Close",
+    "ACTION_REOPEN": "Reopen",
+    "ACTION_DELETE": "Delete"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "SUBTITLE": "Manage your account, privacy and preferences",
+    "TABS": {
+      "PROFILE": "Profile",
+      "PRIVACY": "Privacy",
+      "ACCOUNT": "Account"
+    },
+    "PROFILE": {
+      "AVATAR_SECTION": "Profile picture",
+      "AVATAR_HINT": "Choose a color for your avatar",
+      "PERSONAL_INFO": "Personal information",
+      "USERNAME": {
+        "LABEL": "Username",
+        "DESC": "Your public name on polls",
+        "EDIT": "Edit"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "DESC": "Used for login and notifications",
+        "EDIT": "Edit"
+      }
+    },
+    "PRIVACY": {
+      "TITLE": "Data Privacy",
+      "COOKIES": {
+        "LABEL": "Cookies storage",
+        "DESC": "Necessary to restore your session"
+      },
+      "COMPLIANCE": {
+        "LABEL": "Compliance status",
+        "DESC": "LGPD / GDPR",
+        "BADGE": "Compliant"
+      }
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "MARK_ALL_AS_READ": "Mark all as read",
+      "EMPTY_TITLE": "All caught up!",
+      "EMPTY_SUB": "No notifications at the moment.",
+      "VOTES": "votes",
+      "JUST_NOW": "just now",
+      "MINUTES_AGO": "{{count}} minutes ago",
+      "HOURS_AGO": "{{count}} hours ago",
+      "YESTERDAY": "Yesterday",
+      "TODAY": "Today",
+      "THIS_WEEK": "This week",
+      "EARLIER": "Earlier"
+    },
+    "ACCOUNT": {
+      "SECURITY_TITLE": "Security",
+      "PASSWORD": {
+        "LABEL": "Password",
+        "DESC": "Change your password",
+        "EDIT": "Change"
+      },
+      "DANGER_ZONE": "Danger Zone",
+      "DELETE_ACCOUNT": {
+        "LABEL": "Delete account",
+        "DESC": "Permanently removes all your data and polls. Irreversible action.",
+        "BUTTON": "Delete account"
+      }
+    },
+    "UNSAVED_CHANGES": "Unsaved changes will be discarded upon closing",
+    "SAVE_BUTTON": "Save changes",
+    "SUBMODALS": {
+      "EDIT_USERNAME": {
+        "TITLE": "Edit username",
+        "PLACEHOLDER": "New username",
+        "CANCEL": "Cancel",
+        "SAVE": "Save"
+      },
+      "EDIT_EMAIL": {
+        "TITLE": "Edit e-mail",
+        "PLACEHOLDER": "New e-mail",
+        "CANCEL": "Cancel",
+        "SAVE": "Save"
+      },
+      "EDIT_PASSWORD": {
+        "TITLE": "Change password",
+        "CURRENT": "Current password",
+        "NEW": "New password",
+        "CONFIRM": "Confirm new password",
+        "CANCEL": "Cancel",
+        "SAVE": "Save"
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete account",
+        "MESSAGE": "Are you sure? This action is irreversible and all your data will be removed.",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Permanently delete"
+      }
+    }
+  },
+  "SEARCH_MODAL": {
+    "PLACEHOLDER": "Search polls, topics or authors...",
+    "CLOSE": "Close",
+    "EMPTY_TITLE": "Search LivePoll",
+    "EMPTY_SUB": "Find polls by question, category or author",
+    "POPULAR_CATEGORIES": "Popular categories",
+    "RESULTS": "Results",
+    "RESULT_COUNT_SINGULAR": "{{count}} found",
+    "RESULT_COUNT_PLURAL": "{{count}} found",
+    "BY": "by",
+    "NO_RESULTS_TITLE": "No results",
+    "NO_RESULTS_SUB": "Try other terms or categories"
+  },
+  "MY_VOTES": {
+    "TITLE": "My",
+    "TITLE_SPAN": "Votes",
+    "VOTE_COUNT_SINGULAR": "{{count}} participation",
+    "VOTE_COUNT_PLURAL": "{{count}} participations",
+    "EMPTY_TITLE": "No votes yet",
+    "EMPTY_SUB": "You haven't voted in any poll yet. Explore the public board and participate!",
+    "YOUR_CHOICE": "Your choice"
+  },
+  "TIME": {
+    "JUST_NOW": "just now",
+    "MINUTE_AGO": "{{count}} minute ago",
+    "MINUTES_AGO": "{{count}} minutes ago",
+    "HOUR_AGO": "{{count}} hour ago",
+    "HOURS_AGO": "{{count}} hours ago",
+    "DAY_AGO": "{{count}} day ago",
+    "DAYS_AGO": "{{count}} days ago"
+  },
   "CREATE_MODAL": {
     "TITLE": "Create Poll",
+    "CATEGORY_LABEL": "Category",
     "SUBTITLE": "Your poll will appear on the public board in real time.",
     "QUESTION_LABEL": "Question",
+    "MAX_CHARS_HINT": "max. 120 characters",
     "QUESTION_PLACEHOLDER": "What do you want to ask?",
-    "CATEGORY_LABEL": "Category",
-    "CATEGORY_GENERAL": "General",
-    "CATEGORY_TECH": "Tech",
-    "CATEGORY_LIFE": "Lifestyle",
     "OPTIONS_LABEL": "Options",
     "OPTION_PLACEHOLDER": "Option {letter}",
     "ADD_OPTION": "+ Add Option",
@@ -76,8 +237,19 @@
     "LOGIN_TITLE": "Login",
     "REGISTER_TITLE": "Create account",
     "WELCOME_BACK": "Welcome back",
+    "USERNAME_REQUIRED": "Username is required",
+    "USERNAME_MINLENGTH": "Username must be at least 3 characters",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Invalid email format",
+    "CONFIRM_PASSWORD_MISMATCH": "Passwords do not match",
     "LOGIN_SUBTITLE": "Log in to create and vote on real-time polls.",
     "EMAIL_LABEL": "E-mail",
+    "USERNAME_OR_EMAIL_REQUIRED": "Username or email is required",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MINLENGTH": "Password must be at least 6 characters",
+    "USERNAME_PLACEHOLDER": "email@email.com or username",
+    "LOGIN_ERROR_INVALID": "Invalid credentials. Please try again.",
+    "LOGIN_ERROR_SERVER": "Server error. Please try later.",
     "PASSWORD_LABEL": "Password",
     "LOGIN_BUTTON": "Sign in to platform",
     "DEMO_HINT": "Don't have an account? <span>Create free account</span>",

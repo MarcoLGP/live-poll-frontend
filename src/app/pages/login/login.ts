@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core'; 
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { simpleGoogle, simpleGithub } from '@ng-icons/simple-icons';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private translate = inject(TranslateService); 
 
   loginForm: FormGroup = this.fb.group({
     usernameOrEmail: ['', [Validators.required]],
@@ -39,12 +40,12 @@ export class LoginComponent {
     };
 
     this.authService.login(dto).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => this.router.navigate(['/dashboard']),
       error: (err) => {
         if (err.status === 401 || err.status === 400) {
-          this.loginError = 'Credenciais inválidas. Tente novamente.';
+          this.loginError = this.translate.instant('AUTH.LOGIN_ERROR_INVALID');
         } else {
-          this.loginError = 'Erro no servidor. Tente mais tarde.';
+          this.loginError = this.translate.instant('AUTH.LOGIN_ERROR_SERVER');
         }
       }
     });

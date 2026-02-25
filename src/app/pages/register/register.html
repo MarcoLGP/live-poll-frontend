@@ -8,31 +8,31 @@
         <label>{{ 'AUTH.USERNAME_LABEL' | translate }}</label>
         <input type="text" formControlName="username" placeholder="johndoe">
         <div class="error" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-          <span *ngIf="registerForm.get('username')?.errors?.['required']">Username obrigatório</span>
-          <span *ngIf="registerForm.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="registerForm.get('username')?.errors?.['required']">{{ 'AUTH.USERNAME_REQUIRED' | translate }}</span>
+          <span *ngIf="registerForm.get('username')?.errors?.['minlength']">{{ 'AUTH.USERNAME_MINLENGTH' | translate }}</span>
         </div>
       </div>
       <div class="field">
         <label>{{ 'AUTH.EMAIL_LABEL' | translate }}</label>
         <input type="email" formControlName="email" placeholder="email@email.com">
         <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-          <span *ngIf="registerForm.get('email')?.errors?.['required']">Email obrigatório</span>
-          <span *ngIf="registerForm.get('email')?.errors?.['email']">Email inválido</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">{{ 'AUTH.EMAIL_REQUIRED' | translate }}</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">{{ 'AUTH.EMAIL_INVALID' | translate }}</span>
         </div>
       </div>
       <div class="field">
         <label>{{ 'AUTH.PASSWORD_LABEL' | translate }}</label>
         <input type="password" formControlName="password" placeholder="••••••••">
         <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-          <span *ngIf="registerForm.get('password')?.errors?.['required']">Senha obrigatória</span>
-          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">{{ 'AUTH.PASSWORD_REQUIRED' | translate }}</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">{{ 'AUTH.PASSWORD_MINLENGTH' | translate }}</span>
         </div>
       </div>
       <div class="field">
         <label>{{ 'AUTH.CONFIRM_PASSWORD_LABEL' | translate }}</label>
         <input type="password" formControlName="confirmPassword" placeholder="••••••••">
         <div class="error" *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
-          As senhas não coincidem
+          <span>{{ 'AUTH.CONFIRM_PASSWORD_MISMATCH' | translate }}</span>
         </div>
       </div>
 

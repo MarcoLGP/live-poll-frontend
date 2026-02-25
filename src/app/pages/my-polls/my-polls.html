@@ -1,6 +1,6 @@
 <div class="my-polls-view">
   <div class="feed-header">
-    <h1 class="feed-title">Minhas <span>Enquetes</span></h1>
+    <h1 class="feed-title">{{ 'MY_POLLS.TITLE' | translate }} <span>{{ 'MY_POLLS.TITLE_SPAN' | translate }}</span></h1>
   </div>
 
   @if (hasNoPolls) {
@@ -13,36 +13,46 @@
           <rect x="3" y="14" width="7" height="7" />
         </svg>
       </div>
-      <div class="empty-state-title">Nenhuma enquete criada</div>
-      <div class="empty-state-sub">Crie sua primeira enquete e compartilhe<br>com a comunidade!</div>
+      <div class="empty-state-title">{{ 'MY_POLLS.EMPTY_TITLE' | translate }}</div>
+      <div class="empty-state-sub">{{ 'MY_POLLS.EMPTY_SUB' | translate }}</div>
     </div>
   } @else {
     <div class="my-polls-grid">
       @for (poll of myPolls; track poll.id) {
         @let total = getTotalVotes(poll);
-        @let catStyle = getCategoryStyle(poll.category);
+        @let catInfo = getCategoryInfo(poll.category);
         <div class="my-poll-card">
           <div class="mpc-header">
             <div class="mpc-question">{{ poll.question }}</div>
             <div class="mpc-status">
               <span class="card-badge" [class.badge-live]="poll.live" [class.badge-closed]="!poll.live">
-                @if (poll.live) { <span class="badge-dot"></span> Ao Vivo } @else { ✓ Encerrada }
+                @if (poll.live) {
+                  <span class="badge-dot"></span><span>{{ 'POLL_CARD.LIVE' | translate }}</span>
+                } @else {
+                  <span>✓ {{ 'POLL_CARD.CLOSED' | translate }}</span>
+                }
               </span>
-              <span class="sri-cat" [style.background]="catStyle.bg" [style.color]="catStyle.c">{{ poll.category }}</span>
+              @if (catInfo) {
+                <span class="sri-cat" [style.background]="catInfo.bg" [style.color]="catInfo.c">
+                  {{ catInfo.emoji }} {{ catInfo.key | translate }}
+                </span>
+              } @else {
+                <span class="sri-cat">{{ poll.category }}</span>
+              }
             </div>
           </div>
           <div class="mpc-stats">
             <div class="mpc-stat">
               <div class="mpc-stat-val" style="color:var(--blue)">{{ total | number }}</div>
-              <div class="mpc-stat-key">Votos totais</div>
+              <div class="mpc-stat-key">{{ 'MY_POLLS.STATS_TOTAL_VOTES' | translate }}</div>
             </div>
             <div class="mpc-stat">
               <div class="mpc-stat-val" style="color:var(--violet)">{{ poll.options.length }}</div>
-              <div class="mpc-stat-key">Opções</div>
+              <div class="mpc-stat-key">{{ 'MY_POLLS.STATS_OPTIONS' | translate }}</div>
             </div>
             <div class="mpc-stat">
               <div class="mpc-stat-val" style="color:var(--green)">{{ poll.voted !== null ? '✓' : '—' }}</div>
-              <div class="mpc-stat-key">Votei?</div>
+              <div class="mpc-stat-key">{{ 'MY_POLLS.STATS_VOTED' | translate }}</div>
             </div>
           </div>
           <div class="mpc-bar-list">
@@ -63,16 +73,15 @@
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              {{ poll.time }}
+              {{ poll.createdAt | relativeTime }}
             </span>
             <div class="mpc-actions">
-              <button class="btn-mpc" (click)="copyLink(poll.id)">Copiar link</button>
               @if (poll.live) {
-                <button class="btn-mpc" (click)="togglePollStatus(poll)">Encerrar</button>
+                <button class="btn-mpc" (click)="togglePollStatus(poll)">{{ 'MY_POLLS.ACTION_CLOSE' | translate }}</button>
               } @else {
-                <button class="btn-mpc" (click)="togglePollStatus(poll)">Reabrir</button>
+                <button class="btn-mpc" (click)="togglePollStatus(poll)">{{ 'MY_POLLS.ACTION_REOPEN' | translate }}</button>
               }
-              <button class="btn-mpc danger" (click)="deletePoll(poll.id)">Excluir</button>
+              <button class="btn-mpc danger" (click)="deletePoll(poll.id)">{{ 'MY_POLLS.ACTION_DELETE' | translate }}</button>
             </div>
           </div>
         </div>

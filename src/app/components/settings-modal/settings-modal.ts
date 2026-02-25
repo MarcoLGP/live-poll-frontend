@@ -1,10 +1,11 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings-modal',
   standalone: true,
-  imports: [FormsModule], 
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './settings-modal.html',
   styleUrls: ['./settings-modal.scss']
 })
@@ -14,11 +15,10 @@ export class SettingsModalComponent {
   dirty = signal(false);
   close = output<void>();
 
-  // Dados do usuário (mock)
   user = {
-    username: 'joaodemo',           
+    username: 'joaodemo',
     email: 'demo@livepoll.io',
-    avatarGradientIndex: 0,          
+    avatarGradientIndex: 0,
   };
 
   // Gradientes disponíveis
@@ -46,7 +46,6 @@ export class SettingsModalComponent {
     this.isOpen.set(true);
     this.dirty.set(false);
     this.activeTab = 'perfil';
-    // Reset submodais
     this.showEditUsername.set(false);
     this.showEditEmail.set(false);
     this.showEditPassword.set(false);
@@ -68,9 +67,7 @@ export class SettingsModalComponent {
 
   save() {
     console.log('Salvar configurações', this.user);
-    // Aqui futuramente chamará um serviço
     this.dirty.set(false);
-    // Mostrar toast
   }
 
   onBackdropClick(event: MouseEvent) {
@@ -84,7 +81,6 @@ export class SettingsModalComponent {
     this.markDirty();
   }
 
-  // Métodos para abrir submodais
   openEditUsername() {
     this.editUsernameValue = this.user.username;
     this.showEditUsername.set(true);
@@ -104,7 +100,6 @@ export class SettingsModalComponent {
     this.showDeleteConfirm.set(true);
   }
 
-  // Ações de salvamento dos submodais
   saveUsername() {
     if (this.editUsernameValue.trim()) {
       this.user.username = this.editUsernameValue.trim();
@@ -114,7 +109,6 @@ export class SettingsModalComponent {
   }
 
   saveEmail() {
-    // Aqui você pode adicionar validação de e-mail e talvez chamar API com senha
     if (this.editEmailValue.includes('@')) {
       this.user.email = this.editEmailValue;
       this.markDirty();
@@ -123,10 +117,8 @@ export class SettingsModalComponent {
   }
 
   savePassword() {
-    // Validações: senha atual, nova senha, confirmação
     if (this.editPasswordData.new === this.editPasswordData.confirm && this.editPasswordData.new.length >= 6) {
       console.log('Alterar senha', this.editPasswordData);
-      // Chamar API
       this.markDirty();
       this.showEditPassword.set(false);
     }
@@ -134,10 +126,8 @@ export class SettingsModalComponent {
 
   confirmDelete() {
     console.log('Conta excluída');
-    // Chamar API e fazer logout
     this.showDeleteConfirm.set(false);
     this.closeModal();
-    // Redirecionar para login
   }
 
   cancelSubModal() {
@@ -147,13 +137,11 @@ export class SettingsModalComponent {
     this.showDeleteConfirm.set(false);
   }
 
-  // Utilitário para iniciais do avatar
   getInitials(): string {
-    return this.user.username.charAt(0).toUpperCase() + 
+    return this.user.username.charAt(0).toUpperCase() +
            (this.user.username.split(' ')[1]?.charAt(0) || '').toUpperCase();
   }
 
-  // Para exportar dados (mock)
   exportData() {
     console.log('Exportar dados');
   }

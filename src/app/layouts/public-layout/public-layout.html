@@ -8,7 +8,8 @@
     <div class="nav-right">
       <a routerLink="/login" class="btn-ghost">{{ 'NAV.LOGIN' | translate }}</a>
       <a routerLink="/register" class="btn-primary">{{ 'NAV.REGISTER' | translate }}</a>
-            <div class="language-switcher">
+      
+      <div class="language-switcher">
         <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')">
           <img src="assets/flags/br.png" alt="Português" width="24" height="16">
         </button>
@@ -16,6 +17,7 @@
           <img src="assets/flags/us.png" alt="English" width="24" height="16">
         </button>
       </div>
+      
     </div>
   </div>
 </header>

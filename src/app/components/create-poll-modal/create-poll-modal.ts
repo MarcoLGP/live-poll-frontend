@@ -1,11 +1,13 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CATEGORIES } from '@shared/constants/categories';
 
 @Component({
   selector: 'app-create-poll-modal',
   standalone: true,
-  imports: [FormsModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe, DragDropModule],
   templateUrl: './create-poll-modal.html',
   styleUrls: ['./create-poll-modal.scss']
 })
@@ -16,9 +18,9 @@ export class CreatePollModalComponent {
 
   question = '';
   options: string[] = ['', ''];
-  category = '💻 Tecnologia';
+  category = CATEGORIES[0].key; 
 
-  readonly categories = ['💻 Tecnologia', '🎮 Games', '🎵 Música', '🏀 Esportes', '🍕 Comida', '💬 Geral'];
+  readonly categories = CATEGORIES; 
   readonly maxOptions = 8;
   readonly minOptions = 2;
 
@@ -44,6 +46,10 @@ export class CreatePollModalComponent {
     }
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.options, event.previousIndex, event.currentIndex);
+  }
+
   getLetter(index: number): string {
     return String.fromCharCode(65 + index);
   }
@@ -54,7 +60,7 @@ export class CreatePollModalComponent {
       this.create.emit({
         question: this.question,
         options: filledOptions,
-        category: this.category
+        category: this.category 
       });
       this.closeModal();
     }
@@ -63,6 +69,6 @@ export class CreatePollModalComponent {
   private reset() {
     this.question = '';
     this.options = ['', ''];
-    this.category = this.categories[0];
+    this.category = CATEGORIES[0].key;
   }
 }

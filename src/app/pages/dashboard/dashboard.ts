@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PollCardComponent } from '@components/poll-card/poll-card';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '@services/auth';
 import { Poll, PollService } from '@services/poll';
 
@@ -7,6 +8,7 @@ import { Poll, PollService } from '@services/poll';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    TranslatePipe,
     PollCardComponent
   ],
   templateUrl: './dashboard.html',

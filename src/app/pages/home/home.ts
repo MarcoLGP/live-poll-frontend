@@ -1,6 +1,6 @@
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, DecimalPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
@@ -22,8 +22,9 @@ import { ConfettiComponent } from '@components/confetti/confetti';
     ConfettiComponent,
     TranslatePipe,
     DecimalPipe,
-    FormsModule
-  ],
+    FormsModule,
+    RouterLink
+],
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
@@ -36,12 +37,6 @@ export class HomeComponent {
   private platformId = inject(PLATFORM_ID);
 
   polls = this.pollService.polls;
-  isModalOpen = false;
-
-  // Para o modal de criação
-  newPollQuestion = '';
-  newPollCategory: 'tech' | 'life' | 'general' = 'general';
-  newPollOptions: string[] = ['', ''];
 
   // ========== MÉTODOS AUXILIARES ==========
   getTotalVotes(poll: Poll): number {
@@ -135,77 +130,5 @@ export class HomeComponent {
     target.style.position = 'relative';
     target.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
-  }
-
-  // ========== MODAL ==========
-  openModal() {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
-      return;
-    }
-    this.isModalOpen = true;
-    this.resetModal();
-  }
-
-  closeModal() {
-    this.isModalOpen = false;
-  }
-
-  closeModalOnBackdrop(event: MouseEvent) {
-    if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
-      this.closeModal();
-    }
-  }
-
-  resetModal() {
-    this.newPollQuestion = '';
-    this.newPollCategory = 'general';
-    this.newPollOptions = ['', ''];
-  }
-
-  addOption() {
-    if (this.newPollOptions.length >= 6) {
-      this.toastService.show('info', '⚠️', 'Máximo atingido', 'Você pode ter no máximo 6 opções.');
-      return;
-    }
-    this.newPollOptions.push('');
-  }
-
-  removeOption(index: number) {
-    if (this.newPollOptions.length <= 2) return;
-    this.newPollOptions.splice(index, 1);
-  }
-
-  createPoll() {
-    const question = this.newPollQuestion.trim();
-    const options = this.newPollOptions.map(o => o.trim()).filter(o => o.length > 0);
-
-    if (!question) {
-      this.toastService.show('info', '⚡', 'Pergunta vazia', 'Escreva uma pergunta para sua enquete.');
-      return;
-    }
-    if (options.length < 2) {
-      this.toastService.show('info', '⚡', 'Poucas opções', 'Adicione pelo menos 2 opções de resposta.');
-      return;
-    }
-
-    const newPoll: Poll = {
-      id: Date.now(),
-      question,
-      category: this.newPollCategory,
-      options: options.map(text => ({ text, votes: 0 })),
-      voted: 0,                       
-      createdAt: Date.now(),
-    };
-
-    this.pollService.addPoll(newPoll);
-    this.closeModal();
-    this.toastService.show('success', '🚀', 'Enquete publicada!', 'Sua enquete está ao vivo no mural.');
-
-    setTimeout(() => {
-      if (isPlatformBrowser(this.platformId)) {
-        document.getElementById('polls-section')?.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 400);
-  }
+  }  
 }

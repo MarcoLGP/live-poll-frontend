@@ -1,11 +1,12 @@
 import { Component, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { NotificationService } from '@services/notification';
 
 @Component({
   selector: 'app-notifications-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './notifications-modal.html',
   styleUrls: ['./notifications-modal.scss']
 })
@@ -41,5 +42,15 @@ export class NotificationsModalComponent {
       groups[n.group].push(n);
     });
     return groups;
+  }
+
+  translateGroup(group: string): string {
+    const map: { [key: string]: string } = {
+      'Hoje': 'NOTIFICATIONS.TODAY',
+      'Ontem': 'NOTIFICATIONS.YESTERDAY',
+      'Esta semana': 'NOTIFICATIONS.THIS_WEEK',
+      'Anterior': 'NOTIFICATIONS.EARLIER'
+    };
+    return map[group] || group;
   }
 }

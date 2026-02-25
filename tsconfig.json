@@ -6,6 +6,9 @@
       "@pages/*": [
         "src/app/pages/*"
       ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
       "@services/*": [
         "src/app/core/services/*"
       ],

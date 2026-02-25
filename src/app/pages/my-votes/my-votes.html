@@ -1,7 +1,13 @@
 <div class="my-votes-view">
   <div class="feed-header">
-    <h1 class="feed-title">Meus <span>Votos</span></h1>
-    <span class="vote-count">{{ votedPolls.length }} participaç{{ votedPolls.length === 1 ? 'ão' : 'ões' }}</span>
+    <h1 class="feed-title">{{ 'MY_VOTES.TITLE' | translate }} <span>{{ 'MY_VOTES.TITLE_SPAN' | translate }}</span></h1>
+    <span class="vote-count">
+      @if (votedPolls.length === 1) {
+        {{ 'MY_VOTES.VOTE_COUNT_SINGULAR' | translate:{ count: votedPolls.length } }}
+      } @else {
+        {{ 'MY_VOTES.VOTE_COUNT_PLURAL' | translate:{ count: votedPolls.length } }}
+      }
+    </span>
   </div>
 
   @if (votedPolls.length === 0) {
@@ -12,18 +18,16 @@
           <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
         </svg>
       </div>
-      <div class="empty-state-title">Nenhum voto ainda</div>
-      <div class="empty-state-sub">
-        Você ainda não votou em nenhuma enquete.<br>Explore o mural público e participe!
-      </div>
+      <div class="empty-state-title">{{ 'MY_VOTES.EMPTY_TITLE' | translate }}</div>
+      <div class="empty-state-sub">{{ 'MY_VOTES.EMPTY_SUB' | translate }}</div>
     </div>
   } @else {
     <div class="votes-grid">
       @for (poll of votedPolls; track poll.id) {
         @let total = getTotalVotes(poll);
-        @let chosenOption = poll.options[poll.voted];
+        @let chosenOption = poll.options[poll.voted!];
         @let pct = calculatePercentage(chosenOption.votes, total);
-        @let catStyle = getCategoryStyle(poll.category);
+        @let catInfo = getCategoryInfo(poll.category);
 
         <div class="vote-record-card">
           <div class="vr-left">
@@ -33,15 +37,19 @@
                 <div class="mini-avatar" [style.background]="poll.color">{{ poll.initials }}</div>
                 {{ poll.author }}
               </div>
-              <span class="sri-cat" [style.background]="catStyle.bg" [style.color]="catStyle.c">
-                {{ poll.category }}
-              </span>
-              <span class="vr-time">{{ poll.time }}</span>
+              @if (catInfo) {
+                <span class="sri-cat" [style.background]="catInfo.bg" [style.color]="catInfo.c">
+                  {{ catInfo.emoji }} {{ catInfo.key | translate }}
+                </span>
+              } @else {
+                <span class="sri-cat">{{ poll.category }}</span>
+              }
+              <span class="vr-time">{{ poll.createdAt | relativeTime }}</span>
             </div>
           </div>
           <div class="vr-chosen">
             <div>
-              <div class="vr-chosen-label">Sua escolha</div>
+              <div class="vr-chosen-label">{{ 'MY_VOTES.YOUR_CHOICE' | translate }}</div>
               <div class="vr-chosen-text">{{ chosenOption.text }}</div>
             </div>
             <div class="vr-chosen-pct">{{ pct }}%</div>

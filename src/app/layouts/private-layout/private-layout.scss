@@ -182,8 +182,12 @@
   width: 100%;
 }
 
-/* ─── SIDEBAR ────────────────────────────────────────── */
 .sidebar {
+  position: sticky;
+  top: calc(64px + 16px);
+  align-self: flex-start;
+  max-height: calc(100vh - (64px + 32px));
+  overflow-y: auto;
   width: 240px;
   flex-shrink: 0;
   display: flex;
@@ -326,8 +330,12 @@
   min-width: 0;
 }
 
-/* ─── RIGHT PANEL ────────────────────────────────────── */
 .right-panel {
+  position: sticky;
+  top: calc(64px + 16px);
+  align-self: flex-start;
+  max-height: calc(100vh - (64px + 32px));
+  overflow-y: auto;
   width: 260px;
   flex-shrink: 0;
 
@@ -489,9 +497,8 @@
 
 .language-switcher {
   display: flex;
-  align-items: center;
   gap: 4px;
-  margin-left: 12px;
+  margin-right: 8px;
 
   .lang-btn {
     background: none;
@@ -507,9 +514,7 @@
     img {
       display: block;
       border-radius: 3px;
-      object-fit: cover;
-      width: 24px;
-      height: 16px;
+      object-fit: contain;
     }
 
     &:hover {

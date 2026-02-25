@@ -1,76 +1,92 @@
 @if (isOpen()) {
-  <div class="modal-overlay" (click)="$event.target === $event.currentTarget && closeModal()">
-    <div class="modal">
-      <div class="modal-header">
-        <div>
-          <div class="modal-title">{{ 'CREATE_MODAL.TITLE' | translate }}</div>
-          <div class="modal-sub">{{ 'CREATE_MODAL.SUBTITLE' | translate }}</div>
-        </div>
-        <button class="modal-close" (click)="closeModal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
+<div class="modal-overlay" (click)="$event.target === $event.currentTarget && closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">{{ 'CREATE_MODAL.TITLE' | translate }}</div>
+        <div class="modal-sub">{{ 'CREATE_MODAL.SUBTITLE' | translate }}</div>
+      </div>
+      <button class="modal-close" (click)="closeModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-field">
+        <label class="modal-label">
+          {{ 'CREATE_MODAL.QUESTION_LABEL' | translate }}
+          <span>{{ 'CREATE_MODAL.MAX_CHARS_HINT' | translate }}</span>
+        </label>
+        <input type="text" class="modal-input" [(ngModel)]="question" maxlength="120"
+          [placeholder]="'CREATE_MODAL.QUESTION_PLACEHOLDER' | translate">
       </div>
 
-      <div class="modal-body">
-        <!-- Pergunta -->
-        <div class="modal-field">
-          <label class="modal-label">{{ 'CREATE_MODAL.QUESTION_LABEL' | translate }} <span>máx. 120 caracteres</span></label>
-          <input type="text" class="modal-input" [(ngModel)]="question" maxlength="120" [placeholder]="'CREATE_MODAL.QUESTION_PLACEHOLDER' | translate">
-        </div>
+      <div class="modal-field">
+        <label class="modal-label">{{ 'CREATE_MODAL.CATEGORY_LABEL' | translate }}</label>
+        <select class="setting-select" [(ngModel)]="category">
+          @for (cat of categories; track cat.key) {
+          <option [value]="cat.key">{{ cat.emoji }} {{ cat.key | translate }}</option>
+          }
+        </select>
+      </div>
 
-        <!-- Categoria -->
-        <div class="modal-field">
-          <label class="modal-label">{{ 'CREATE_MODAL.CATEGORY_LABEL' | translate }}</label>
-          <select class="setting-select" [(ngModel)]="category">
-            @for (cat of categories; track cat) {
-              <option [value]="cat">{{ cat }}</option>
-            }
-          </select>
-        </div>
-
-        <!-- Opções -->
-        <div class="modal-field">
-          <label class="modal-label">{{ 'CREATE_MODAL.OPTIONS_LABEL' | translate }}</label>
-          <div class="options-list">
-            @for (opt of options; track $index; let i = $index) {
-              <div class="option-row">
-                <span class="option-drag">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A5578" stroke-width="2">
-                    <circle cx="9" cy="5" r="1.5" fill="#4A5578"/><circle cx="15" cy="5" r="1.5" fill="#4A5578"/>
-                    <circle cx="9" cy="12" r="1.5" fill="#4A5578"/><circle cx="15" cy="12" r="1.5" fill="#4A5578"/>
-                    <circle cx="9" cy="19" r="1.5" fill="#4A5578"/><circle cx="15" cy="19" r="1.5" fill="#4A5578"/>
-                  </svg>
-                </span>
-                <div class="option-input-wrap">
-                  <span class="option-num">{{ getLetter(i) }}</span>
-                  <input class="option-input" [(ngModel)]="options[i]" [placeholder]="('CREATE_MODAL.OPTION_PLACEHOLDER' | translate).replace('{letter}', getLetter(i))" maxlength="60">
-                </div>
-                @if (options.length > minOptions) {
-                  <button class="option-remove" (click)="removeOption(i)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                  </button>
-                } @else {
-                  <span style="width:32px;"></span>
-                }
-              </div>
+      <div class="modal-field">
+        <label class="modal-label">{{ 'CREATE_MODAL.OPTIONS_LABEL' | translate }}</label>
+        <div class="options-list" cdkDropList (cdkDropListDropped)="drop($event)">
+          @for (opt of options; track $index; let i = $index) {
+          <div class="option-row" cdkDrag>
+            <div class="option-drag" cdkDragHandle>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A5578" stroke-width="2">
+                <circle cx="9" cy="5" r="1.5" fill="#4A5578" />
+                <circle cx="15" cy="5" r="1.5" fill="#4A5578" />
+                <circle cx="9" cy="12" r="1.5" fill="#4A5578" />
+                <circle cx="15" cy="12" r="1.5" fill="#4A5578" />
+                <circle cx="9" cy="19" r="1.5" fill="#4A5578" />
+                <circle cx="15" cy="19" r="1.5" fill="#4A5578" />
+              </svg>
+            </div>
+            <div class="option-input-wrap">
+              <span class="option-num">{{ getLetter(i) }}</span>
+              <input class="option-input" [(ngModel)]="options[i]"
+                [placeholder]="('CREATE_MODAL.OPTION_PLACEHOLDER' | translate).replace('{letter}', getLetter(i))"
+                maxlength="60">
+            </div>
+            @if (options.length > minOptions) {
+            <button class="option-remove" (click)="removeOption(i)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            } @else {
+            <span style="width:32px;"></span>
             }
           </div>
-          <button class="add-option-btn" (click)="addOption()" [disabled]="options.length >= maxOptions">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            {{ 'CREATE_MODAL.ADD_OPTION' | translate }}
-          </button>
+          }
         </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-secondary" (click)="closeModal()">{{ 'CREATE_MODAL.CANCEL' | translate }}</button>
-        <button class="btn-publish" (click)="publish()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-          {{ 'CREATE_MODAL.PUBLISH' | translate }}
+        <button class="add-option-btn" (click)="addOption()" [disabled]="options.length >= maxOptions">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          {{ 'CREATE_MODAL.ADD_OPTION' | translate }}
         </button>
       </div>
     </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()">{{ 'CREATE_MODAL.CANCEL' | translate }}</button>
+      <button class="btn-publish" (click)="publish()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 2L11 13" />
+          <path d="M22 2L15 22 11 13 2 9l20-7z" />
+        </svg>
+        {{ 'CREATE_MODAL.PUBLISH' | translate }}
+      </button>
+    </div>
   </div>
+</div>
 }

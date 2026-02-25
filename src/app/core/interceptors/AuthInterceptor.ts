@@ -13,9 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Não adiciona token para a requisição de refresh (evita loops)
     if (req.url.includes('/auth/refresh')) {
-      console.log('Requisição de refresh detectada, não adicionando token');
       return next.handle(req);
     }
 
@@ -47,25 +45,22 @@ export class AuthInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           if (response?.accessToken) {
             this.refreshTokenSubject.next(response.accessToken);
-            // Reexecuta a requisição original com o novo token
             const newReq = req.clone({
               headers: req.headers.set('Authorization', `Bearer ${response.accessToken}`)
             });
             return next.handle(newReq);
           } else {
-            // Se não veio token, faz logout
             this.authService.logout();
             return throwError(() => new Error('Refresh token failed'));
           }
         }),
         catchError((err) => {
           this.isRefreshing = false;
-          this.authService.logout(); // Logout local e redireciona
+          this.authService.logout();
           return throwError(() => err);
         })
       );
     } else {
-      // Aguarda o novo token
       return this.refreshTokenSubject.pipe(
         filter(token => token !== null),
         take(1),

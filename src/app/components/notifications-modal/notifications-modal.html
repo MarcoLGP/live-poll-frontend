@@ -2,17 +2,17 @@
 <div class="notif-modal-overlay" (click)="onBackdropClick($event)">
   <div class="notif-modal">
 
-    <!-- Header -->
     <div class="notif-header">
       <div class="notif-header-left">
-        <span class="notif-header-title">Notificações</span>
+        <span class="notif-header-title">{{ 'NOTIFICATIONS.TITLE' | translate }}</span>
         <span class="notif-unread-pill" [class.has-unread]="notificationService.unreadCount() > 0">
           {{ notificationService.unreadCount() }}
         </span>
       </div>
       <div class="notif-header-actions">
         @if (notificationService.unreadCount() > 0) {
-        <button class="notif-action-btn" (click)="markAllAsRead()">Marcar todas como lidas</button>
+        <button class="notif-action-btn" (click)="markAllAsRead()">{{ 'NOTIFICATIONS.MARK_ALL_AS_READ' | translate
+          }}</button>
         }
         <button class="notif-close-btn" (click)="closeModal()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -23,7 +23,6 @@
       </div>
     </div>
 
-    <!-- Body -->
     <div class="notif-body">
       @if (notificationService.notifications().length === 0) {
       <div class="notif-empty">
@@ -33,13 +32,13 @@
             <path d="M13.73 21a2 2 0 0 1-3.46 0" />
           </svg>
         </div>
-        <div class="notif-empty-title">Tudo em dia!</div>
-        <div class="notif-empty-sub">Nenhuma notificação no momento.</div>
+        <div class="notif-empty-title">{{ 'NOTIFICATIONS.EMPTY_TITLE' | translate }}</div>
+        <div class="notif-empty-sub">{{ 'NOTIFICATIONS.EMPTY_SUB' | translate }}</div>
       </div>
       } @else {
       @for (group of getGroupedNotifications() | keyvalue; track group.key) {
       <div class="notif-date-group">
-        <div class="notif-date-label">{{ group.key }}</div>
+        <div class="notif-date-label">{{ translateGroup(group.key) | translate }}</div>
       </div>
       @for (notif of group.value; track notif.id) {
       <div class="notif-item" [class.unread]="notif.unread">
@@ -51,7 +50,10 @@
           </div>
           } @else {
           <div class="notif-icon-wrap" [class]="notif.type">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" />
+            </svg>
           </div>
           }
         </div>
@@ -65,7 +67,8 @@
             <div class="notif-progress-fill" [style.width.%]="(notif.progress / (notif.progressMax || 100)) * 100">
             </div>
           </div>
-          <div class="notif-progress-label">{{ notif.progress }} / {{ notif.progressMax }} votos</div>
+          <div class="notif-progress-label">{{ notif.progress }} / {{ notif.progressMax }} {{ 'NOTIFICATIONS.VOTES' |
+            translate }}</div>
           }
           <div class="notif-time">{{ notif.time }}</div>
         </div>

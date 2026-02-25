@@ -1,9 +1,7 @@
-<!-- AMBIENT ORBS -->
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 <div class="orb orb-3"></div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-badge">
     {{ 'HERO.BADGE' | translate }}
@@ -14,7 +12,7 @@
   <p class="hero-sub" [innerHTML]="'HERO.SUBTITLE' | translate"></p>
 
   <div class="hero-actions">
-    <button class="btn-amber" (click)="openModal()">
+    <button class="btn-amber" routerLink="/login">
       {{ 'HERO.CREATE' | translate }}
     </button>
     <button class="btn-ghost" (click)="scrollToPolls()">
@@ -28,7 +26,6 @@
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
 <div class="section-divider"></div>
 
 <section>
@@ -69,7 +66,6 @@
 
 <div class="section-divider"></div>
 
-<!-- POLLS SECTION -->
 <section id="polls-section">
   <div class="section-header">
     <div>
@@ -125,60 +121,7 @@
 
 <div class="section-divider"></div>
 
-<!-- FOOTER -->
 <app-footer></app-footer>
 
-<!-- CREATE POLL MODAL -->
-@if (isModalOpen) {
-  <div class="modal-backdrop open" (click)="closeModalOnBackdrop($event)">
-    <div class="modal">
-      <button class="modal-close" (click)="closeModal()">✕</button>
-      <h2 class="modal-title">{{ 'CREATE_MODAL.TITLE' | translate }}</h2>
-      <p class="modal-sub">{{ 'CREATE_MODAL.SUBTITLE' | translate }}</p>
-
-      <div class="form-group">
-        <label class="form-label">{{ 'CREATE_MODAL.QUESTION_LABEL' | translate }}</label>
-        <input type="text" class="form-input" [(ngModel)]="newPollQuestion" [placeholder]="'CREATE_MODAL.QUESTION_PLACEHOLDER' | translate" maxlength="120">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">{{ 'CREATE_MODAL.CATEGORY_LABEL' | translate }}</label>
-        <select class="form-input form-select" [(ngModel)]="newPollCategory">
-          <option value="general">{{ 'CREATE_MODAL.CATEGORY_GENERAL' | translate }}</option>
-          <option value="tech">{{ 'CREATE_MODAL.CATEGORY_TECH' | translate }}</option>
-          <option value="life">{{ 'CREATE_MODAL.CATEGORY_LIFE' | translate }}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">{{ 'CREATE_MODAL.OPTIONS_LABEL' | translate }}</label>
-        <div class="options-list" id="optionsList">
-          @for (opt of newPollOptions; track $index; let i = $index) {
-            <div class="option-input-row">
-              <div class="option-num">{{ getLetter(i) }}</div>
-              <input type="text" class="form-input" style="flex:1"
-                     [(ngModel)]="newPollOptions[i]"
-                     [placeholder]="('CREATE_MODAL.OPTION_PLACEHOLDER' | translate).replace('{letter}', getLetter(i))"
-                     maxlength="60">
-              <button class="btn-remove" (click)="removeOption(i)" [style.opacity]="newPollOptions.length <= 2 ? 0 : 1" [style.pointerEvents]="newPollOptions.length <= 2 ? 'none' : 'auto'">✕</button>
-            </div>
-          }
-        </div>
-        <button class="btn-add-option" (click)="addOption()">
-          + {{ 'CREATE_MODAL.ADD_OPTION' | translate }}
-        </button>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-ghost" (click)="closeModal()">{{ 'CREATE_MODAL.CANCEL' | translate }}</button>
-        <button class="btn-primary" style="padding:12px 28px; font-size:15px;" (click)="createPoll()">
-          {{ 'CREATE_MODAL.PUBLISH' | translate }}
-        </button>
-      </div>
-    </div>
-  </div>
-}
-
-<!-- TOAST & CONFETTI -->
-<app-toast></app-toast>
 <app-confetti></app-confetti>
+<app-toast></app-toast>

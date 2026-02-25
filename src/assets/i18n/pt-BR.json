@@ -3,15 +3,33 @@
     "VIEW_POLLS": "Ver Enquetes",
     "CREATE_POLL": "Criar Enquete",
     "LOGIN": "Entrar",
-    "MY_POLLS": "Minhas Enquetes"
+    "MY_POLLS": "Minhas Enquetes",
+    "SETTINGS": "Configurações",
+    "LOGOUT": "Sair",
+    "TRENDING": "🔥 Em Alta",
+    "SEARCH_TITLE": "Buscar enquetes",
+    "REGISTER": "Registrar"
   },
   "HERO": {
     "BADGE": "✦ Plataforma de Votação em Tempo Real",
     "TITLE": "Crie enquetes.<br>Colete <span class=\"grad\">votos</span> agora.",
-    "SUBTITLE": "Enquetes instantâneas, resultados ao vivo e experiência visual que engaja.<br>Sem cadastro, sem complicação.",
+    "SUBTITLE": "Enquetes instantâneas, resultados ao vivo e experiência visual.",
     "CREATE": "✦ Criar Minha Enquete",
     "SCROLL_HINT": "Rolar",
     "EXPLORE": "Explorar Enquetes →"
+  },
+  "DASHBOARD": {
+    "TITLE": "Mural",
+    "TITLE_SPAN": "Público",
+    "FILTER_RECENT": "Mais recente",
+    "FILTER_TOP": "Mais votos"
+  },
+  "SIDEBAR": {
+    "NAVIGATION": "Navegação",
+    "PUBLIC_BOARD": "Mural Público",
+    "MY_VOTES": "Meus Votos",
+    "EXPLORE": "Explorar",
+    "SEARCH": "Buscar"
   },
   "HOW_IT_WORKS": {
     "LABEL": "Como funciona",
@@ -41,15 +59,158 @@
     "SHARE": "Compartilhar",
     "BOOKMARK": "Salvar"
   },
+  "MY_POLLS": {
+    "TITLE": "Minhas",
+    "TITLE_SPAN": "Enquetes",
+    "EMPTY_TITLE": "Nenhuma enquete criada",
+    "EMPTY_SUB": "Crie sua primeira enquete e compartilhe com a comunidade!",
+    "STATS_TOTAL_VOTES": "Votos totais",
+    "STATS_OPTIONS": "Opções",
+    "STATS_VOTED": "Votei?",
+    "ACTION_CLOSE": "Encerrar",
+    "ACTION_REOPEN": "Reabrir",
+    "ACTION_DELETE": "Excluir"
+  },
+  "SETTINGS": {
+    "TITLE": "Configurações",
+    "SUBTITLE": "Gerencie sua conta, privacidade e preferências",
+    "TABS": {
+      "PROFILE": "Perfil",
+      "PRIVACY": "Privacidade",
+      "ACCOUNT": "Conta"
+    },
+    "PROFILE": {
+      "AVATAR_SECTION": "Foto de Perfil",
+      "AVATAR_HINT": "Escolha uma cor para seu avatar",
+      "PERSONAL_INFO": "Informações Pessoais",
+      "USERNAME": {
+        "LABEL": "Nome de usuário",
+        "DESC": "Seu nome público nas enquetes",
+        "EDIT": "Editar"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "DESC": "Usado para login e notificações",
+        "EDIT": "Editar"
+      }
+    },
+    "PRIVACY": {
+      "TITLE": "Privacidade de Dados",
+      "COOKIES": {
+        "LABEL": "Armazenamento de Cookies",
+        "DESC": "Necessário para restaurar sua seção"
+      },
+      "COMPLIANCE": {
+        "LABEL": "Status de conformidade",
+        "DESC": "LGPD / GDPR",
+        "BADGE": "Conforme"
+      }
+    },
+    "ACCOUNT": {
+      "SECURITY_TITLE": "Segurança",
+      "PASSWORD": {
+        "LABEL": "Senha",
+        "DESC": "Mudar sua senha",
+        "EDIT": "Alterar"
+      },
+      "DANGER_ZONE": "Zona de Risco",
+      "DELETE_ACCOUNT": {
+        "LABEL": "Excluir conta",
+        "DESC": "Remove permanentemente todos os seus dados e enquetes. Ação irreversível.",
+        "BUTTON": "Excluir conta"
+      }
+    },
+    "UNSAVED_CHANGES": "Alterações não salvas serão descartadas ao fechar",
+    "SAVE_BUTTON": "Salvar alterações",
+    "SUBMODALS": {
+      "EDIT_USERNAME": {
+        "TITLE": "Editar nome de usuário",
+        "PLACEHOLDER": "Novo nome de usuário",
+        "CANCEL": "Cancelar",
+        "SAVE": "Salvar"
+      },
+      "EDIT_EMAIL": {
+        "TITLE": "Editar e-mail",
+        "PLACEHOLDER": "Novo e-mail",
+        "CANCEL": "Cancelar",
+        "SAVE": "Salvar"
+      },
+      "EDIT_PASSWORD": {
+        "TITLE": "Alterar senha",
+        "CURRENT": "Senha atual",
+        "NEW": "Nova senha",
+        "CONFIRM": "Confirmar nova senha",
+        "CANCEL": "Cancelar",
+        "SAVE": "Salvar"
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Excluir conta",
+        "MESSAGE": "Tem certeza? Esta ação é irreversível e todos os seus dados serão removidos.",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Excluir permanentemente"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notificações",
+    "MARK_ALL_AS_READ": "Marcar todas como lidas",
+    "EMPTY_TITLE": "Tudo em dia!",
+    "EMPTY_SUB": "Nenhuma notificação no momento.",
+    "VOTES": "votos",
+    "JUST_NOW": "agora mesmo",
+    "MINUTES_AGO": "{{count}} minutos atrás",
+    "HOURS_AGO": "{{count}} horas atrás",
+    "YESTERDAY": "Ontem",
+    "TODAY": "Hoje",
+    "THIS_WEEK": "Esta semana",
+    "EARLIER": "Anterior"
+  },
+  "MY_VOTES": {
+    "TITLE": "Meus",
+    "TITLE_SPAN": "Votos",
+    "VOTE_COUNT_SINGULAR": "{{count}} participação",
+    "VOTE_COUNT_PLURAL": "{{count}} participações",
+    "EMPTY_TITLE": "Nenhum voto ainda",
+    "EMPTY_SUB": "Você ainda não votou em nenhuma enquete. Explore o mural público e participe!",
+    "YOUR_CHOICE": "Sua escolha"
+  },
+  "SEARCH_MODAL": {
+    "PLACEHOLDER": "Buscar enquetes, tópicos ou autores...",
+    "CLOSE": "Fechar",
+    "EMPTY_TITLE": "Busque no LivePoll",
+    "EMPTY_SUB": "Encontre enquetes por pergunta, categoria ou autor",
+    "POPULAR_CATEGORIES": "Categorias populares",
+    "RESULTS": "Resultados",
+    "RESULT_COUNT_SINGULAR": "{{count}} encontrado",
+    "RESULT_COUNT_PLURAL": "{{count}} encontrados",
+    "BY": "por",
+    "NO_RESULTS_TITLE": "Nenhum resultado",
+    "NO_RESULTS_SUB": "Tente outros termos ou categorias"
+  },
+  "TIME": {
+    "JUST_NOW": "agora mesmo",
+    "MINUTE_AGO": "{{count}} minuto atrás",
+    "MINUTES_AGO": "{{count}} minutos atrás",
+    "HOUR_AGO": "{{count}} hora atrás",
+    "HOURS_AGO": "{{count}} horas atrás",
+    "DAY_AGO": "{{count}} dia atrás",
+    "DAYS_AGO": "{{count}} dias atrás"
+  },
+  "CATEGORIES": {
+    "TECH": "Tecnologia",
+    "GAMES": "Games",
+    "MUSIC": "Música",
+    "SPORTS": "Esportes",
+    "FOOD": "Comida",
+    "GENERAL": "Geral"
+  },
   "CREATE_MODAL": {
+    "CATEGORY_LABEL": "Categoria",
     "TITLE": "Criar Enquete",
     "SUBTITLE": "Sua enquete vai aparecer no mural público em tempo real.",
     "QUESTION_LABEL": "Pergunta",
+    "MAX_CHARS_HINT": "máx. 120 caracteres",
     "QUESTION_PLACEHOLDER": "O que você quer perguntar?",
-    "CATEGORY_LABEL": "Categoria",
-    "CATEGORY_GENERAL": "Geral",
-    "CATEGORY_TECH": "Tecnologia",
-    "CATEGORY_LIFE": "Estilo de Vida",
     "OPTIONS_LABEL": "Opções",
     "OPTION_PLACEHOLDER": "Opção {letter}",
     "ADD_OPTION": "+ Adicionar Opção",
@@ -78,6 +239,17 @@
     "WELCOME_BACK": "Bem-vindo de volta",
     "LOGIN_SUBTITLE": "Faça login para criar e votar em enquetes em tempo real.",
     "EMAIL_LABEL": "E-mail",
+    "USERNAME_REQUIRED": "Nome de usuário é obrigatório",
+    "USERNAME_MINLENGTH": "Nome de usuário deve ter no mínimo 3 caracteres",
+    "EMAIL_REQUIRED": "E-mail é obrigatório",
+    "EMAIL_INVALID": "Formato de e-mail inválido",
+    "CONFIRM_PASSWORD_MISMATCH": "As senhas não coincidem",
+    "USERNAME_OR_EMAIL_REQUIRED": "E-mail ou usuário é obrigatório",
+    "PASSWORD_REQUIRED": "Senha é obrigatória",
+    "PASSWORD_MINLENGTH": "A senha deve ter no mínimo 6 caracteres",
+    "USERNAME_PLACEHOLDER": "email@email.com ou usuário",
+    "LOGIN_ERROR_INVALID": "Credenciais inválidas. Tente novamente.",
+    "LOGIN_ERROR_SERVER": "Erro no servidor. Tente mais tarde.",
     "PASSWORD_LABEL": "Senha",
     "LOGIN_BUTTON": "Entrar na plataforma",
     "DEMO_HINT": "Não tem conta? <span>Criar conta grátis</span>",

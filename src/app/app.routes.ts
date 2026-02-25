@@ -7,6 +7,7 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout';
 import { PrivateLayoutComponent } from './layouts/private-layout/private-layout';
 import { MyPollsComponent } from '@pages/my-polls/my-polls';
 import { MyVotesComponent } from '@pages/my-votes/my-votes';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     component: PrivateLayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'my-polls', component: MyPollsComponent },

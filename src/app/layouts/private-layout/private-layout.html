@@ -44,8 +44,8 @@
                 </div>
                 @if (isOpen) {
                 <div class="dropdown-menu">
-                    <button (click)="goToSettings()">Configurações</button>
-                    <button (click)="logout()">Sair</button>
+                    <button (click)="goToSettings()">{{ 'NAV.SETTINGS' | translate }}</button>
+                    <button (click)="logout()">{{ 'NAV.LOGOUT' | translate }}</button>
                 </div>
                 }
             </div>
@@ -73,33 +73,34 @@
                         <rect x="14" y="14" width="7" height="7" />
                         <rect x="3" y="14" width="7" height="7" />
                     </svg>
-                    Mural Público
+                    {{ 'SIDEBAR.PUBLIC_BOARD' | translate }}
                     <span class="sidebar-badge">{{ 10 }}</span>
+                </a>
+                <a class="sidebar-link" routerLink="/my-polls" routerLinkActive="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="20" x2="12" y2="10" />
+                        <line x1="18" y1="20" x2="18" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="16" />
+                    </svg>
+                    {{ 'NAV.MY_POLLS' | translate }}
                 </a>
                 <a class="sidebar-link" routerLink="/my-votes" routerLinkActive="active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 11 12 14 22 4" />
                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                     </svg>
-                    Meus Votos
+                    {{ 'SIDEBAR.MY_VOTES' | translate }}
                 </a>
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-label">Explorar</div>
-                <a class="sidebar-link" routerLink="/trending" routerLinkActive="active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path
-                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                    </svg>
-                    Em Alta
-                </a>
+                <div class="sidebar-label">{{ 'SIDEBAR.EXPLORE' | translate }}</div>
                 <div (click)="openSearch()" class="sidebar-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
-                    Buscar
+                    {{ 'SIDEBAR.SEARCH' | translate }}
                 </div>
             </div>
         </aside>
@@ -107,6 +108,21 @@
         <main class="main-content">
             <router-outlet></router-outlet>
         </main>
+
+        <aside class="right-panel">
+            <div class="panel-card">
+                <div class="panel-title">{{ 'NAV.TRENDING' | translate }}</div>
+                @for (item of trending; track item.rank) {
+                <div class="trend-item">
+                    <span class="trend-rank">{{ item.rank }}</span>
+                    <div>
+                        <div class="trend-text">{{ item.question }}</div>
+                        <div class="trend-votes">{{ item.votes }} {{ 'POLL_CARD.VOTES' | translate }}</div>
+                    </div>
+                </div>
+                }
+            </div>
+        </aside>
     </div>
 </div>
 
