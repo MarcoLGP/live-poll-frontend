@@ -8,7 +8,7 @@ import { categoryMap } from '@shared/constants/categories';
 @Component({
   selector: 'app-my-votes',
   standalone: true,
-  imports: [TranslatePipe, DecimalPipe, RelativeTimePipe],
+  imports: [TranslatePipe, RelativeTimePipe],
   templateUrl: './my-votes.html',
   styleUrls: ['./my-votes.scss']
 })

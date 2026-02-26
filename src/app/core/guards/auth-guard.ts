@@ -1,26 +1,24 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@services/auth';
-import { AppInitService } from '@services/app-init';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, map, take } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (_, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const appInit = inject(AppInitService);
 
-  return toObservable(appInit.isInitialized).pipe(
-    filter(initialized => initialized === true),
-    take(1),
-    map(() => {
-      console.log(authService)
-      if (authService.isLoggedIn()) {
-        return true;
-      }
-      return router.createUrlTree(['/login'], {
+  if (authService.isLoggedIn()) {
+    return true;
+  }
+
+  return authService.refreshToken().pipe(
+    map(() => true),
+    catchError((err) => {
+      console.error('[AuthGuard] refresh token falhou', err);
+      return of(router.createUrlTree(['/login'], {
         queryParams: { returnUrl: state.url }
-      });
+      }));
     })
   );
 };

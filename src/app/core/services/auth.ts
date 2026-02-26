@@ -41,12 +41,11 @@ export class AuthService {
     return this.api.post<AccessTokenResponse>('auth/refresh', {}).pipe(
       tap({
         next: (response) => {
-          console.log('[AuthService] refresh bem-sucedido', response);
-          this.handleAuthResponse(response);
+          this.tokenService.setToken(response.accessToken);
+          this._isLoggedInSignal.set(true);
+          if (response.user) this.userSignal.set(response.user);
         },
-        error: (err) => {
-          console.error('[AuthService] refresh falhou', err);
-        }
+        error: () => this._isLoggedInSignal.set(false)
       })
     );
   }
@@ -61,7 +60,6 @@ export class AuthService {
   }
 
   private handleAuthResponse(response: AccessTokenResponse): void {
-    console.log('[AuthService] handleAuthResponse', response);
     this.tokenService.setToken(response.accessToken);
     if (response.user) {
       this.userSignal.set(response.user);

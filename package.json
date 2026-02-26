@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --ssl true --ssl-key ./localhost-key.pem --ssl-cert ./localhost.pem",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:live-poll-frontend": "node dist/live-poll-frontend/server/server.mjs"
@@ -49,6 +48,7 @@
     "@angular/compiler-cli": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "cross-env": "^10.1.0",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"

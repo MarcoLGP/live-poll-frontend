@@ -13,22 +13,23 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    req = req.clone({ withCredentials: true });
+
     if (req.url.includes('/auth/refresh')) {
-      return next.handle(req);
+      return next.handle(req); 
     }
 
-    let authReq = req;
     const token = this.tokenService.getToken();
     if (token) {
-      authReq = req.clone({
+      req = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`)
       });
     }
 
-    return next.handle(authReq).pipe(
+    return next.handle(req).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(authReq, next);
+          return this.handle401Error(req, next);
         }
         return throwError(() => error);
       })
