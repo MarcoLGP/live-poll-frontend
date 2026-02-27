@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { ApiService } from './baseApi';
+import { ApiService } from './base-api';
 import { TokenService } from './token-service';
 
 export interface RegisterDTO { username: string; email: string; password: string; }
