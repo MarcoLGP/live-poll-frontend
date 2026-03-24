@@ -1,21 +1,34 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@services/auth';
-import { map, catchError } from 'rxjs/operators';
+import { UserService } from '@services/user';
+import { FeedSseService } from '@sse/feed-sse';
+import { map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { NotificationSseService } from '@sse/notification-sse';
 
 export const authGuard: CanActivateFn = (_, state) => {
   const authService = inject(AuthService);
+  const userService = inject(UserService);
+  const feedSse = inject(FeedSseService);
+  const notificationSse = inject(NotificationSseService);
   const router = inject(Router);
 
   if (authService.isLoggedIn()) {
+    feedSse.connect();
+    notificationSse.connect();      
+    userService.loadUserProfile();
     return true;
   }
 
   return authService.refreshToken().pipe(
     map(() => true),
-    catchError((err) => {
-      console.error('[AuthGuard] refresh token falhou', err);
+    tap(() => {
+      feedSse.connect();
+      notificationSse.connect();    
+      userService.loadUserProfile();
+    }),
+    catchError(() => {
       return of(router.createUrlTree(['/login'], {
         queryParams: { returnUrl: state.url }
       }));

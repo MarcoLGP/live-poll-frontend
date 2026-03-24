@@ -3,30 +3,38 @@
     <h1 class="feed-title">{{ 'MY_POLLS.TITLE' | translate }} <span>{{ 'MY_POLLS.TITLE_SPAN' | translate }}</span></h1>
   </div>
 
-  @if (hasNoPolls) {
-    <div class="empty-state">
-      <div class="empty-state-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-      </div>
-      <div class="empty-state-title">{{ 'MY_POLLS.EMPTY_TITLE' | translate }}</div>
-      <div class="empty-state-sub">{{ 'MY_POLLS.EMPTY_SUB' | translate }}</div>
+  @if (myPollsService.loading() && polls().length === 0) {
+    <div class="skeleton-grid">
+      @for (item of [1,2,3]; track $index) {
+        <div class="skeleton-card">
+          <div class="skeleton-header">
+            <div class="skeleton-line" style="width: 70%; height: 20px;"></div>
+            <div class="skeleton-line" style="width: 20%; height: 20px;"></div>
+          </div>
+          <div class="skeleton-stats">
+            <div class="skeleton-line" style="width: 100%; height: 60px;"></div>
+          </div>
+          <div class="skeleton-options">
+            <div class="skeleton-line" style="width: 100%; height: 8px; margin-bottom: 8px;"></div>
+            <div class="skeleton-line" style="width: 100%; height: 8px; margin-bottom: 8px;"></div>
+            <div class="skeleton-line" style="width: 100%; height: 8px;"></div>
+          </div>
+        </div>
+      }
     </div>
-  } @else {
+  }
+
+  @if (!myPollsService.loading() && polls().length > 0) {
     <div class="my-polls-grid">
-      @for (poll of myPolls; track poll.id) {
-        @let total = getTotalVotes(poll);
+      @for (poll of polls(); track poll.id) {
+        @let total = poll.totalVotes;
         @let catInfo = getCategoryInfo(poll.category);
         <div class="my-poll-card">
           <div class="mpc-header">
-            <div class="mpc-question">{{ poll.question }}</div>
+            <div class="mpc-question">{{ poll.title }}</div>
             <div class="mpc-status">
-              <span class="card-badge" [class.badge-live]="poll.live" [class.badge-closed]="!poll.live">
-                @if (poll.live) {
+              <span class="card-badge" [class.badge-live]="poll.active" [class.badge-closed]="!poll.active">
+                @if (poll.active) {
                   <span class="badge-dot"></span><span>{{ 'POLL_CARD.LIVE' | translate }}</span>
                 } @else {
                   <span>✓ {{ 'POLL_CARD.CLOSED' | translate }}</span>
@@ -51,13 +59,13 @@
               <div class="mpc-stat-key">{{ 'MY_POLLS.STATS_OPTIONS' | translate }}</div>
             </div>
             <div class="mpc-stat">
-              <div class="mpc-stat-val" style="color:var(--green)">{{ poll.voted !== null ? '✓' : '—' }}</div>
+              <div class="mpc-stat-val" style="color:var(--green)">{{ poll.myVotedOptionId !== null ? '✓' : '—' }}</div>
               <div class="mpc-stat-key">{{ 'MY_POLLS.STATS_VOTED' | translate }}</div>
             </div>
           </div>
           <div class="mpc-bar-list">
-            @for (opt of poll.options; track $index) {
-              @let pct = calculatePercentage(opt.votes, total);
+            @for (opt of poll.options; track opt.id) {
+              @let pct = opt.percentage ?? calculatePercentage(opt.votes, total);
               <div class="mpc-bar-item">
                 <span class="mpc-bar-label">{{ opt.text }}</span>
                 <div class="mpc-bar-track">
@@ -76,7 +84,7 @@
               {{ poll.createdAt | relativeTime }}
             </span>
             <div class="mpc-actions">
-              @if (poll.live) {
+              @if (poll.active) {
                 <button class="btn-mpc" (click)="togglePollStatus(poll)">{{ 'MY_POLLS.ACTION_CLOSE' | translate }}</button>
               } @else {
                 <button class="btn-mpc" (click)="togglePollStatus(poll)">{{ 'MY_POLLS.ACTION_REOPEN' | translate }}</button>
@@ -86,6 +94,32 @@
           </div>
         </div>
       }
+    </div>
+  }
+
+  @if (!myPollsService.loading() && polls().length === 0) {
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+      </div>
+      <div class="empty-state-title">{{ 'MY_POLLS.EMPTY_TITLE' | translate }}</div>
+      <div class="empty-state-sub">{{ 'MY_POLLS.EMPTY_SUB' | translate }}</div>
+    </div>
+  }
+
+  @if (myPollsService.hasMore && !myPollsService.loading()) {
+    <div class="load-more">
+      <button class="btn-load-more" (click)="loadMore()">{{ 'COMMON.LOAD_MORE' | translate }}</button>
+    </div>
+  }
+  @if (myPollsService.loading() && polls().length > 0) {
+    <div class="load-more">
+      <div class="loading-spinner"></div>
     </div>
   }
 </div>

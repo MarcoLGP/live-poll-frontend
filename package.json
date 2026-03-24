@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ssl true --ssl-key ./localhost-key.pem --ssl-cert ./localhost.pem",
+    "start": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:live-poll-frontend": "node dist/live-poll-frontend/server/server.mjs"
@@ -38,6 +38,7 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "express": "^5.1.0",
+    "ngx-sse-client": "^20.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

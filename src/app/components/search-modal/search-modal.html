@@ -8,7 +8,7 @@
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
-        <input type="text" class="search-input" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+        <input type="text" class="search-input" [(ngModel)]="searchQuery" (keyup.enter)="onSearchEnter()"
           [placeholder]="'SEARCH_MODAL.PLACEHOLDER' | translate" autocomplete="off">
         @if (searchQuery) {
         <button class="search-clear-btn" (click)="clearSearch()">
@@ -23,7 +23,8 @@
     </div>
     <div class="search-body">
 
-      @if (!searchQuery && !showResults && !noResults) {
+      <!-- Estado inicial: categorias populares (antes da busca) -->
+      @if (!hasSearched()) {
       <div class="search-empty-state">
         <div class="search-empty-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -37,44 +38,51 @@
           <div class="search-sug-label">{{ 'SEARCH_MODAL.POPULAR_CATEGORIES' | translate }}</div>
           <div class="search-sug-chips">
             @for (cat of popularCategories; track cat.key) {
-              <button class="sug-chip" (click)="searchCategory(cat.key)">
-                {{ cat.emoji }} {{ cat.key | translate }}
-              </button>
+            <button class="sug-chip" (click)="searchCategory(cat.key)">
+              {{ cat.emoji }} {{ cat.key | translate }}
+            </button>
             }
           </div>
         </div>
       </div>
       }
 
-      @if (showResults) {
+      <!-- Resultados da busca -->
+      @if (hasSearched() && showResults()) {
       <div class="search-results-header">
         {{ 'SEARCH_MODAL.RESULTS' | translate }}
         <span class="search-results-count">
-          @if (searchResults.length === 1) {
-            {{ 'SEARCH_MODAL.RESULT_COUNT_SINGULAR' | translate:{ count: searchResults.length } }}
+          @if (searchResults().length === 1) {
+          {{ 'SEARCH_MODAL.RESULT_COUNT_SINGULAR' | translate:{ count: searchResults().length } }}
           } @else {
-            {{ 'SEARCH_MODAL.RESULT_COUNT_PLURAL' | translate:{ count: searchResults.length } }}
+          {{ 'SEARCH_MODAL.RESULT_COUNT_PLURAL' | translate:{ count: searchResults().length } }}
           }
         </span>
       </div>
-      @for (poll of searchResults; track poll.id) {
-        @let catInfo = getCategoryInfo(poll.category);
+      @for (poll of searchResults(); track poll.id) {
+      @let catInfo = getCategoryInfo(poll.category);
       <div class="search-result-item" (click)="goToPoll(poll.id)">
-        <div class="sri-avatar" [style.background]="poll.color">{{ poll.initials }}</div>
+        @if (poll.authorAvatarUrl) {
+        <img class="sri-avatar" [src]="poll.authorAvatarUrl" [alt]="poll.authorName" />
+        } @else {
+        <div class="sri-avatar" [style.background]="poll.authorGradient">
+          {{ poll.authorName.substring(0, 2).toUpperCase() }}
+        </div>
+        }
         <div class="sri-content">
-          <div class="sri-question">{{ poll.question }}</div>
+          <div class="sri-question">{{ poll.title }}</div>
           <div class="sri-meta">
             @if (catInfo) {
-              <span class="sri-cat" [style.background]="catInfo.bg" [style.color]="catInfo.c">
-                {{ catInfo.emoji }} {{ catInfo.key | translate }}
-              </span>
+            <span class="sri-cat" [style.background]="catInfo.bg" [style.color]="catInfo.c">
+              {{ catInfo.emoji }} {{ catInfo.key | translate }}
+            </span>
             } @else {
-              <span class="sri-cat">{{ poll.category }}</span>
+            <span class="sri-cat">{{ poll.category }}</span>
             }
             <span class="sri-votes">{{ getTotalVotes(poll) }} {{ 'POLL_CARD.VOTES' | translate }}</span>
-            <span class="sri-author">{{ 'SEARCH_MODAL.BY' | translate }} {{ poll.author }}</span>
-            <span class="sri-status" [class.closed]="!poll.live">
-              {{ (poll.live ? 'POLL_CARD.LIVE' : 'POLL_CARD.CLOSED') | translate }}
+            <span class="sri-author">{{ 'SEARCH_MODAL.BY' | translate }} {{ poll.authorName }}</span>
+            <span class="sri-status" [class.closed]="!poll.active">
+              {{ (poll.active ? 'POLL_CARD.LIVE' : 'POLL_CARD.CLOSED') | translate }}
             </span>
           </div>
         </div>
@@ -82,7 +90,7 @@
       }
       }
 
-      @if (noResults) {
+      @if (hasSearched() && noResults()) {
       <div class="search-no-results">
         <div class="search-empty-icon" style="opacity:.4">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

@@ -1,0 +1,45 @@
+<div class="confirm-container">
+  <div class="confirm-card">
+
+    <!-- Ícone animado -->
+    <div class="icon-wrap">
+      <div class="icon-ring"></div>
+      <svg class="icon-mail" width="36" height="36" viewBox="0 0 24 24" fill="none">
+        <path d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1 class="confirm-heading">{{ 'AUTH.CONFIRM_EMAIL_TITLE' | translate }}</h1>
+
+    <p class="confirm-sub">
+      {{ 'AUTH.CONFIRM_EMAIL_DESC' | translate }}
+      @if (email) {
+        <strong class="email-highlight">{{ email }}</strong>
+      }
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <span>{{ 'AUTH.CONFIRM_STEP_1' | translate }}</span>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <span>{{ 'AUTH.CONFIRM_STEP_2' | translate }}</span>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <span>{{ 'AUTH.CONFIRM_STEP_3' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="confirm-footer">
+      <p class="spam-hint">{{ 'AUTH.CONFIRM_SPAM_HINT' | translate }}</p>
+      <a routerLink="/login" class="btn-ghost-full">
+        {{ 'AUTH.BACK_TO_LOGIN' | translate }}
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -2,6 +2,7 @@
   "NAV": {
     "VIEW_POLLS": "Ver Enquetes",
     "CREATE_POLL": "Criar Enquete",
+    "NOTIFICATIONS": "Notificações",
     "LOGIN": "Entrar",
     "MY_POLLS": "Minhas Enquetes",
     "SETTINGS": "Configurações",
@@ -9,6 +10,26 @@
     "TRENDING": "🔥 Em Alta",
     "SEARCH_TITLE": "Buscar enquetes",
     "REGISTER": "Registrar"
+  },
+  "TOPBAR": {
+    "CREATE": "Criar"
+  },
+  "MOCK_POLLS": {
+    "TITLE_1": "Qual a melhor linguagem de programação?",
+    "OPTION_1_1": "JavaScript",
+    "OPTION_1_2": "Python",
+    "OPTION_1_3": "Java",
+    "OPTION_1_4": "Rust",
+    "TITLE_2": "Qual rede social você mais usa?",
+    "OPTION_2_1": "Instagram",
+    "OPTION_2_2": "TikTok",
+    "OPTION_2_3": "Twitter",
+    "OPTION_2_4": "Facebook",
+    "TITLE_3": "Qual estilo de música você prefere?",
+    "OPTION_3_1": "Rock",
+    "OPTION_3_2": "Pop",
+    "OPTION_3_3": "Eletrônica",
+    "OPTION_3_4": "Hip Hop"
   },
   "HERO": {
     "BADGE": "✦ Plataforma de Votação em Tempo Real",
@@ -20,9 +41,11 @@
   },
   "DASHBOARD": {
     "TITLE": "Mural",
+    "EMPTY_TITLE": "Nenhuma enquete ativa agora",
+    "EMPTY_SUB": "Crie sua enquete e compartilhe com a comunidade!",
     "TITLE_SPAN": "Público",
-    "FILTER_RECENT": "Mais recente",
-    "FILTER_TOP": "Mais votos"
+    "FILTER_RECENT": "Recente",
+    "FILTER_OLD": "Antigo"
   },
   "SIDEBAR": {
     "NAVIGATION": "Navegação",
@@ -30,6 +53,9 @@
     "MY_VOTES": "Meus Votos",
     "EXPLORE": "Explorar",
     "SEARCH": "Buscar"
+  },
+  "STATUS": {
+    "ACTIVE": "Ativo"
   },
   "HOW_IT_WORKS": {
     "LABEL": "Como funciona",
@@ -82,6 +108,7 @@
     "PROFILE": {
       "AVATAR_SECTION": "Foto de Perfil",
       "AVATAR_HINT": "Escolha uma cor para seu avatar",
+      "AVATAR_RESET": "Usar foto original",
       "PERSONAL_INFO": "Informações Pessoais",
       "USERNAME": {
         "LABEL": "Nome de usuário",
@@ -91,6 +118,7 @@
       "EMAIL": {
         "LABEL": "E-mail",
         "DESC": "Usado para login e notificações",
+        "SOCIAL": "Gerenciado pelo provedor",
         "EDIT": "Editar"
       }
     },
@@ -111,6 +139,7 @@
       "PASSWORD": {
         "LABEL": "Senha",
         "DESC": "Mudar sua senha",
+        "SOCIAL": "Gerenciado pelo provedor",
         "EDIT": "Alterar"
       },
       "DANGER_ZONE": "Zona de Risco",
@@ -123,6 +152,13 @@
     "UNSAVED_CHANGES": "Alterações não salvas serão descartadas ao fechar",
     "SAVE_BUTTON": "Salvar alterações",
     "SUBMODALS": {
+      "CONFIRM_EMAIL": {
+        "TITLE": "Confirmar alteração de e-mail",
+        "MESSAGE": "Enviamos um código de confirmação para seu novo e-mail. Digite-o abaixo.",
+        "PLACEHOLDER": "Código de confirmação",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Confirmar"
+      },
       "EDIT_USERNAME": {
         "TITLE": "Editar nome de usuário",
         "PLACEHOLDER": "Novo nome de usuário",
@@ -163,11 +199,18 @@
     "YESTERDAY": "Ontem",
     "TODAY": "Hoje",
     "THIS_WEEK": "Esta semana",
-    "EARLIER": "Anterior"
+    "EARLIER": "Anterior",
+    "TEXT": {
+      "VOTE_RECEIVED": "<strong>{{actor}}</strong> votou em <strong>{{poll}}</strong>",
+      "VOTE_RECEIVED_ANON": "Alguém votou em <strong>{{poll}}</strong>",
+      "POLL_MILESTONE": "Sua enquete <strong>{{poll}}</strong> atingiu <strong>{{votes}} votos</strong>! 🎉",
+      "POLL_CLOSED": "A enquete <strong>{{poll}}</strong> em que você votou foi encerrada."
+    }
   },
   "MY_VOTES": {
     "TITLE": "Meus",
     "TITLE_SPAN": "Votos",
+    "LOAD_MORE": "Carregar mais",
     "VOTE_COUNT_SINGULAR": "{{count}} participação",
     "VOTE_COUNT_PLURAL": "{{count}} participações",
     "EMPTY_TITLE": "Nenhum voto ainda",
@@ -186,6 +229,12 @@
     "BY": "por",
     "NO_RESULTS_TITLE": "Nenhum resultado",
     "NO_RESULTS_SUB": "Tente outros termos ou categorias"
+  },
+  "POLL_DETAIL": {
+    "BACK": "← Voltar ao mural",
+    "NOT_FOUND": "Enquete não encontrada.",
+    "NOT_FOUND_SUB": "Ela pode ter sido removida ou o link é inválido.",
+    "HIGHLIGHTED": "Enquete em destaque"
   },
   "TIME": {
     "JUST_NOW": "agora mesmo",
@@ -219,9 +268,27 @@
   },
   "TOAST": {
     "VOTE_SUCCESS": "Voto registrado!",
+    "PROFILE_UPDATED_TITLE": "Sucesso",
+    "PROFILE_UPDATED_DESC": "Perfil atualizado com sucesso!",
+    "PROFILE_UPDATE_ERROR_TITLE": "Erro",
+    "PROFILE_UPDATE_ERROR_DESC": "Não foi possível atualizar o perfil.",
+    "PASSWORD_MISMATCH_TITLE": "Erro",
+    "PASSWORD_MISMATCH_DESC": "As senhas não conferem.",
+    "PASSWORD_TOO_SHORT_TITLE": "Erro",
+    "PASSWORD_TOO_SHORT_DESC": "A senha deve ter no mínimo 6 caracteres.",
+    "PASSWORD_CHANGED_TITLE": "Sucesso",
+    "PASSWORD_CHANGED_DESC": "Senha alterada com sucesso!",
+    "PASSWORD_CHANGE_ERROR_TITLE": "Erro",
+    "PASSWORD_CHANGE_ERROR_DESC": "Não foi possível alterar a senha. Verifique a senha atual.",
+    "ACCOUNT_DELETED_TITLE": "Conta excluída",
+    "ACCOUNT_DELETED_DESC": "Sua conta foi removida com sucesso.",
+    "ACCOUNT_DELETE_ERROR_TITLE": "Erro",
+    "ACCOUNT_DELETE_ERROR_DESC": "Não foi possível excluir a conta.",
     "VOTE_SUCCESS_DESC": "Seu voto foi contabilizado.",
     "POLL_CREATED": "Enquete publicada!",
     "POLL_CREATED_DESC": "Sua enquete está ao vivo no mural.",
+    "LOGIN_REQUIRED_TITLE": "🔒 Ação necessária",
+    "LOGIN_REQUIRED_DESC": "Crie uma conta para votar em enquetes reais!",
     "ERROR": "Erro",
     "MAX_OPTIONS": "Máximo atingido",
     "MAX_OPTIONS_DESC": "Você pode ter no máximo 6 opções.",
@@ -235,7 +302,47 @@
   },
   "AUTH": {
     "LOGIN_TITLE": "Entrar",
+    "FORGOT_PASSWORD": "Esqueci minha senha",
     "REGISTER_TITLE": "Criar conta",
+    "BACK_TO_LOGIN": "Voltar ao login",
+    "REGISTER_ERROR_EMAIL_TAKEN": "Este e-mail já está cadastrado.",
+    "REGISTER_ERROR_SERVER": "Falha no cadastro. Tente novamente mais tarde.",
+    "EMAIL_PLACEHOLDER": "email@exemplo.com",
+    "CONFIRM_EMAIL_TITLE": "Verifique seu e-mail",
+    "CONFIRM_EMAIL_DESC": "Enviamos um link de confirmação para",
+    "CONFIRM_STEP_1": "Abra sua caixa de entrada",
+    "CONFIRM_STEP_2": "Clique no link de confirmação",
+    "CONFIRM_STEP_3": "Pronto! Você já pode entrar na plataforma",
+    "CONFIRM_SPAM_HINT": "Não recebeu? Verifique a pasta de spam ou lixo eletrônico.",
+    "CONFIRM_LOADING_TITLE": "Confirmando sua conta…",
+    "CONFIRM_LOADING_DESC": "Aguarde um instante enquanto verificamos seu token.",
+    "CONFIRM_SUCCESS_TITLE": "Conta confirmada!",
+    "CONFIRM_SUCCESS_DESC": "Tudo certo! Você será redirecionado em instantes.",
+    "CONFIRM_REDIRECT_HINT": "Redirecionando para o dashboard…",
+    "CONFIRM_TOKEN_MISSING": "Nenhum token de confirmação encontrado no link.",
+    "CONFIRM_TOKEN_INVALID": "Token inválido ou expirado. Tente se registrar novamente.",
+    "CONFIRM_SERVER_ERROR": "Erro ao confirmar conta. Tente novamente mais tarde.",
+    "CONFIRM_ERROR_TITLE": "Não foi possível confirmar",
+    "REGISTER_AGAIN": "Registrar novamente",
+    "FORGOT_TITLE": "Esqueceu a senha?",
+    "FORGOT_SUBTITLE": "Informe seu e-mail e enviaremos as instruções para redefinir sua senha.",
+    "FORGOT_SUBMIT": "Enviar instruções",
+    "FORGOT_SENT_TITLE": "E-mail enviado!",
+    "FORGOT_SENT_DESC": "Se esse e-mail estiver cadastrado, você receberá as instruções em breve.",
+    "RESET_TITLE": "Redefinir senha",
+    "RESET_SUBTITLE": "Escolha uma nova senha segura para sua conta.",
+    "NEW_PASSWORD_LABEL": "Nova senha",
+    "PASSWORD_PLACEHOLDER": "••••••••",
+    "TOGGLE_PASSWORD": "Mostrar/ocultar senha",
+    "PASSWORDS_MISMATCH": "As senhas não coincidem",
+    "RESET_PASSWORD_MINLENGTH": "Mínimo de 8 caracteres",
+    "RESET_SUBMIT": "Redefinir senha",
+    "RESET_SUCCESS_TITLE": "Senha redefinida!",
+    "RESET_SUCCESS_DESC": "Sua senha foi alterada com sucesso. Você será redirecionado para o login.",
+    "RESET_INVALID_TOKEN_TITLE": "Link expirado",
+    "RESET_INVALID_TOKEN_DESC": "Este link de redefinição é inválido ou já expirou. Solicite um novo.",
+    "RESET_SERVER_ERROR": "Erro ao redefinir senha. Tente novamente.",
+    "REQUEST_NEW_RESET": "Solicitar novo link",
     "WELCOME_BACK": "Bem-vindo de volta",
     "LOGIN_SUBTITLE": "Faça login para criar e votar em enquetes em tempo real.",
     "EMAIL_LABEL": "E-mail",

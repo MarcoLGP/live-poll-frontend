@@ -1,19 +1,65 @@
 <div class="feed">
   <div class="feed-header">
-    <h1 class="feed-title">{{ 'DASHBOARD.TITLE' | translate }} <span>{{ 'DASHBOARD.TITLE_SPAN' | translate }}</span></h1>
+    <h1 class="feed-title">
+      {{ 'DASHBOARD.TITLE' | translate }}
+      <span>{{ 'DASHBOARD.TITLE_SPAN' | translate }}</span>
+    </h1>
     <div class="filter-tabs">
-      <button class="filter-tab" [class.active]="activeFilter === 'recent'" (click)="setFilter('recent')">
+      <button class="filter-tab" [class.active]="activeFilter() === 'recent'" (click)="setFilter('recent')">
         {{ 'DASHBOARD.FILTER_RECENT' | translate }}
       </button>
-      <button class="filter-tab" [class.active]="activeFilter === 'top'" (click)="setFilter('top')">
-        {{ 'DASHBOARD.FILTER_TOP' | translate }}
+      <button class="filter-tab" [class.active]="activeFilter() === 'old'" (click)="setFilter('old')">
+        {{ 'DASHBOARD.FILTER_OLD' | translate }}
       </button>
     </div>
   </div>
 
+  <!-- Skeleton (aparece apenas no carregamento inicial) -->
+  @if (feedService.loading() && polls().length === 0) {
   <div class="polls-grid">
-    @for (poll of filteredPolls; track poll.id) {
-      <app-poll-card [poll]="poll" (vote)="onVote(poll.id, $event)"></app-poll-card>
+    @for (item of [1,2,3,4,5,6]; track $index) {
+    <div class="skeleton-card">
+      <div class="skeleton-line" style="width: 60%; height: 20px; margin-bottom: 16px;"></div>
+      <div class="skeleton-line" style="width: 80%; height: 16px; margin-bottom: 12px;"></div>
+      <div class="skeleton-line" style="width: 40%; height: 14px; margin-bottom: 24px;"></div>
+      <div class="skeleton-options">
+        <div class="skeleton-line" style="width: 100%; height: 32px; margin-bottom: 8px;"></div>
+        <div class="skeleton-line" style="width: 100%; height: 32px; margin-bottom: 8px;"></div>
+      </div>
+    </div>
     }
   </div>
+  }
+
+  @if (!feedService.loading() && polls().length > 0) {
+  <div class="polls-grid">
+    @for (poll of polls(); track poll.id) {
+    <app-poll-card [poll]="poll" (vote)="onVote($event)" />
+    }
+  </div>
+
+  @if (feedService.hasMore) {
+  <div #sentinel class="sentinel">
+    @if (feedService.loading()) {
+    <div class="loading-spinner"></div>
+    }
+  </div>
+  }
+  }
+
+  <!-- Empty state (quando não há enquetes e não está carregando) -->
+  @if (!feedService.loading() && polls().length === 0) {
+  <div class="empty-state">
+    <div class="empty-state-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    </div>
+    <div class="empty-state-title">{{ 'DASHBOARD.EMPTY_TITLE' | translate }}</div>
+    <div class="empty-state-sub">{{ 'DASHBOARD.EMPTY_SUB' | translate }}</div>
+  </div>
+  }
 </div>

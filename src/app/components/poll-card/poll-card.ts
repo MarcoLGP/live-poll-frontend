@@ -1,9 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Poll } from '@services/poll';
 import { categoryMap, Category } from '@shared/constants/categories';
 import { RelativeTimePipe } from '@shared/pipes/relative-time-pipe';
+import { Poll, PollOption } from '@models/poll.model';
+import { UserService } from '@services/user';
+import { VoteService } from '@services/vote';
 
 @Component({
   selector: 'app-poll-card',
@@ -14,23 +16,61 @@ import { RelativeTimePipe } from '@shared/pipes/relative-time-pipe';
 })
 export class PollCardComponent {
   poll = input.required<Poll>();
-  vote = output<number>();
+  vote = output<{ pollId: number; optionId: number | null }>();
+  avatarError = false;
 
-  getCategoryStyle(categoryKey: string): { bg: string; c: string } {
-    const cat = categoryMap.get(categoryKey);
-    return cat ? { bg: cat.bg, c: cat.c } : { bg: 'rgba(255,255,255,.06)', c: '#8892B0' };
+constructor() {
+  effect(() => {
+    this.poll(); 
+    this.avatarError = false;
+  });
+}
+
+  readonly votingOptionId = signal<number | null>(null);
+
+  private readonly voteService = inject(VoteService);
+  readonly user = inject(UserService).user;
+
+  getCategoryInfo(key: string): Category | undefined {
+    return categoryMap.get(key);
   }
 
-  getCategoryInfo(categoryKey: string): Category | undefined {
-    return categoryMap.get(categoryKey);
+  get totalVotes(): number {
+    return this.poll().totalVotes;
   }
 
-  getTotalVotes(): number {
-    return this.poll().options.reduce((sum, opt) => sum + opt.votes, 0);
+  getPercentage(option: PollOption): number {
+    return option.percentage;
   }
 
-  calculatePercentage(part: number): number {
-    const total = this.getTotalVotes();
-    return total > 0 ? Math.round((part / total) * 100) : 0;
+  isSelected(option: PollOption): boolean {
+    return this.poll().myVotedOptionId === option.id;
+  }
+
+  onVote(option: PollOption): void {
+    if (!this.poll().active) return;
+    if (this.votingOptionId() !== null) return; // ← evita double click
+
+    const poll = this.poll();
+    const previousVotedOptionId = poll.myVotedOptionId;
+    const isSameOption = previousVotedOptionId === option.id;
+    const optimisticVotedOptionId = isSameOption ? null : option.id;
+
+    this.votingOptionId.set(option.id);
+    this.vote.emit({ pollId: poll.id, optionId: optimisticVotedOptionId });
+
+    this.voteService.castVote({
+      userId: this.user()!.id,
+      userName: this.user()!.username,
+      pollId: poll.id,
+      optionId: option.id,
+      authorId: poll.authorId
+    }).subscribe({
+      next: () => this.votingOptionId.set(null),
+      error: () => {
+        this.vote.emit({ pollId: poll.id, optionId: previousVotedOptionId });
+        this.votingOptionId.set(null);
+      }
+    });
   }
 }

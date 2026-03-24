@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { DecimalPipe } from '@angular/common';
-import { PollService, Poll } from '@services/poll';
+import { Poll } from '@models/poll.model';
 import { RelativeTimePipe } from '@shared/pipes/relative-time-pipe';
 import { categoryMap } from '@shared/constants/categories';
+import { MyVotesService } from '@services/my-votes';
 
 @Component({
   selector: 'app-my-votes',
@@ -12,23 +12,31 @@ import { categoryMap } from '@shared/constants/categories';
   templateUrl: './my-votes.html',
   styleUrls: ['./my-votes.scss']
 })
-export class MyVotesComponent {
-  private pollService = inject(PollService);
-  polls = this.pollService.polls;
+export class MyVotesComponent implements OnInit {
+  myVotesService = inject(MyVotesService);
+  polls = this.myVotesService.polls;
 
-  get votedPolls(): Poll[] {
-    return this.polls().filter(p => p.voted !== null);
+  ngOnInit() {
+    this.myVotesService.reload();
   }
 
-  getTotalVotes(poll: Poll): number {
-    return poll.options.reduce((sum, opt) => sum + opt.votes, 0);
+  get votedPolls(): Poll[] {
+    return this.polls().filter(p => p.myVotedOptionId !== null);
+  }
+
+  getChosenOption(poll: Poll): Poll['options'][0] | undefined {
+    return poll.options.find(opt => opt.id === poll.myVotedOptionId);
+  }
+
+  getCategoryInfo(categoryKey: string) {
+    return categoryMap.get(categoryKey);
   }
 
   calculatePercentage(votes: number, total: number): number {
     return total > 0 ? Math.round((votes / total) * 100) : 0;
   }
 
-  getCategoryInfo(categoryKey: string) {
-    return categoryMap.get(categoryKey);
+  loadMore() {
+    this.myVotesService.loadMore();
   }
 }

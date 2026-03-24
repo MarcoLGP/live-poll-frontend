@@ -1,16 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core'; 
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { simpleGoogle, simpleGithub } from '@ng-icons/simple-icons';
-import { CommonModule } from '@angular/common';
 import { AuthService, LoginDTO } from '@services/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, NgIconComponent, RouterLink],
+  imports: [ReactiveFormsModule, TranslatePipe, NgIconComponent, RouterLink],
   viewProviders: [provideIcons({ simpleGoogle, simpleGithub })],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
@@ -19,10 +18,11 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private translate = inject(TranslateService); 
+  private translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
 
   loginForm: FormGroup = this.fb.group({
-    usernameOrEmail: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
@@ -34,28 +34,31 @@ export class LoginComponent {
       return;
     }
 
+    this.loginError = null;
+
     const dto: LoginDTO = {
-      usernameOrEmail: this.loginForm.value.usernameOrEmail,
+      email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
 
     this.authService.login(dto).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err) => {
-        if (err.status === 401 || err.status === 400) {
+        if (err.status === 401) {
           this.loginError = this.translate.instant('AUTH.LOGIN_ERROR_INVALID');
         } else {
           this.loginError = this.translate.instant('AUTH.LOGIN_ERROR_SERVER');
         }
+        this.cdr.markForCheck();
       }
     });
   }
 
-  demoLogin() {
-    this.loginForm.patchValue({
-      usernameOrEmail: 'testuser',
-      password: 'senha123'
-    });
-    this.doLogin();
+  loginWithGitHub() {
+    this.authService.loginWithGitHub();
+  }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle();
   }
 }

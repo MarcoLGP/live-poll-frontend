@@ -2,22 +2,104 @@
 <div class="orb orb-2"></div>
 <div class="orb orb-3"></div>
 
+<!-- ─── Overlay do drawer ─────────────────────────────────────────── -->
+<div
+  class="drawer-overlay"
+  [class.open]="drawerOpen()"
+  (click)="closeDrawer()"
+  aria-hidden="true"
+></div>
+
+<!-- ─── Drawer mobile ─────────────────────────────────────────────── -->
+<aside class="mobile-drawer" [class.open]="drawerOpen()" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="drawer-header">
+    <app-logo></app-logo>
+    <button class="drawer-close" (click)="closeDrawer()" aria-label="Fechar menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="drawer-nav">
+    <a routerLink="/login" class="drawer-link" (click)="closeDrawer()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      {{ 'NAV.LOGIN' | translate }}
+    </a>
+    <a routerLink="/register" class="drawer-link drawer-link--primary" (click)="closeDrawer()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 8v6M23 11h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      {{ 'NAV.REGISTER' | translate }}
+    </a>
+  </nav>
+
+  <div class="drawer-footer">
+    <span class="drawer-lang-label">Idioma / Language</span>
+    <div class="drawer-lang">
+      <button
+        class="lang-btn-full"
+        [class.active]="currentLang === 'pt-BR'"
+        (click)="switchLanguage('pt-BR')"
+      >
+        <img src="assets/flags/br.png" alt="Português" width="20" height="14">
+        Português
+      </button>
+      <button
+        class="lang-btn-full"
+        [class.active]="currentLang === 'en-US'"
+        (click)="switchLanguage('en-US')"
+      >
+        <img src="assets/flags/us.png" alt="English" width="20" height="14">
+        English
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────── -->
 <header class="public-navbar">
   <div class="nav-container">
     <app-logo></app-logo>
-    <div class="nav-right">
-      <a routerLink="/login" class="btn-ghost">{{ 'NAV.LOGIN' | translate }}</a>
-      <a routerLink="/register" class="btn-primary">{{ 'NAV.REGISTER' | translate }}</a>
-      
+
+    <!-- Desktop right -->
+    <div class="nav-right nav-right--desktop">
       <div class="language-switcher">
-        <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')">
+        <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')" aria-label="Português">
           <img src="assets/flags/br.png" alt="Português" width="24" height="16">
         </button>
-        <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')">
+        <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')" aria-label="English">
           <img src="assets/flags/us.png" alt="English" width="24" height="16">
         </button>
       </div>
-      
+      <a routerLink="/login" class="btn-ghost">{{ 'NAV.LOGIN' | translate }}</a>
+      <a routerLink="/register" class="btn-primary">{{ 'NAV.REGISTER' | translate }}</a>
+    </div>
+
+    <!-- Mobile: apenas bandeiras + hamburger -->
+    <div class="nav-right nav-right--mobile">
+      <div class="language-switcher">
+        <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')" aria-label="Português">
+          <img src="assets/flags/br.png" alt="Português" width="22" height="15">
+        </button>
+        <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')" aria-label="English">
+          <img src="assets/flags/us.png" alt="English" width="22" height="15">
+        </button>
+      </div>
+
+      <button
+        class="hamburger"
+        (click)="toggleDrawer()"
+        [class.open]="drawerOpen()"
+        aria-label="Abrir menu"
+        [attr.aria-expanded]="drawerOpen()"
+      >
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
     </div>
   </div>
 </header>

@@ -6,24 +6,35 @@
     <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
       <div class="field">
         <label>{{ 'AUTH.EMAIL_LABEL' | translate }}</label>
-        <input type="text" formControlName="usernameOrEmail" 
-               [placeholder]="'AUTH.USERNAME_PLACEHOLDER' | translate">
-        <div class="error" *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched">
-          <span>{{ 'AUTH.USERNAME_OR_EMAIL_REQUIRED' | translate }}</span>
+        <input type="text" formControlName="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate">
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+        <div class="error">
+          <span>{{ 'AUTH.EMAIL_REQUIRED' | translate }}</span>
         </div>
+        }
       </div>
+
       <div class="field">
         <label>{{ 'AUTH.PASSWORD_LABEL' | translate }}</label>
         <input type="password" formControlName="password" placeholder="••••••••">
-        <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          <span *ngIf="loginForm.get('password')?.errors?.['required']">{{ 'AUTH.PASSWORD_REQUIRED' | translate }}</span>
-          <span *ngIf="loginForm.get('password')?.errors?.['minlength']">{{ 'AUTH.PASSWORD_MINLENGTH' | translate }}</span>
+        <div class="forgot-link">
+          <a routerLink="/forgot-password">{{ 'AUTH.FORGOT_PASSWORD' | translate }}</a>
         </div>
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+        <div class="error">
+          @if (loginForm.get('password')?.errors?.['required']) {
+          <span>{{ 'AUTH.PASSWORD_REQUIRED' | translate }}</span>
+          }
+          @if (loginForm.get('password')?.errors?.['minlength']) {
+          <span>{{ 'AUTH.PASSWORD_MINLENGTH' | translate }}</span>
+          }
+        </div>
+        }
       </div>
 
-      <div class="error-message" *ngIf="loginError">
-        {{ loginError }}
-      </div>
+      @if (loginError) {
+      <div class="error-message">{{ loginError }}</div>
+      }
 
       <button class="btn-primary" type="submit" [disabled]="loginForm.invalid">
         {{ 'AUTH.LOGIN_BUTTON' | translate }}
@@ -33,11 +44,11 @@
     <div class="login-divider">{{ 'COMMON.OR' | translate }}</div>
 
     <div class="social-buttons">
-      <button class="btn-social btn-google" (click)="demoLogin()">
+      <button (click)="loginWithGoogle()" class="btn-social btn-google">
         <ng-icon name="simpleGoogle" size="18"></ng-icon>
         {{ 'AUTH.LOGIN_WITH_GOOGLE' | translate }}
       </button>
-      <button class="btn-social btn-github">
+      <button (click)="loginWithGitHub()" class="btn-social btn-github">
         <ng-icon name="simpleGithub" size="18"></ng-icon>
         {{ 'AUTH.LOGIN_WITH_GITHUB' | translate }}
       </button>

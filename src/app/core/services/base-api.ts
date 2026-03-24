@@ -6,7 +6,7 @@ import { TokenService } from './token-service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private baseUrl = environment.authApiUrl;
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(
     private http: HttpClient,

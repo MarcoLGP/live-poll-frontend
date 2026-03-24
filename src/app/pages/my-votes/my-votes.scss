@@ -168,3 +168,78 @@
   margin-left: auto;
   font-weight: 600;
 }
+
+.skeleton-record-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-left {
+  flex: 1;
+}
+
+.skeleton-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.skeleton-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg3);
+}
+
+.skeleton-right {
+  min-width: 180px;
+}
+
+.skeleton-line {
+  background: var(--bg3);
+  border-radius: 4px;
+  height: 12px;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+
+  button {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: var(--txt2);
+    cursor: pointer;
+    &:hover {
+      background: var(--bg3);
+    }
+  }
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--bg3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

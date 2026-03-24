@@ -326,3 +326,32 @@
   font-size: 13px;
   line-height: 1.5;
 }
+
+.notif-icon-wrap {
+  width: 40px;
+  height: 40px;
+  background: var(--bg2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--txt2);
+    stroke-width: 1.5;
+    fill: none;
+  }
+}
+
+.notif-icon-wrap.VOTE_RECEIVED svg {
+  stroke: var(--green);
+}
+.notif-icon-wrap.POLL_MILESTONE_100 svg {
+  stroke: var(--primary);
+}
+.notif-icon-wrap.POLL_CLOSED svg {
+  stroke: var(--pink);
+}

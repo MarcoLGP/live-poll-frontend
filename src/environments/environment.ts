@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    authApiUrl: "https://livepollapi.azurewebsites.net"
+    apiBaseUrl: "https://livepollapi.azurewebsites.net"
 };

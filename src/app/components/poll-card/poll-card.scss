@@ -1,5 +1,10 @@
+// ─── Breakpoints ─────────────────────────────────────────────────────
+$bp-mobile : 480px;
+$bp-sm     : 640px;
+
+// ─── Card ─────────────────────────────────────────────────────────────
 .poll-card {
-  background: var(--bg-1);
+  background: var(--bg1);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 24px;
@@ -9,52 +14,69 @@
   position: relative;
   overflow: hidden;
 
+  @media (max-width: #{$bp-sm}) {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
   &:hover {
     border-color: var(--border-2);
     transform: translateY(-3px);
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-2);
+
+    @media (hover: none) {
+      transform: none;
+      box-shadow: none;
+    }
   }
 
   &::after {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: 20px;
+    border-radius: inherit;
     background: linear-gradient(135deg, rgba(91, 141, 247, 0.04), transparent 60%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s;
   }
-  &:hover::after {
-    opacity: 1;
-  }
+
+  &:hover::after { opacity: 1; }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+// ─── Meta ─────────────────────────────────────────────────────────────
 .card-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
+  gap: 10px;
+
+  @media (max-width: #{$bp-mobile}) {
+    margin-bottom: 14px;
+    gap: 8px;
+  }
 }
 
 .card-author {
   display: flex;
   align-items: center;
   gap: 9px;
+  min-width: 0;
 }
 
 .mini-avatar {
+  overflow: hidden;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -65,16 +87,42 @@
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
+
+  @media (max-width: #{$bp-mobile}) {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .author-name {
   font-size: 13px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
+    max-width: 90px;
+  }
 }
 
 .post-time {
-  color: var(--text-3);
+  color: var(--txt3);
   font-size: 12px;
+  white-space: nowrap;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 11px;
+  }
 }
 
 .card-badge {
@@ -86,32 +134,40 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
 }
+
 .badge-live {
   background: rgba(82, 217, 160, 0.12);
   color: var(--green);
 }
+
 .badge-closed {
   background: rgba(255, 255, 255, 0.05);
-  color: var(--text-3);
+  color: var(--txt3);
 }
+
 .badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: currentColor;
   animation: pulse 1.5s infinite;
-}
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
+  flex-shrink: 0;
 }
 
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+// ─── Category tag ─────────────────────────────────────────────────────
 .category-tag {
   display: inline-flex;
   align-items: center;
@@ -121,21 +177,35 @@
   font-size: 11px;
   font-weight: 600;
   margin-bottom: 12px;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+  }
 }
 
+// ─── Question ─────────────────────────────────────────────────────────
 .poll-question {
   font-family: 'Fraunces', serif;
   font-size: 17px;
   font-weight: 500;
   line-height: 1.4;
   margin-bottom: 20px;
-  color: var(--text);
+  color: var(--txt);
+
+  @media (max-width: #{$bp-sm}) {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
 }
 
-.poll-options {
-  // container for options
-}
-
+// ─── Options ──────────────────────────────────────────────────────────
 .poll-option {
   position: relative;
   margin-bottom: 10px;
@@ -144,11 +214,16 @@
   cursor: pointer;
   transition: transform 0.15s;
 
-  &:last-child {
-    margin-bottom: 0;
+  @media (max-width: #{$bp-mobile}) {
+    margin-bottom: 8px;
+    border-radius: 8px;
   }
+
+  &:last-child { margin-bottom: 0; }
+
   &:hover:not(.voted) {
     transform: scale(1.01);
+    @media (hover: none) { transform: none; }
   }
 }
 
@@ -157,7 +232,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  border-radius: 10px;
+  border-radius: inherit;
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -168,18 +243,25 @@
   align-items: center;
   justify-content: space-between;
   padding: 11px 14px;
-  background: var(--bg-2);
+  background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: inherit;
   transition: border-color 0.2s, background 0.2s;
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 10px 12px;
+  }
 }
+
 .poll-option:hover:not(.voted) .option-inner {
   border-color: var(--border-2);
 }
+
 .poll-option.selected .option-inner {
-  border-color: var(--blue);
+  border-color: var(--primary);
   background: rgba(91, 141, 247, 0.08);
 }
+
 .poll-option.selected .option-bar {
   background: rgba(91, 141, 247, 0.18);
   width: var(--pct) !important;
@@ -188,17 +270,30 @@
 .option-text {
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 13px;
+  }
 }
+
 .option-pct {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-2);
+  color: var(--txt2);
   min-width: 36px;
   text-align: right;
+  flex-shrink: 0;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
+    min-width: 30px;
+  }
 }
-.poll-option.selected .option-pct {
-  color: var(--blue);
-}
+
+.poll-option.selected .option-pct { color: var(--primary); }
 
 .option-check {
   width: 18px;
@@ -211,18 +306,23 @@
   align-items: center;
   justify-content: center;
   transition: border-color 0.2s, background 0.2s;
-}
-.poll-option.selected .option-check {
-  border-color: var(--blue);
-  background: var(--blue);
-}
-.option-check svg {
-  display: none;
-}
-.poll-option.selected .option-check svg {
-  display: block;
+
+  @media (max-width: #{$bp-mobile}) {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
 }
 
+.poll-option.selected .option-check {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.option-check svg { display: none; }
+.poll-option.selected .option-check svg { display: block; }
+
+// ─── Footer ───────────────────────────────────────────────────────────
 .card-footer {
   margin-top: 18px;
   padding-top: 16px;
@@ -230,18 +330,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: #{$bp-mobile}) {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
 }
 
 .vote-count {
-  color: var(--text-2);
+  color: var(--txt2);
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: 6px;
-  svg {
-    width: 15px;
-    height: 15px;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
   }
+
+  svg { width: 15px; height: 15px; }
 }
 
 .card-actions {
@@ -252,7 +359,7 @@
 .icon-btn {
   width: 32px;
   height: 32px;
-  background: var(--bg-2);
+  background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: flex;
@@ -260,14 +367,81 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s, color 0.2s;
-  color: var(--text-3);
-  svg {
-    width: 15px;
-    height: 15px;
+  color: var(--txt3);
+
+  // Tap target mínimo no touch
+  @media (max-width: #{$bp-sm}) {
+    width: 36px;
+    height: 36px;
   }
+
+  svg { width: 15px; height: 15px; }
+
   &:hover {
-    background: var(--bg-3);
+    background: var(--bg3);
     border-color: var(--border-2);
-    color: var(--text);
+    color: var(--txt);
+    @media (hover: none) {
+      background: var(--bg2);
+      border-color: var(--border);
+    }
   }
+}
+
+.poll-card.poll-closed {
+  opacity: 0.75;
+
+  .poll-option {
+    cursor: default;
+    pointer-events: none;
+
+    &.disabled {
+      cursor: default;
+    }
+
+    &:hover .option-inner {
+      border-color: var(--border);
+      background: var(--bg2);
+    }
+  }
+
+  .option-bar {
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .option-check {
+    display: none; 
+  }
+
+  .option-pct {
+    color: var(--txt3);
+  }
+
+  .poll-question {
+    color: var(--txt2);
+  }
+}
+
+.poll-option.voting {
+  pointer-events: none;
+
+  .option-inner {
+    border-color: var(--primary);
+    background: rgba(91, 141, 247, 0.06);
+  }
+
+  .option-check {
+    border-color: var(--primary);
+    background: transparent;
+  }
+}
+
+.spin {
+  animation: spin 0.7s linear infinite;
+  display: block;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }

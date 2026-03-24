@@ -1,0 +1,57 @@
+<div class="confirm-container">
+  <div class="confirm-card">
+
+    <!-- LOADING -->
+    @if (state === 'loading') {
+      <div class="state-wrap">
+        <div class="spinner-wrap">
+          <div class="spinner"></div>
+        </div>
+        <h1 class="state-heading">{{ 'AUTH.CONFIRM_LOADING_TITLE' | translate }}</h1>
+        <p class="state-sub">{{ 'AUTH.CONFIRM_LOADING_DESC' | translate }}</p>
+      </div>
+    }
+
+    <!-- SUCCESS -->
+    @if (state === 'success') {
+      <div class="state-wrap">
+        <div class="success-icon-wrap">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
+          </svg>
+        </div>
+        <h1 class="state-heading">{{ 'AUTH.CONFIRM_SUCCESS_TITLE' | translate }}</h1>
+        <p class="state-sub">{{ 'AUTH.CONFIRM_SUCCESS_DESC' | translate }}</p>
+        <div class="redirect-bar">
+          <div class="redirect-progress"></div>
+        </div>
+        <p class="redirect-hint">{{ 'AUTH.CONFIRM_REDIRECT_HINT' | translate }}</p>
+      </div>
+    }
+
+    <!-- ERROR -->
+    @if (state === 'error') {
+      <div class="state-wrap">
+        <div class="error-icon-wrap">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1 class="state-heading error-title">{{ 'AUTH.CONFIRM_ERROR_TITLE' | translate }}</h1>
+        <p class="state-sub">{{ errorMessage | translate }}</p>
+        <div class="error-actions">
+          <a routerLink="/register" class="btn-primary-link">
+            {{ 'AUTH.REGISTER_AGAIN' | translate }}
+          </a>
+          <a routerLink="/login" class="btn-ghost-full">
+            {{ 'AUTH.BACK_TO_LOGIN' | translate }}
+          </a>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

@@ -1,14 +1,18 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '@services/auth';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CreatePollModalComponent } from '@components/create-poll-modal/create-poll-modal';
-import { Poll, PollService } from '@services/poll';
+import { PollService } from '@services/poll';
 import { LogoComponent } from '@components/logo/logo';
 import { SettingsModalComponent } from '@components/settings-modal/settings-modal';
 import { SearchModalComponent } from '@components/search-modal/search-modal';
 import { NotificationsModalComponent } from "@components/notifications-modal/notifications-modal";
 import { NotificationService } from '@services/notification';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { UserService } from '@services/user';
+import { filter } from 'rxjs';
+import { MyPollsService } from '@services/my-polls';
 
 @Component({
   selector: 'app-private-layout',
@@ -21,29 +25,49 @@ export class PrivateLayoutComponent {
   pollService = inject(PollService);
   auth = inject(AuthService);
   router = inject(Router);
-  user = this.auth.user;
   notificationService = inject(NotificationService);
+  user = inject(UserService).user;
+
+get myUnreadCount(): number {
+  return this.notificationService.unreadCount();
+}
 
   @ViewChild('createModal') createModal!: CreatePollModalComponent;
   @ViewChild('settingsModal') settingsModal!: SettingsModalComponent;
   @ViewChild('searchModal') searchModal!: SearchModalComponent;
   @ViewChild('notificationsModal') notificationsModal!: NotificationsModalComponent;
 
+  private readonly destroyRef = inject(DestroyRef);
+
   currentLang: string;
 
-  constructor(private translate: TranslateService) {
-    this.currentLang = this.translate.currentLang || 'pt-BR';
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
   }
 
-  trending = [
-    { rank: 1, question: 'Qual framework frontend você usa?', votes: 93 },
-    { rank: 2, question: 'Melhor jogo de 2024?', votes: 104 },
-    { rank: 3, question: 'Café ou energético?', votes: 111 },
-  ];
-  activities = [
-    { name: 'Ana Lima', initials: 'AL', color: 'linear-gradient(135deg,#5B8DF7,#9B79F5)', text: 'votou em React', time: '1min' },
-    { name: 'Pedro H.', initials: 'PH', color: 'linear-gradient(135deg,#F06292,#FF8A65)', text: 'criou uma nova enquete', time: '5min' },
-  ];
+  constructor(private translate: TranslateService) {
+    this.currentLang = this.translate.getCurrentLang() || 'pt-BR';
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.closeMobileMenu());
+  }
+
+  closeMobileMenu(): void {
+    if (this.isMobileMenuOpen) {
+      this.isMobileMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+  }
+
+get recentNotifications() {
+  return this.notificationService.notifications().slice(0, 4);
+}
 
   openCreateModal() {
     this.createModal.open();
@@ -57,26 +81,17 @@ export class PrivateLayoutComponent {
     this.notificationsModal.open();
   }
 
+  getAvatarBackground(avatarUrl?: string, gradientAvatar?: string): string {
+    if (avatarUrl) {
+      return 'none';
+    }
+    return gradientAvatar || 'linear-gradient(135deg, var(--primary), var(--primary-2))';
+  }
+
   switchLanguage(lang: string) {
     this.translate.use(lang);
     this.currentLang = lang;
-  }
-
-  onCreatePoll(event: { question: string; options: string[]; category: string }): void {
-    const newPoll: Poll = {
-      id: Date.now(),
-      author: this.user()?.name || 'Você',
-      initials: this.user()?.initials || '??',
-      color: 'linear-gradient(135deg,#5B8DF7,#9B79F5)',
-      question: event.question,
-      category: event.category,
-      options: event.options.map(text => ({ text, votes: 0 })),
-      live: true,
-      createdAt: new Date().toISOString(),
-      mine: true,
-      voted: 0,
-    };
-    this.pollService.addPoll(newPoll);
+    localStorage.setItem('lang', lang);
   }
 
   onSettingsClosed() {

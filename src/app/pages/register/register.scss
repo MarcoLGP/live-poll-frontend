@@ -1,26 +1,57 @@
+// ─── Breakpoints ────────────────────────────────────────────────────
+$bp-mobile : 480px;
+$bp-sm     : 640px;
+
+// ─── Container ───────────────────────────────────────────────────────
 .login-container {
   min-height: 100vh;
-  padding-top: 68px;
+  padding: 68px 24px 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+
+  // Card mais alto que no login: em telas médias já alinha ao topo
+  @media (max-height: 820px) {
+    align-items: flex-start;
+  }
+
+  @media (max-width: #{$bp-sm}) {
+    padding: 40px 16px 40px;
+    align-items: flex-start;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 32px 12px 32px;
+  }
 }
 
+// ─── Card ─────────────────────────────────────────────────────────────
 .login-card {
   background: var(--bg1);
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 56px 48px;
+  padding: 52px 48px;
   width: 100%;
   max-width: 440px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
-  animation: loginSlide .6s cubic-bezier(.16,1,.3,1) both;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+  animation: loginSlide .6s cubic-bezier(.16, 1, .3, 1) both;
 
+  @media (max-width: #{$bp-sm}) {
+    padding: 36px 24px;
+    border-radius: 20px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 28px 18px;
+    border-radius: 16px;
+  }
+
+  // Linha decorativa no topo
   &::before {
     content: '';
     position: absolute;
@@ -38,6 +69,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+// ─── Heading ──────────────────────────────────────────────────────────
 .login-heading {
   font-family: 'Fraunces', serif;
   font-size: 32px;
@@ -46,18 +78,46 @@
   margin-bottom: 10px;
   text-align: center;
   color: var(--txt);
+
+  @media (max-width: #{$bp-sm}) {
+    font-size: 26px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
 }
 
 .login-sub {
   color: var(--txt2);
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   font-size: 14px;
   line-height: 1.6;
+
+  @media (max-width: #{$bp-sm}) {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    margin-bottom: 20px;
+  }
 }
 
+// ─── Fields ───────────────────────────────────────────────────────────
 .field {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+
+  // Comprime espaçamento entre campos em telas menores
+  @media (max-width: #{$bp-sm}) {
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    margin-bottom: 10px;
+  }
 
   label {
     display: block;
@@ -66,7 +126,12 @@
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--txt2);
-    margin-bottom: 8px;
+    margin-bottom: 7px;
+
+    @media (max-width: #{$bp-mobile}) {
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
   }
 
   input {
@@ -74,12 +139,19 @@
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 13px 16px;
+    padding: 12px 16px;
     color: var(--txt);
     font-family: 'Outfit', sans-serif;
     font-size: 15px;
     outline: none;
     transition: border-color .2s, box-shadow .2s, background .2s;
+    box-sizing: border-box;
+
+    // Previne zoom automático no iOS
+    @media (max-width: #{$bp-sm}) {
+      font-size: 16px;
+      padding: 11px 14px;
+    }
 
     &:focus {
       border-color: var(--primary);
@@ -93,20 +165,47 @@
   }
 }
 
-.btn-primary {
-  width: 100%;
-  margin-top: 8px;
+// ─── Error messages ───────────────────────────────────────────────────
+.error {
+  margin-top: 5px;
+
+  span {
+    font-size: 12px;
+    color: #ef4444;
+    display: block;
+    line-height: 1.4;
+
+    @media (max-width: #{$bp-mobile}) {
+      font-size: 11px;
+    }
+  }
 }
 
+// ─── Submit button ────────────────────────────────────────────────────
+.btn-primary {
+  width: 100%;
+  margin-top: 6px;
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 14px 24px; // tap target generoso
+  }
+}
+
+// ─── Divider ──────────────────────────────────────────────────────────
 .login-divider {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 24px 0;
+  margin: 20px 0;
   color: var(--txt3);
   font-size: 12px;
 
-  &::before, &::after {
+  @media (max-width: #{$bp-mobile}) {
+    margin: 16px 0;
+  }
+
+  &::before,
+  &::after {
     content: '';
     flex: 1;
     height: 1px;
@@ -114,11 +213,17 @@
   }
 }
 
+// ─── Social buttons ───────────────────────────────────────────────────
 .social-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  @media (max-width: #{$bp-mobile}) {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
 }
 
 .btn-social {
@@ -128,6 +233,7 @@
   gap: 10px;
   width: 100%;
   padding: 12px;
+  min-height: 44px; // tap target mínimo
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -140,21 +246,53 @@
 
   ng-icon {
     color: var(--txt);
+    flex-shrink: 0;
   }
 
   &:hover {
     background: var(--bg1);
     border-color: var(--border-hi);
     color: var(--txt);
+
+    @media (hover: none) {
+      background: var(--bg2);
+      border-color: var(--border);
+    }
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 13px;
+    padding: 11px 12px;
   }
 }
 
+.error-message {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  color: #f87171;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+// ─── Login hint ───────────────────────────────────────────────────────
 .demo-hint {
   text-align: center;
   color: var(--txt3);
   font-size: 13px;
   cursor: pointer;
   transition: color .2s;
+  line-height: 1.6;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
+  }
 
   span {
     color: var(--primary);

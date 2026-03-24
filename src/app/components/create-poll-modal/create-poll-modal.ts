@@ -1,8 +1,11 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CATEGORIES } from '@shared/constants/categories';
+import { UserService } from '@services/user';
+import { PollService } from '@services/poll';
+import { PollCreateDTO } from '@models/poll.model';
 
 @Component({
   selector: 'app-create-poll-modal',
@@ -12,15 +15,18 @@ import { CATEGORIES } from '@shared/constants/categories';
   styleUrls: ['./create-poll-modal.scss']
 })
 export class CreatePollModalComponent {
+  private userService = inject(UserService);
+  private pollService = inject(PollService);
+
   isOpen = signal(false);
   close = output<void>();
   create = output<{ question: string; options: string[]; category: string }>();
 
   question = '';
   options: string[] = ['', ''];
-  category = CATEGORIES[0].key; 
+  category = CATEGORIES[0].key;
 
-  readonly categories = CATEGORIES; 
+  readonly categories = CATEGORIES;
   readonly maxOptions = 8;
   readonly minOptions = 2;
 
@@ -55,14 +61,38 @@ export class CreatePollModalComponent {
   }
 
   publish() {
-    const filledOptions = this.options.map(o => o.trim()).filter(o => o.length > 0);
+    const filledOptions = this.options
+      .map(o => o.trim())
+      .filter(o => o.length > 0);
+
     if (this.question.trim() && filledOptions.length >= this.minOptions) {
-      this.create.emit({
-        question: this.question,
-        options: filledOptions,
-        category: this.category 
+      const userId = this.userService.user()?.id;
+      if (!userId) {
+        console.error('Usuário não autenticado');
+        return;
+      }
+
+      const payload: PollCreateDTO = {
+        title: this.question,
+        category: this.category,
+        userId: userId,
+        userName: this.userService.user()!.username,
+        userGradient: this.userService.user()?.gradientAvatar,
+        userAvatarUrl: this.userService.user()?.avatarUrl,
+        options: filledOptions.map((text, index) => ({
+          text: text,
+          displayOrder: index
+        }))
+      };
+
+      this.pollService.createPoll(payload).subscribe({
+        next: () => {
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Erro ao criar enquete', err);
+        }
       });
-      this.closeModal();
     }
   }
 

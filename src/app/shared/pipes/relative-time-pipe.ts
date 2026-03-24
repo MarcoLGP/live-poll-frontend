@@ -1,32 +1,16 @@
-import { Pipe, PipeTransform, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 
 @Pipe({
   name: 'relativeTime',
   standalone: true,
   pure: false 
 })
-export class RelativeTimePipe implements PipeTransform, OnDestroy {
+export class RelativeTimePipe implements PipeTransform {
   private translate = inject(TranslateService);
-  private cdr = inject(ChangeDetectorRef);
-  private langChangeSub: Subscription;
-  private lastValue: Date | string | number | null = null;
-  private lastResult: string = '';
-
-  constructor() {
-    this.langChangeSub = this.translate.onLangChange.subscribe(() => {
-      if (this.lastValue !== null) {
-        this.lastResult = this.transform(this.lastValue);
-        this.cdr.markForCheck(); 
-      }
-    });
-  }
 
   transform(value: Date | string | number): string {
     if (!value) return '';
-
-    this.lastValue = value;
 
     const date = new Date(value);
     const now = new Date();
@@ -55,10 +39,6 @@ export class RelativeTimePipe implements PipeTransform, OnDestroy {
       return this.translate.instant(key, { count: diffDays });
     }
 
-    return date.toLocaleDateString(this.translate.currentLang);
-  }
-
-  ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
+    return date.toLocaleDateString(this.translate.getCurrentLang());
   }
 }

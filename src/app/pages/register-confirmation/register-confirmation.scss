@@ -1,0 +1,207 @@
+$bp-mobile: 480px;
+$bp-sm: 640px;
+
+.confirm-container {
+  min-height: 100vh;
+  padding: 68px 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+
+  @media (max-width: #{$bp-sm}) {
+    padding: 48px 16px 32px;
+    align-items: flex-start;
+  }
+}
+
+.confirm-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 56px 48px;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @media (max-width: #{$bp-sm}) {
+    padding: 40px 28px;
+    border-radius: 20px;
+  }
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 32px 20px;
+    border-radius: 16px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--primary-2), transparent);
+    opacity: 0.6;
+  }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Ícone ───────────────────────────────────────────────────────────
+.icon-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(124, 111, 247, 0.1);
+  border: 1px solid rgba(124, 111, 247, 0.25);
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.08); opacity: 0.7; }
+}
+
+.icon-mail {
+  position: relative;
+  color: var(--primary);
+  animation: mail-float 3s ease-in-out infinite alternate;
+}
+
+@keyframes mail-float {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-4px); }
+}
+
+// ─── Texto ───────────────────────────────────────────────────────────
+.confirm-heading {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--txt);
+  margin-bottom: 12px;
+
+  @media (max-width: #{$bp-sm}) { font-size: 24px; }
+  @media (max-width: #{$bp-mobile}) { font-size: 20px; }
+}
+
+.confirm-sub {
+  color: var(--txt2);
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 32px;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+}
+
+.email-highlight {
+  display: block;
+  margin-top: 6px;
+  color: var(--primary-2);
+  font-weight: 600;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+// ─── Steps ───────────────────────────────────────────────────────────
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+  text-align: left;
+
+  @media (max-width: #{$bp-mobile}) {
+    margin-bottom: 24px;
+  }
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--txt2);
+  line-height: 1.4;
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(124, 111, 247, 0.15);
+  border: 1px solid rgba(124, 111, 247, 0.3);
+  color: var(--primary-2);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+// ─── Footer ──────────────────────────────────────────────────────────
+.confirm-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.spam-hint {
+  font-size: 12px;
+  color: var(--txt3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-ghost-full {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--txt2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--border-hi);
+    color: var(--txt);
+  }
+}

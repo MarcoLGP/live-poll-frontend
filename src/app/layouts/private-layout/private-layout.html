@@ -1,132 +1,273 @@
 <div class="ambient ambient-1"></div>
 <div class="ambient ambient-2"></div>
 
-<div class="private-layout">
-    <header class="topbar">
-        <app-logo link="/dashboard"></app-logo>
-        <div class="topbar-right">
-            <button class="create-btn" (click)="openCreateModal()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-            </button>
+<!-- ─── Overlay ──────────────────────────────────────────────────────── -->
+<div class="drawer-overlay" [class.open]="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
 
-            <div class="notif-btn search-btn" (click)="openSearch()" title="Buscar enquetes">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8892B0" stroke-width="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-            </div>
+<!-- ─── Drawer mobile ─────────────────────────────────────────────────
+     Toda ação que foi removida da topbar mobile vive aqui:
+     avatar, busca, notificações, navegação, idioma, logout.
+─────────────────────────────────────────────────────────────────────── -->
+<aside class="mobile-drawer" [class.open]="isMobileMenuOpen" role="dialog" aria-modal="true" aria-label="Menu">
 
-            <div class="notif-btn" (click)="openNotifications()">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8892B0" stroke-width="2">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-                @if (notificationService.unreadCount() > 0) {
-                <span class="dot"></span>
-                }
-            </div>
-
-            <div class="language-switcher">
-                <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')">
-                    <img src="assets/flags/br.png" alt="Português" width="24" height="16">
-                </button>
-                <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')">
-                    <img src="assets/flags/us.png" alt="English" width="24" height="16">
-                </button>
-            </div>
-
-            <div class="user-menu-container">
-                <div class="user-avatar" (click)="toggle()">
-                    {{ auth.user().initials || 'JD' }}
-                </div>
-                @if (isOpen) {
-                <div class="dropdown-menu">
-                    <button (click)="goToSettings()">{{ 'NAV.SETTINGS' | translate }}</button>
-                    <button (click)="logout()">{{ 'NAV.LOGOUT' | translate }}</button>
-                </div>
-                }
-            </div>
-        </div>
-    </header>
-
-    <div class="layout-body">
-        <aside class="sidebar">
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-avatar-lg">{{ auth.user().initials || 'JD' }}</div>
-                    <div>
-                        <div class="user-name">{{ auth.user().name || 'João Demo' }}</div>
-                        <div class="user-handle">@{{ auth.user().handle || 'joaodemo' }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-label">Navegação</div>
-                <a class="sidebar-link" routerLink="/dashboard" routerLinkActive="active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7" />
-                        <rect x="14" y="3" width="7" height="7" />
-                        <rect x="14" y="14" width="7" height="7" />
-                        <rect x="3" y="14" width="7" height="7" />
-                    </svg>
-                    {{ 'SIDEBAR.PUBLIC_BOARD' | translate }}
-                    <span class="sidebar-badge">{{ 10 }}</span>
-                </a>
-                <a class="sidebar-link" routerLink="/my-polls" routerLinkActive="active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="20" x2="12" y2="10" />
-                        <line x1="18" y1="20" x2="18" y2="4" />
-                        <line x1="6" y1="20" x2="6" y2="16" />
-                    </svg>
-                    {{ 'NAV.MY_POLLS' | translate }}
-                </a>
-                <a class="sidebar-link" routerLink="/my-votes" routerLinkActive="active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 11 12 14 22 4" />
-                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                    </svg>
-                    {{ 'SIDEBAR.MY_VOTES' | translate }}
-                </a>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-label">{{ 'SIDEBAR.EXPLORE' | translate }}</div>
-                <div (click)="openSearch()" class="sidebar-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    {{ 'SIDEBAR.SEARCH' | translate }}
-                </div>
-            </div>
-        </aside>
-
-        <main class="main-content">
-            <router-outlet></router-outlet>
-        </main>
-
-        <aside class="right-panel">
-            <div class="panel-card">
-                <div class="panel-title">{{ 'NAV.TRENDING' | translate }}</div>
-                @for (item of trending; track item.rank) {
-                <div class="trend-item">
-                    <span class="trend-rank">{{ item.rank }}</span>
-                    <div>
-                        <div class="trend-text">{{ item.question }}</div>
-                        <div class="trend-votes">{{ item.votes }} {{ 'POLL_CARD.VOTES' | translate }}</div>
-                    </div>
-                </div>
-                }
-            </div>
-        </aside>
+  <!-- Cabeçalho: avatar + nome + fechar -->
+  <div class="drawer-head">
+    <div class="drawer-user">
+      <div class="drawer-avatar" [style.background]="getAvatarBackground(user()?.avatarUrl, user()?.gradientAvatar)">
+        @if (user()?.avatarUrl) {
+        <img [src]="user()?.avatarUrl" alt="Avatar" class="avatar-img">
+        } @else {
+        {{ user()?.username?.substring(0, 2)?.toUpperCase() }}
+        }
+      </div>
+      <div class="drawer-user-info">
+        <div class="drawer-username">{{ user()?.username }}</div>
+        <div class="drawer-status">{{ 'STATUS.ACTIVE' | translate }}</div>
+      </div>
     </div>
+    <button class="drawer-close-btn" (click)="closeMobileMenu()" aria-label="Fechar">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+        <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Ações rápidas: busca + notificações -->
+  <div class="drawer-quick">
+    <button class="drawer-quick-btn" (click)="openSearch(); closeMobileMenu()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      {{ 'SIDEBAR.SEARCH' | translate }}
+    </button>
+    <button class="drawer-quick-btn" (click)="openNotifications(); closeMobileMenu()">
+      <span class="dqb-icon">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        @if (notificationService.unreadCount() > 0) {
+        <span class="dqb-dot"></span>
+        }
+      </span>
+      {{ 'NAV.NOTIFICATIONS' | translate }}
+      @if (notificationService.unreadCount() > 0) {
+      <span class="dqb-badge">{{ notificationService.unreadCount() }}</span>
+      }
+    </button>
+  </div>
+
+  <!-- Navegação -->
+  <div class="drawer-section">
+    <div class="drawer-section-label">{{ 'SIDEBAR.NAVIGATION' | translate }}</div>
+    <a class="drawer-link" routerLink="/dashboard" routerLinkActive="active" (click)="closeMobileMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+      {{ 'SIDEBAR.PUBLIC_BOARD' | translate }}
+    </a>
+    <a class="drawer-link" routerLink="/my-polls" routerLinkActive="active" (click)="closeMobileMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="20" x2="12" y2="10" />
+        <line x1="18" y1="20" x2="18" y2="4" />
+        <line x1="6" y1="20" x2="6" y2="16" />
+      </svg>
+      {{ 'NAV.MY_POLLS' | translate }}
+    </a>
+    <a class="drawer-link" routerLink="/my-votes" routerLinkActive="active" (click)="closeMobileMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 11 12 14 22 4" />
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+      </svg>
+      {{ 'SIDEBAR.MY_VOTES' | translate }}
+    </a>
+  </div>
+
+  <!-- Idioma -->
+  <div class="drawer-section">
+    <div class="drawer-section-label">Idioma / Language</div>
+    <div class="drawer-lang-row">
+      <button class="lang-pill" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')">
+        <img src="assets/flags/br.png" alt="PT" width="20" height="14"> Português
+      </button>
+      <button class="lang-pill" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')">
+        <img src="assets/flags/us.png" alt="EN" width="20" height="14"> English
+      </button>
+    </div>
+  </div>
+
+  <!-- Rodapé fixo: configurações + logout -->
+  <div class="drawer-footer">
+    <button class="drawer-footer-btn" (click)="goToSettings(); closeMobileMenu()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+      {{ 'NAV.SETTINGS' | translate }}
+    </button>
+    <button class="drawer-footer-btn drawer-footer-btn--danger" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+      {{ 'NAV.LOGOUT' | translate }}
+    </button>
+  </div>
+
+</aside>
+
+<!-- ─── Layout principal ──────────────────────────────────────────────── -->
+<div class="private-layout">
+
+  <header class="topbar">
+    <!--
+      Mobile  →  [☰]  [Logo]  ················  [＋ Criar]
+      Desktop →  [Logo]  ············  [🔍] [🔔] [🌐] [Avatar]
+    -->
+
+    <!-- Hamburger: só mobile -->
+    <button class="hamburger" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" aria-label="Abrir menu"
+      [attr.aria-expanded]="isMobileMenuOpen">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+
+    <app-logo link="/dashboard"></app-logo>
+
+    <!-- Espaçador: empurra ações para a direita -->
+    <div class="topbar-spacer"></div>
+
+    <!-- Criar: visível em todos os viewports, texto some em mobile -->
+    <button class="create-btn" (click)="openCreateModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      <span class="create-label">{{ 'TOPBAR.CREATE' | translate }}</span>
+    </button>
+
+    <!-- Itens exclusivos do desktop (todos ficam ocultos em mobile) -->
+    <div class="topbar-icon-btn desktop-only" (click)="openSearch()" title="Buscar">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </div>
+
+    <div class="topbar-icon-btn desktop-only" (click)="openNotifications()" title="Notificações">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+      @if (notificationService.unreadCount() > 0) {
+      <span class="notif-dot"></span>
+      }
+    </div>
+
+    <div class="language-switcher desktop-only">
+      <button class="lang-btn" [class.active]="currentLang === 'pt-BR'" (click)="switchLanguage('pt-BR')"
+        aria-label="Português">
+        <img src="assets/flags/br.png" alt="Português" width="24" height="16">
+      </button>
+      <button class="lang-btn" [class.active]="currentLang === 'en-US'" (click)="switchLanguage('en-US')"
+        aria-label="English">
+        <img src="assets/flags/us.png" alt="English" width="24" height="16">
+      </button>
+    </div>
+
+    <div class="user-menu-container desktop-only">
+      <div class="user-avatar" (click)="toggle()"
+        [style.background]="getAvatarBackground(user()?.avatarUrl, user()?.gradientAvatar)">
+        @if (user()?.avatarUrl) {
+        <img [src]="user()?.avatarUrl" alt="Avatar" class="avatar-img">
+        } @else {
+        {{ user()?.username?.substring(0, 2)?.toUpperCase() }}
+        }
+      </div>
+      @if (isOpen) {
+      <div class="dropdown-menu">
+        <button (click)="goToSettings()">{{ 'NAV.SETTINGS' | translate }}</button>
+        <button (click)="logout()">{{ 'NAV.LOGOUT' | translate }}</button>
+      </div>
+      }
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <!-- Sidebar desktop -->
+    <aside class="sidebar">
+      <div class="user-card">
+        <div class="user-info">
+          <div class="user-avatar-lg"
+            [style.background]="getAvatarBackground(user()?.avatarUrl, user()?.gradientAvatar)">
+            @if (user()?.avatarUrl) {
+            <img [src]="user()?.avatarUrl" alt="Avatar" class="avatar-img">
+            } @else {
+            {{ user()?.username?.substring(0, 2)?.toUpperCase() }}
+            }
+          </div>
+          <div>
+            <div class="user-name">{{ user()?.username }}</div>
+            <div class="user-handle">{{ 'STATUS.ACTIVE' | translate }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">{{ 'SIDEBAR.NAVIGATION' | translate }}</div>
+        <a class="sidebar-link" routerLink="/dashboard" routerLinkActive="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          {{ 'SIDEBAR.PUBLIC_BOARD' | translate }}
+        </a>
+        <a class="sidebar-link" routerLink="/my-polls" routerLinkActive="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="20" x2="12" y2="10" />
+            <line x1="18" y1="20" x2="18" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="16" />
+          </svg>
+          {{ 'NAV.MY_POLLS' | translate }}
+        </a>
+        <a class="sidebar-link" routerLink="/my-votes" routerLinkActive="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4" />
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+          </svg>
+          {{ 'SIDEBAR.MY_VOTES' | translate }}
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">{{ 'SIDEBAR.EXPLORE' | translate }}</div>
+        <div class="sidebar-link" (click)="openSearch()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          {{ 'SIDEBAR.SEARCH' | translate }}
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
 
-<app-create-poll-modal #createModal (create)="onCreatePoll($event)"></app-create-poll-modal>
+<app-create-poll-modal #createModal></app-create-poll-modal>
 <app-settings-modal #settingsModal (close)="onSettingsClosed()"></app-settings-modal>
 <app-search-modal #searchModal></app-search-modal>
 <app-notifications-modal #notificationsModal></app-notifications-modal>

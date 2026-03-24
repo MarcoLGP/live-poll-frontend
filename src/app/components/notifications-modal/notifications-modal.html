@@ -38,29 +38,44 @@
       } @else {
       @for (group of getGroupedNotifications() | keyvalue; track group.key) {
       <div class="notif-date-group">
-        <div class="notif-date-label">{{ translateGroup(group.key) | translate }}</div>
+        <div class="notif-date-label">{{ group.key | translate }}</div>
       </div>
       @for (notif of group.value; track notif.id) {
-      <div class="notif-item" [class.unread]="notif.unread">
+      <div class="notif-item" (mouseenter)="onNotificationHover(notif)" (click)="onNotificationClick(notif)" [class.unread]="notif.unread">
         <div class="notif-icon-wrap" [class]="notif.type">
-          <span [innerHTML]="notif.icon"></span>
-          @if (notif.avatarInitials) {
-          <div class="notif-avatar-circle" [style.background]="notif.avatarColor">
-            {{ notif.avatarInitials }}
-          </div>
+          @if (notif.type === 'VOTE_RECEIVED') {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4" />
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+          </svg>
+          } @else if (notif.type === 'POLL_MILESTONE') {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          } @else if (notif.type === 'POLL_CLOSED') {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
           } @else {
-          <div class="notif-icon-wrap" [class]="notif.type">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-              <polyline points="17 6 23 6 23 12" />
-            </svg>
-          </div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <circle cx="12" cy="16" r="0.5" fill="currentColor" />
+          </svg>
           }
         </div>
         <div class="notif-content">
-          <div class="notif-text" [innerHTML]="notif.text"></div>
-          @if (notif.poll) {
-          <div class="notif-poll-preview">"{{ notif.poll }}"</div>
+          <div class="notif-text" [innerHTML]="notif.textKey | translate: notif.textParams"></div>
+          @if (notif.type === 'VOTE_RECEIVED' && notif.optionTitle) {
+          <div class="notif-poll-preview notif-option-preview">
+            “{{ notif.optionTitle }}”
+          </div>
+          } @else if (notif.pollTitle) {
+          <div class="notif-poll-preview">
+            “{{ notif.pollTitle }}”
+          </div>
           }
           @if (notif.progress != null) {
           <div class="notif-progress">

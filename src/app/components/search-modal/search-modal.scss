@@ -1,21 +1,33 @@
+// ─── Breakpoints ─────────────────────────────────────────────────────
+$bp-mobile : 480px;
+$bp-sm     : 640px;
+
+// ─── Overlay ─────────────────────────────────────────────────────────
 .search-overlay {
   position: fixed;
   inset: 0;
   z-index: 300;
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 80px 24px 24px;
   animation: fadeIn 0.2s ease both;
+
+  @media (max-width: #{$bp-sm}) {
+    padding: 0;
+    align-items: flex-end; // bottom sheet
+  }
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
+// ─── Panel ────────────────────────────────────────────────────────────
 .search-panel {
   background: var(--bg1);
   border: 1px solid var(--border-2);
@@ -25,25 +37,52 @@
   overflow: hidden;
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
   animation: modalUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: #{$bp-sm}) {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 90dvh;
+    animation: sheetUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    // Handle
+    &::before {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 10px auto -2px;
+      flex-shrink: 0;
+    }
+  }
 }
 
 @keyframes modalUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+// ─── Header ───────────────────────────────────────────────────────────
 .search-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
+
+  @media (max-width: #{$bp-sm}) {
+    padding: 12px 16px;
+    gap: 10px;
+  }
 }
 
 .search-input-wrap {
@@ -56,6 +95,7 @@
   border-radius: 12px;
   padding: 0 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 0;
 
   &:focus-within {
     border-color: var(--primary);
@@ -77,10 +117,15 @@
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
   padding: 13px 0;
+  min-width: 0;
 
-  &::placeholder {
-    color: var(--txt3);
+  // Previne zoom iOS
+  @media (max-width: #{$bp-sm}) {
+    font-size: 16px;
+    padding: 12px 0;
   }
+
+  &::placeholder { color: var(--txt3); }
 }
 
 .search-clear-btn {
@@ -90,12 +135,11 @@
   color: var(--txt3);
   display: flex;
   align-items: center;
+  padding: 6px;
   transition: color 0.2s;
-  padding: 4px;
+  flex-shrink: 0;
 
-  &:hover {
-    color: var(--txt);
-  }
+  &:hover { color: var(--txt); }
 }
 
 .search-close-btn {
@@ -110,6 +154,13 @@
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 40px;
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 
   &:hover {
     background: var(--bg3);
@@ -117,27 +168,33 @@
   }
 }
 
+// ─── Body ─────────────────────────────────────────────────────────────
 .search-body {
   padding: 20px;
-  max-height: 500px;
+  flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: 500px;
 
-  &::-webkit-scrollbar {
-    width: 6px;
+  @media (max-width: #{$bp-sm}) {
+    max-height: none; // sheet controla a altura
+    padding: 16px;
   }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--bg3);
-    border-radius: 3px;
-  }
+
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
 }
 
+// ─── Empty / no-results state ─────────────────────────────────────────
 .search-empty-state,
 .search-no-results {
   text-align: center;
   padding: 32px 16px;
+
+  @media (max-width: #{$bp-mobile}) {
+    padding: 24px 12px;
+  }
 }
 
 .search-empty-icon {
@@ -151,6 +208,12 @@
   align-items: center;
   justify-content: center;
   color: var(--txt3);
+
+  @media (max-width: #{$bp-mobile}) {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+  }
 }
 
 .search-empty-title {
@@ -159,17 +222,24 @@
   margin-bottom: 6px;
   font-family: 'Fraunces', serif;
   color: var(--txt);
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 16px;
+  }
 }
 
 .search-empty-sub {
   color: var(--txt3);
   font-size: 13px;
   line-height: 1.5;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
+  }
 }
 
-.search-suggestions {
-  margin-top: 28px;
-}
+// ─── Suggestions ──────────────────────────────────────────────────────
+.search-suggestions { margin-top: 28px; }
 
 .search-sug-label {
   font-size: 11px;
@@ -198,6 +268,12 @@
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
+  min-height: 36px;
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
 
   &:hover {
     background: var(--bg3);
@@ -206,6 +282,7 @@
   }
 }
 
+// ─── Results ──────────────────────────────────────────────────────────
 .search-results-header {
   font-size: 11px;
   font-weight: 600;
@@ -218,9 +295,7 @@
   justify-content: space-between;
 }
 
-.search-results-count {
-  color: var(--primary);
-}
+.search-results-count { color: var(--primary); }
 
 .search-result-item {
   display: flex;
@@ -233,19 +308,30 @@
   border: 1px solid transparent;
   margin-bottom: 6px;
 
+  @media (max-width: #{$bp-mobile}) {
+    padding: 12px;
+    gap: 11px;
+  }
+
   &:hover {
     background: var(--bg2);
     border-color: var(--border);
+    @media (hover: none) { background: transparent; border-color: transparent; }
   }
-  &:last-child {
-    margin-bottom: 0;
+
+  &:active {
+    background: var(--bg2);
+    border-color: var(--border);
   }
+
+  &:last-child { margin-bottom: 0; }
 }
 
 .sri-avatar {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
+  border-radius: 50%;
+  object-fit: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -253,6 +339,12 @@
   font-size: 13px;
   color: #fff;
   flex-shrink: 0;
+
+  @media (max-width: #{$bp-mobile}) {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
 }
 
 .sri-content {
@@ -270,6 +362,11 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   color: var(--txt);
+
+  @media (max-width: #{$bp-mobile}) {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
 }
 
 .sri-meta {
@@ -277,6 +374,10 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+
+  @media (max-width: #{$bp-mobile}) {
+    gap: 6px;
+  }
 }
 
 .sri-cat {
@@ -286,11 +387,7 @@
   font-weight: 500;
 }
 
-.sri-votes {
-  font-size: 11px;
-  color: var(--txt3);
-}
-
+.sri-votes,
 .sri-author {
   font-size: 11px;
   color: var(--txt3);
@@ -300,4 +397,6 @@
   font-size: 11px;
   color: var(--green);
   font-weight: 500;
+
+  &.closed { color: var(--txt3); }
 }

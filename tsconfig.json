@@ -21,6 +21,9 @@
       "@features/*": [
         "src/app/features/*"
       ],
+      "@sse/*": [
+        "src/app/core/sse/*"
+      ],
       "@env/*": [
         "src/environments/*"
       ]

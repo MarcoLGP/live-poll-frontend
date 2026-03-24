@@ -5,10 +5,31 @@
     "LOGIN": "Login",
     "MY_POLLS": "My Polls",
     "SEARCH_TITLE": "Search polls",
+    "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
     "TRENDING": "🔥 Trending",
     "REGISTER": "Register"
+  },
+  "TOPBAR": {
+    "CREATE": "Create"
+  },
+  "MOCK_POLLS": {
+    "TITLE_1": "What is the best programming language?",
+    "OPTION_1_1": "JavaScript",
+    "OPTION_1_2": "Python",
+    "OPTION_1_3": "Java",
+    "OPTION_1_4": "Rust",
+    "TITLE_2": "Which social network do you use the most?",
+    "OPTION_2_1": "Instagram",
+    "OPTION_2_2": "TikTok",
+    "OPTION_2_3": "Twitter",
+    "OPTION_2_4": "Facebook",
+    "TITLE_3": "What music style do you prefer?",
+    "OPTION_3_1": "Rock",
+    "OPTION_3_2": "Pop",
+    "OPTION_3_3": "Electronic",
+    "OPTION_3_4": "Hip Hop"
   },
   "HERO": {
     "BADGE": "✦ Real-time Voting Platform",
@@ -20,9 +41,11 @@
   },
   "DASHBOARD": {
     "TITLE": "Public",
+    "EMPTY_TITLE": "No polls active now",
+    "EMPTY_SUB": "Create your poll and share it with the community!",
     "TITLE_SPAN": "Board",
-    "FILTER_RECENT": "Most recent",
-    "FILTER_TOP": "Top votes"
+    "FILTER_RECENT": "Recent",
+    "FILTER_OLD": "Old"
   },
   "SIDEBAR": {
     "NAVIGATION": "Navigation",
@@ -30,6 +53,9 @@
     "MY_VOTES": "My Votes",
     "EXPLORE": "Explore",
     "SEARCH": "Search"
+  },
+  "STATUS": {
+    "ACTIVE": "Active"
   },
   "HOW_IT_WORKS": {
     "LABEL": "How it works",
@@ -79,6 +105,23 @@
     "ACTION_REOPEN": "Reopen",
     "ACTION_DELETE": "Delete"
   },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "MARK_ALL_AS_READ": "Mark all as read",
+    "EMPTY_TITLE": "All caught up!",
+    "EMPTY_SUB": "No notifications at the moment.",
+    "VOTES": "votes",
+    "TODAY": "Today",
+    "YESTERDAY": "Yesterday",
+    "THIS_WEEK": "This week",
+    "EARLIER": "Earlier",
+    "TEXT": {
+      "VOTE_RECEIVED": "<strong>{{actor}}</strong> voted on <strong>{{poll}}</strong>",
+      "VOTE_RECEIVED_ANON": "Someone voted on <strong>{{poll}}</strong>",
+      "POLL_MILESTONE": "Your poll <strong>{{poll}}</strong> reached <strong>{{votes}} votes</strong>! 🎉",
+      "POLL_CLOSED": "The poll <strong>{{poll}}</strong> you voted on has been closed."
+    }
+  },
   "SETTINGS": {
     "TITLE": "Settings",
     "SUBTITLE": "Manage your account, privacy and preferences",
@@ -89,6 +132,7 @@
     },
     "PROFILE": {
       "AVATAR_SECTION": "Profile picture",
+      "AVATAR_RESET": "Use original photo",
       "AVATAR_HINT": "Choose a color for your avatar",
       "PERSONAL_INFO": "Personal information",
       "USERNAME": {
@@ -99,6 +143,7 @@
       "EMAIL": {
         "LABEL": "E-mail",
         "DESC": "Used for login and notifications",
+        "SOCIAL": "Managed by provider",
         "EDIT": "Edit"
       }
     },
@@ -114,25 +159,12 @@
         "BADGE": "Compliant"
       }
     },
-    "NOTIFICATIONS": {
-      "TITLE": "Notifications",
-      "MARK_ALL_AS_READ": "Mark all as read",
-      "EMPTY_TITLE": "All caught up!",
-      "EMPTY_SUB": "No notifications at the moment.",
-      "VOTES": "votes",
-      "JUST_NOW": "just now",
-      "MINUTES_AGO": "{{count}} minutes ago",
-      "HOURS_AGO": "{{count}} hours ago",
-      "YESTERDAY": "Yesterday",
-      "TODAY": "Today",
-      "THIS_WEEK": "This week",
-      "EARLIER": "Earlier"
-    },
     "ACCOUNT": {
       "SECURITY_TITLE": "Security",
       "PASSWORD": {
         "LABEL": "Password",
         "DESC": "Change your password",
+        "SOCIAL": "Managed by provider",
         "EDIT": "Change"
       },
       "DANGER_ZONE": "Danger Zone",
@@ -145,6 +177,13 @@
     "UNSAVED_CHANGES": "Unsaved changes will be discarded upon closing",
     "SAVE_BUTTON": "Save changes",
     "SUBMODALS": {
+      "CONFIRM_EMAIL": {
+        "TITLE": "Confirm email change",
+        "MESSAGE": "We sent a confirmation code to your new email. Please enter it below.",
+        "PLACEHOLDER": "Confirmation code",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      },
       "EDIT_USERNAME": {
         "TITLE": "Edit username",
         "PLACEHOLDER": "New username",
@@ -186,9 +225,16 @@
     "NO_RESULTS_TITLE": "No results",
     "NO_RESULTS_SUB": "Try other terms or categories"
   },
+  "POLL_DETAIL": {
+    "BACK": "← Back to board",
+    "NOT_FOUND": "Poll not found.",
+    "NOT_FOUND_SUB": "It may have been removed or the link is invalid.",
+    "HIGHLIGHTED": "Highlighted poll"
+  },
   "MY_VOTES": {
     "TITLE": "My",
     "TITLE_SPAN": "Votes",
+    "LOAD_MORE": "Load more",
     "VOTE_COUNT_SINGULAR": "{{count}} participation",
     "VOTE_COUNT_PLURAL": "{{count}} participations",
     "EMPTY_TITLE": "No votes yet",
@@ -220,10 +266,28 @@
   "TOAST": {
     "VOTE_SUCCESS": "Vote registered!",
     "VOTE_SUCCESS_DESC": "Your vote has been counted.",
+    "PROFILE_UPDATED_TITLE": "Success",
+    "PROFILE_UPDATED_DESC": "Profile updated successfully!",
+    "PROFILE_UPDATE_ERROR_TITLE": "Error",
+    "PROFILE_UPDATE_ERROR_DESC": "Could not update profile.",
+    "PASSWORD_MISMATCH_TITLE": "Error",
+    "PASSWORD_MISMATCH_DESC": "Passwords do not match.",
+    "PASSWORD_TOO_SHORT_TITLE": "Error",
+    "PASSWORD_TOO_SHORT_DESC": "Password must be at least 6 characters.",
+    "PASSWORD_CHANGED_TITLE": "Success",
+    "PASSWORD_CHANGED_DESC": "Password changed successfully!",
+    "PASSWORD_CHANGE_ERROR_TITLE": "Error",
+    "PASSWORD_CHANGE_ERROR_DESC": "Could not change password. Please verify your current password.",
+    "ACCOUNT_DELETED_TITLE": "Account deleted",
+    "ACCOUNT_DELETED_DESC": "Your account has been successfully removed.",
+    "ACCOUNT_DELETE_ERROR_TITLE": "Error",
+    "ACCOUNT_DELETE_ERROR_DESC": "Could not delete account.",
     "POLL_CREATED": "Poll published!",
     "POLL_CREATED_DESC": "Your poll is now live on the board.",
     "ERROR": "Error",
     "MAX_OPTIONS": "Maximum reached",
+    "LOGIN_REQUIRED_TITLE": "🔒 Action required",
+    "LOGIN_REQUIRED_DESC": "Create an account to vote on real polls!",
     "MAX_OPTIONS_DESC": "You can have at most 6 options.",
     "QUESTION_EMPTY": "Empty question",
     "QUESTION_EMPTY_DESC": "Write a question for your poll.",
@@ -235,9 +299,49 @@
   },
   "AUTH": {
     "LOGIN_TITLE": "Login",
+    "BACK_TO_LOGIN": "Back to login",
+    "REGISTER_ERROR_EMAIL_TAKEN": "This email is already registered.",
+    "REGISTER_ERROR_SERVER": "Registration failed. Please try again later.",
     "REGISTER_TITLE": "Create account",
+    "EMAIL_PLACEHOLDER": "email@example.com",
     "WELCOME_BACK": "Welcome back",
     "USERNAME_REQUIRED": "Username is required",
+    "CONFIRM_EMAIL_TITLE": "Check your email",
+    "CONFIRM_EMAIL_DESC": "We sent a confirmation link to",
+    "CONFIRM_STEP_1": "Open your inbox",
+    "CONFIRM_STEP_2": "Click the confirmation link",
+    "CONFIRM_STEP_3": "All done! You can now sign in",
+    "CONFIRM_SPAM_HINT": "Didn't receive it? Check your spam or junk folder.",
+    "CONFIRM_LOADING_TITLE": "Confirming your account…",
+    "CONFIRM_LOADING_DESC": "Please wait while we verify your token.",
+    "CONFIRM_SUCCESS_TITLE": "Account confirmed!",
+    "CONFIRM_SUCCESS_DESC": "All set! You'll be redirected shortly.",
+    "CONFIRM_REDIRECT_HINT": "Redirecting to dashboard…",
+    "CONFIRM_TOKEN_MISSING": "No confirmation token found in the link.",
+    "CONFIRM_TOKEN_INVALID": "Token is invalid or expired. Try registering again.",
+    "CONFIRM_SERVER_ERROR": "Error confirming account. Please try again later.",
+    "CONFIRM_ERROR_TITLE": "Could not confirm account",
+    "REGISTER_AGAIN": "Register again",
+    "FORGOT_TITLE": "Forgot your password?",
+    "FORGOT_SUBTITLE": "Enter your email and we'll send you instructions to reset your password.",
+    "FORGOT_SUBMIT": "Send instructions",
+    "FORGOT_SENT_TITLE": "Email sent!",
+    "FORGOT_SENT_DESC": "If that email is registered, you'll receive the instructions shortly.",
+    "FORGOT_PASSWORD": "Forgot password",
+    "RESET_TITLE": "Reset your password",
+    "RESET_SUBTITLE": "Choose a new secure password for your account.",
+    "NEW_PASSWORD_LABEL": "New password",
+    "PASSWORD_PLACEHOLDER": "••••••••",
+    "TOGGLE_PASSWORD": "Show/hide password",
+    "PASSWORDS_MISMATCH": "Passwords do not match",
+    "RESET_PASSWORD_MINLENGTH": "Minimum 8 characters",
+    "RESET_SUBMIT": "Reset password",
+    "RESET_SUCCESS_TITLE": "Password reset!",
+    "RESET_SUCCESS_DESC": "Your password was changed successfully. You'll be redirected to login.",
+    "RESET_INVALID_TOKEN_TITLE": "Link expired",
+    "RESET_INVALID_TOKEN_DESC": "This reset link is invalid or has expired. Request a new one.",
+    "RESET_SERVER_ERROR": "Error resetting password. Please try again.",
+    "REQUEST_NEW_RESET": "Request new link",
     "USERNAME_MINLENGTH": "Username must be at least 3 characters",
     "EMAIL_REQUIRED": "Email is required",
     "EMAIL_INVALID": "Invalid email format",

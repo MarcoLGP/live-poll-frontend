@@ -1,37 +1,39 @@
-import { Component, output, signal, inject } from '@angular/core';
+import { Component, output, signal, inject, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { PollService, Poll } from '@services/poll';
 import { CATEGORIES, Category, categoryMap } from '@shared/constants/categories';
+import { PollSearchResultDTO } from '@models/poll.model';
+import { FeedService } from '@services/feed';
 
 @Component({
   selector: 'app-search-modal',
   standalone: true,
-  imports: [FormsModule, CommonModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './search-modal.html',
-  styleUrls: ['./search-modal.scss']
+  styleUrls: ['./search-modal.scss'],
 })
 export class SearchModalComponent {
   isOpen = signal(false);
   close = output<void>();
-
   searchQuery = '';
-  searchResults: Poll[] = [];
-  showResults = false;
-  noResults = false;
+  searchResults = signal<PollSearchResultDTO[]>([]);
+  isSearching = signal(false);
+  noResults = signal(false);
+  hasSearched = signal(false);
+  showResults = computed(() => this.searchResults().length > 0);
 
-  private pollService = inject(PollService);
-  private router = inject(Router);
+  private readonly feedService = inject(FeedService);
+  private readonly router = inject(Router);
 
   readonly popularCategories = CATEGORIES.slice(0, 5);
 
   open() {
     this.isOpen.set(true);
     this.searchQuery = '';
-    this.showResults = false;
-    this.noResults = false;
+    this.searchResults.set([]);
+    this.noResults.set(false);
+    this.hasSearched.set(false);
   }
 
   closeModal() {
@@ -40,58 +42,54 @@ export class SearchModalComponent {
   }
 
   onBackdropClick(event: MouseEvent) {
-    if (event.target === event.currentTarget) {
-      this.closeModal();
-    }
+    if (event.target === event.currentTarget) this.closeModal();
   }
 
-  onSearchInput() {
-    const q = this.searchQuery.trim().toLowerCase();
-    if (!q) {
-      this.showResults = false;
-      this.noResults = false;
+  async onSearchEnter() {
+    const query = this.searchQuery.trim();
+    if (!query) {
+      this.clearSearch();
       return;
     }
 
-    const allPolls = this.pollService.polls();
-    const results = allPolls.filter(p =>
-      p.question.toLowerCase().includes(q) ||
-      p.author.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q)
-    );
+    this.hasSearched.set(true);
+    this.isSearching.set(true);
+    this.searchResults.set([]);
+    this.noResults.set(false);
 
-    if (results.length > 0) {
-      this.searchResults = results;
-      this.showResults = true;
-      this.noResults = false;
-    } else {
-      this.searchResults = [];
-      this.showResults = false;
-      this.noResults = true;
+    try {
+      const results = await this.feedService.search(query);
+      this.searchResults.set(results);
+      this.noResults.set(results.length === 0);
+    } catch {
+      this.noResults.set(true);
+    } finally {
+      this.isSearching.set(false);
     }
   }
 
   clearSearch() {
     this.searchQuery = '';
-    this.showResults = false;
-    this.noResults = false;
+    this.searchResults.set([]);
+    this.noResults.set(false);
+    this.hasSearched.set(false);
+  }
+
+  async searchCategory(categoryKey: string) {
+    this.searchQuery = categoryKey;
+    await this.onSearchEnter();
   }
 
   goToPoll(pollId: number) {
     this.closeModal();
-    this.router.navigate(['/dashboard'], { queryParams: { highlight: pollId } });
-  }
-
-  searchCategory(categoryKey: string) {
-    this.searchQuery = categoryKey;
-    this.onSearchInput();
+    this.router.navigate(['/poll'], { queryParams: { id: pollId } });
   }
 
   getCategoryInfo(categoryKey: string): Category | undefined {
     return categoryMap.get(categoryKey);
   }
 
-  getTotalVotes(poll: Poll): number {
-    return poll.options.reduce((sum, opt) => sum + opt.votes, 0);
+  getTotalVotes(poll: PollSearchResultDTO): number {
+    return poll.totalVotes;
   }
 }

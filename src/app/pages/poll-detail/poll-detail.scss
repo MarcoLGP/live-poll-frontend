@@ -1,0 +1,120 @@
+// pages/poll-detail/poll-detail.scss
+$bp-mobile : 480px;
+$bp-sm     : 640px;
+
+.poll-detail-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 0 40px;
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @media (max-width: #{$bp-sm}) { padding: 4px 0 32px; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Header ───────────────────────────────────────────────────────────
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  @media (max-width: #{$bp-sm}) { margin-bottom: 16px; }
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--txt2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.2s;
+
+  &:hover { color: var(--primary); }
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+
+// ─── Card wrap ────────────────────────────────────────────────────────
+.detail-card-wrap {
+  app-poll-card {
+    display: block;
+    
+    ::ng-deep .poll-card {
+      border-color: rgba(124, 111, 247, 0.3);
+      box-shadow: 0 0 0 1px rgba(124, 111, 247, 0.15),
+                  0 24px 64px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+// ─── Loading skeletons ────────────────────────────────────────────────
+.detail-loading { padding-top: 4px; }
+
+.loading-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg2) 25%, rgba(255,255,255,0.04) 50%, var(--bg2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-title  { height: 22px; width: 70%; margin-bottom: 24px; }
+.skeleton-option { height: 46px; width: 100%; margin-bottom: 10px; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ─── Not found ────────────────────────────────────────────────────────
+.detail-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 64px 24px;
+  gap: 12px;
+}
+
+.not-found-icon   { color: var(--txt3); opacity: 0.4; }
+.not-found-title  { font-size: 16px; font-weight: 600; color: var(--txt); }
+.not-found-sub    { font-size: 14px; color: var(--txt2); max-width: 280px; line-height: 1.5; }
+
+.back-btn-lg {
+  margin-top: 8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: var(--txt2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}

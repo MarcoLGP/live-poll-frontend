@@ -1,50 +1,54 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, OnDestroy, signal, ElementRef, viewChild } from '@angular/core';
 import { PollCardComponent } from '@components/poll-card/poll-card';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService } from '@services/auth';
-import { Poll, PollService } from '@services/poll';
+import { FeedService } from '@services/feed';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    PollCardComponent
-  ],
+  imports: [TranslatePipe, PollCardComponent],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss'],
 })
-export class DashboardComponent {
-  auth = inject(AuthService);
+export class DashboardComponent implements AfterViewInit, OnDestroy {
+  readonly feedService = inject(FeedService);
 
-  private pollService = inject(PollService);
+  readonly polls = this.feedService.polls;
 
-  user = this.auth.user;       
-  polls = this.pollService.polls; 
+  sentinel = viewChild<ElementRef>('sentinel');
+  activeFilter = signal<'recent' | 'old'>('recent');
 
-  activeFilter: 'recent' | 'top' | 'mine' = 'recent';
+  private observer!: IntersectionObserver;
 
-  get filteredPolls(): Poll[] {
-    const all = this.polls();
-    switch (this.activeFilter) {
-      case 'top':
-        return [...all].sort(
-          (a, b) =>
-            b.options.reduce((s, o) => s + o.votes, 0) -
-            a.options.reduce((s, o) => s + o.votes, 0)
-        );
-      case 'mine':
-        return all.filter(p => p.mine);
-      default:
-        return all; 
-    }
+  ngAfterViewInit() {
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !this.feedService.loading() && this.feedService.hasMore) {
+          this.feedService.loadMore();
+        }
+      },
+      { rootMargin: '200px', threshold: 0 }
+    );
+
+    const el = this.sentinel();
+    if (el) this.observer.observe(el.nativeElement);
   }
 
-  onVote(pollId: number, optionIndex: number): void {
-    this.pollService.vote(pollId, optionIndex);
+  ngOnDestroy() {
+    this.observer?.disconnect();
   }
 
-  setFilter(filter: 'recent' | 'top' | 'mine'): void {
-    this.activeFilter = filter;
+  loadMore() {
+    this.feedService.loadMore();
+  }
+
+  setFilter(filter: 'recent' | 'old') {
+    if (this.activeFilter() === filter) return;
+    this.activeFilter.set(filter);
+    this.feedService.reload(filter);
+  }
+
+  onVote(event: { pollId: number; optionId: number | null }) {
+    this.feedService.applyOptimisticVote(event.pollId, event.optionId);
   }
 }
