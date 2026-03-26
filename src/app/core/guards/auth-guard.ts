@@ -22,6 +22,11 @@ export const authGuard: CanActivateFn = (_, state) => {
   }
 
   return authService.refreshToken().pipe(
+    tap(
+      {
+        next: (res) => console.log('[authGuard] refresh OK', res),
+        error: (err) => console.error('[authGuard] refresh FALHOU', err.status, err.error)
+      }),
     retry({ count: 1, delay: 1000 }),
     map(() => true),
     tap(() => {
