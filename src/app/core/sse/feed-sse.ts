@@ -45,12 +45,11 @@ export class FeedSseService implements OnDestroy {
               const sseEvent = JSON.parse(event.data) as SseEvent;
               this.eventSubject.next(sseEvent);
             } catch (e) {
-              console.error('Erro ao parsear evento SSE', e);
+
             }
           }
         },
         error: (err) => {
-          console.error('Erro fatal na stream SSE', err);
           this.disconnect();
         },
         complete: () => {

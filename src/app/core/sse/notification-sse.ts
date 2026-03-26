@@ -41,16 +41,12 @@ export class NotificationSseService implements OnDestroy {
               const notification = JSON.parse(event.data) as NotificationDTO;
               this.eventSubject.next(notification);
             } catch (e) {
-              console.error('Erro ao parsear notificação SSE', e);
             }
           } else if (event instanceof ErrorEvent) {
-            console.error('Erro na conexão SSE de notificações', event.error, event.message);
           } else {
-            console.warn('Evento SSE de notificações desconhecido', event);
           }
         },
         error: (err) => {
-          console.error('Erro fatal na stream SSE de notificações', err);
           this.disconnect();
         },
         complete: () => {
