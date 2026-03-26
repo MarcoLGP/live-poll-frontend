@@ -16,11 +16,9 @@ export class LoginSuccessComponent implements OnInit {
 
   ngOnInit(): void {
     const fragment = this.route.snapshot.fragment;
-    console.log('Fragment recebido:', fragment);
     if (fragment) {
       const params = new URLSearchParams(fragment);
       const accessToken = params.get('access_token');
-      console.log('Token extraído:', accessToken);
       if (accessToken) {
         this.auth.handleSocialLoginResponse(accessToken);
         this.router.navigate(['/dashboard']);

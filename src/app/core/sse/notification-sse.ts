@@ -54,7 +54,6 @@ export class NotificationSseService implements OnDestroy {
           this.disconnect();
         },
         complete: () => {
-          console.log('Stream SSE de notificações encerrada');
           this.sseSubscription = null;
         }
       });

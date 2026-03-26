@@ -270,8 +270,4 @@ export class SettingsModalComponent {
     return this.user.username.charAt(0).toUpperCase() +
       (this.user.username.split(' ')[1]?.charAt(0) || '').toUpperCase();
   }
-
-  exportData() {
-    console.log('Exportar dados');
-  }
 }

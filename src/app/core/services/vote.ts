@@ -21,7 +21,6 @@ export class VoteService {
   private readonly api = inject(ApiService);
 
   castVote(dto: CastVoteDTO): Observable<CastVoteResponse> {
-    console.log('Votando', dto);
     return this.api.post<CastVoteResponse>('vote', dto);
   }
 }
