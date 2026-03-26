@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@services/auth';
 import { UserService } from '@services/user';
 import { FeedSseService } from '@sse/feed-sse';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, retry } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { NotificationSseService } from '@sse/notification-sse';
 
@@ -16,22 +16,21 @@ export const authGuard: CanActivateFn = (_, state) => {
 
   if (authService.isLoggedIn()) {
     feedSse.connect();
-    notificationSse.connect();      
+    notificationSse.connect();
     userService.loadUserProfile();
     return true;
   }
 
   return authService.refreshToken().pipe(
+    retry({ count: 1, delay: 1000 }),
     map(() => true),
     tap(() => {
       feedSse.connect();
-      notificationSse.connect();    
+      notificationSse.connect();
       userService.loadUserProfile();
     }),
-    catchError(() => {
-      return of(router.createUrlTree(['/login'], {
-        queryParams: { returnUrl: state.url }
-      }));
-    })
+    catchError(() => of(router.createUrlTree(['/login'], {
+      queryParams: { returnUrl: state.url }
+    })))
   );
 };
