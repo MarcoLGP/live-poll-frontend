@@ -1,13 +1,8 @@
 <div class="ambient ambient-1"></div>
 <div class="ambient ambient-2"></div>
 
-<!-- ─── Overlay ──────────────────────────────────────────────────────── -->
 <div class="drawer-overlay" [class.open]="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
 
-<!-- ─── Drawer mobile ─────────────────────────────────────────────────
-     Toda ação que foi removida da topbar mobile vive aqui:
-     avatar, busca, notificações, navegação, idioma, logout.
-─────────────────────────────────────────────────────────────────────── -->
 <aside class="mobile-drawer" [class.open]="isMobileMenuOpen" role="dialog" aria-modal="true" aria-label="Menu">
 
   <!-- Cabeçalho: avatar + nome + fechar -->
