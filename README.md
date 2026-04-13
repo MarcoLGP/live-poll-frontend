@@ -21,7 +21,6 @@ Características principais:
 ### Fluxo principal da aplicação
 
 - `src/main.ts` inicializa a aplicação no navegador com `appConfig`
-- `src/main.server.ts` inicializa a aplicação de Renderização no Lado do Servidor com `app.config.server.ts`
 - `src/app/app.routes.ts` define as rotas da aplicação para páginas públicas e protegidas
 - `src/app/app.config.ts` fornece o roteador, cliente HTTP, interceptadores e serviços de tradução
 - O `AuthGuard` protege as rotas privadas e inicializa as conexões de Eventos Enviados pelo Servidor quando o usuário está autenticado
