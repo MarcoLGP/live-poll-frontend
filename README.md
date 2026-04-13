@@ -47,12 +47,6 @@ Rotas protegidas guardadas por `authGuard`:
 Fallback (Rota de Retorno):
 - `**` redireciona para `/`
 
-### Renderização no Lado do Servidor e Hidratação
-
-- `src/app/app.config.server.ts` habilita a renderização no servidor com `provideServerRendering`
-- `src/app/app.config.ts` habilita a hidratação no cliente com `provideClientHydration(withEventReplay())`
-- `src/app/app.html` é o invólucro da aplicação e renderiza o conteúdo roteado via `<router-outlet />`
-
 ## Pilha Técnica
 
 - `@angular/common`, `@angular/compiler`, `@angular/core`, `@angular/forms`, `@angular/router`
